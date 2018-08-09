@@ -1,5 +1,6 @@
 # Load libraries
 library(shiny)
+library(DT)
 library(tidyverse)
 
 # Load data (evidence tables)
@@ -45,7 +46,7 @@ ui <- fluidPage(
 								 									  							 "NZ societal perspective" = 2))),
 		mainPanel(
 			tabsetPanel(type="tabs",
-									tabPanel("Evidence Table", tableOutput("selectedEvidenceTable")),
+									tabPanel("Evidence Table", DTOutput("selectedEvidenceTable", width = "60%")),
 									tabPanel("Plot", plotOutput("preferencePlot")))
 		)
 	)
@@ -80,7 +81,7 @@ server <- function(input, output) {
 	})
 	
 	# Output values (based on reactive expressions)
-	output$selectedEvidenceTable <- renderTable({
+	output$selectedEvidenceTable <- renderDT({
 		tbls <- sourceTables()
 		out <- round(apply(sourceTables(), c(1, 2), weighted.mean, w = evidenceTablesWeight[evidence()]))
 		out <- cbind(interventionNames[interventionTypes %in% input$interventions],
@@ -89,7 +90,9 @@ server <- function(input, output) {
 		colnames(out) <- c("Intervention", names(attributeNames), "Preference score")
 		
 		out[order(preferenceScores(), decreasing = TRUE), ]
-	})
+	},
+	rownames = FALSE,
+	options = list(pageLength = 20))
 	
 	output$preferencePlot <- renderPlot({
 		apply(preferenceTables(), c(1, 2), weighted.mean, w = evidenceTablesWeight[evidence()]) %>%
