@@ -5,22 +5,6 @@ library(tidyverse)
 
 # Load data (evidence tables)
 load("data/evidenceTables.Rdata")
-# attributeNames <- list(
-# 	Recommendation = c("Strong Against", "Conditional Against", "Neutral", "Conditional For", "Strong For"),
-# 	"Risk of Harm" = c("Low", "Medium", "High"))
-# attributeLevels <- list(Effectiveness = c(0, 0.5, 1),
-# 												"Risk of Harm" = c(1, 0.5, 0))
-
-# interventionNames <- c("Exercise", "NSAIDs", "Surgery", "Education")
-# evidenceTables <- list(
-# 	"Default evidence table" = matrix(c(2,1,3,2,1,2,3,2), ncol = 2, 
-# 																		dimnames = list("Intervention" = interventionNames,
-# 																										"Attribute" = names(attributeNames))),
-# 	"Alternative evidence table" = matrix(c(1,1,3,3,1,2,3,3), ncol = 2,
-# 																				dimnames = list("Intervention" = interventionNames,
-# 																												"Attribute" = names(attributeNames))))
-# interventionTypes <- c(1, 2, 3, 4)
-# evidenceTablesWeight <- c(1, 0.5)
 
 
 # Source scripts
@@ -194,19 +178,20 @@ server <- function(input, output, session) {
 	
 	observe({
 		input$normaliseWeights
+		wgt <- isolate(preferenceWeights())
 		
-		isolate(updateSliderInput(session, "wgt_rec", value = preferenceWeights()[[1]]))
-		isolate(updateSliderInput(session, "wgt_qua", value = preferenceWeights()[[2]]))
-		isolate(updateSliderInput(session, "wgt_cos", value = preferenceWeights()[[3]]))
-		isolate(updateSliderInput(session, "wgt_dur", value = preferenceWeights()[[4]]))
-		isolate(updateSliderInput(session, "wgt_acc", value = preferenceWeights()[[5]]))
-		isolate(updateSliderInput(session, "wgt_rmi", value = preferenceWeights()[[6]]))
-		isolate(updateSliderInput(session, "wgt_rse", value = preferenceWeights()[[7]]))
-		isolate(updateSliderInput(session, "wgt_eff", value = preferenceWeights()[[8]]))
-		isolate(updateSliderInput(session, "wgt_fun", value = preferenceWeights()[[9]]))
+		updateSliderInput(session, "wgt_rec", value = wgt[[1]])
+		updateSliderInput(session, "wgt_qua", value = wgt[[2]])
+		updateSliderInput(session, "wgt_cos", value = wgt[[3]])
+		updateSliderInput(session, "wgt_dur", value = wgt[[4]])
+		updateSliderInput(session, "wgt_acc", value = wgt[[5]])
+		updateSliderInput(session, "wgt_rmi", value = wgt[[6]])
+		updateSliderInput(session, "wgt_rse", value = wgt[[7]])
+		updateSliderInput(session, "wgt_eff", value = wgt[[8]])
+		updateSliderInput(session, "wgt_fun", value = wgt[[9]])
 	})
 }
 
 
 # Run app
-shinyApp(ui = ui, server = server)
+shinyApp(ui = htmlTemplate("www/index.html"), server = server)
