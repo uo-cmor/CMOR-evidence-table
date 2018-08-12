@@ -18,14 +18,23 @@ ui <- fluidPage(
 			fluidRow(
 				column(4, 
 					radioButtons("diseaseStage", "Disease Stage",
-											 choices = list("Overall" = "Overall", "Early" = "Early", "Mid" = "Mid", "Late" = "Late"),
+											 choices = list("Overall", "Early", "Mid", "Late"),
 											 selected = "Overall")
 				),
-				column(4,
-					checkboxGroupInput("evidence", "Source of Evidence:", choices = list("RACGP" = 1), selected = 1)
-				),
-				column(4,
-					checkboxGroupInput("interventions", "Interventions:", choices = list("All" = 1), selected = c(1))
+				column(8,
+					fluidRow(
+						column(6,
+							checkboxGroupInput("evidence", "Source of Evidence:", choices = list("RACGP" = 1), selected = 1)
+						),
+						column(6,
+							checkboxGroupInput("interventionTypes", "Interventions:", choices = list("All"), selected = c("All"))
+						)
+					),
+					fluidRow(
+						column(8, strong("Filter:")), column(2, actionLink("clearFilter", "(Clear)"))
+					),
+					selectInput("interventions", NULL, multiple = TRUE, 
+											choices = c("(All)" = "", interventionList))
 				)
 			),
 			hr(),
@@ -33,47 +42,64 @@ ui <- fluidPage(
 												 choices = list("NZ health system perspective" = 1, "NZ societal perspective" = 2)),
 			hr(),
 			fluidRow(
-				column(6, strong("Preference Weights:")),
-				column(6,
-					actionButton("resetWeights", "Reset"),
-					actionButton("normaliseWeights", "Normalise")
+				column(7, strong("Preference Weights:"), br(), actionLink("resetWeights", "(Reset)")),
+				column(5, style = "text-align:right",
+					actionLink("normaliseWeights", HTML("Normalise Weights<br>(sum to 100)"))
 				)
 			), br(),
 			fluidRow(
-				column(4, br(), strong(names(attributeNames)[[1]])),
-				column(8, sliderInput("wgt_rec", NULL, 0, 100, attributeWeights[[names(attributeNames)[[1]]]], 0.1))
+				column(9, sliderInput("wgt_rec", names(attributeNames)[[1]], 
+															0, 100, attributeWeights[[names(attributeNames)[[1]]]], 0.1)),
+				column(3, br(), numericInput("wgt_rec_val", NULL, 
+																		 attributeWeights[[names(attributeNames)[[1]]]], 0, 100, 0.1))
 			),
 			fluidRow(
-				column(4, style="padding-top:2%;", strong(names(attributeNames)[[2]])),
-				column(8, sliderInput("wgt_qua", NULL, 0, 100, attributeWeights[[names(attributeNames)[[2]]]], 0.1))
+				column(9, sliderInput("wgt_qua", names(attributeNames)[[2]], 
+															0, 100, attributeWeights[[names(attributeNames)[[2]]]], 0.1)),
+				column(3, br(), numericInput("wgt_qua_val", NULL, 
+																		 attributeWeights[[names(attributeNames)[[2]]]], 0, 100, 0.1))
 			),
 			fluidRow(
-				column(4, br(), strong(names(attributeNames)[[3]])),
-				column(8, sliderInput("wgt_cos", NULL, 0, 100, attributeWeights[[names(attributeNames)[[3]]]], 0.1))
+				column(9, sliderInput("wgt_cos", names(attributeNames)[[3]], 
+															0, 100, attributeWeights[[names(attributeNames)[[3]]]], 0.1)),
+				column(3, br(), numericInput("wgt_cos_val", NULL, 
+																		 attributeWeights[[names(attributeNames)[[3]]]], 0, 100, 0.1))
 			),
 			fluidRow(
-				column(4, style="padding-top:2%;", strong(names(attributeNames)[[4]])),
-				column(8, sliderInput("wgt_dur", NULL, 0, 100, attributeWeights[[names(attributeNames)[[4]]]], 0.1))
+				column(9, sliderInput("wgt_dur", names(attributeNames)[[4]], 
+															0, 100, attributeWeights[[names(attributeNames)[[4]]]], 0.1)),
+				column(3, br(), numericInput("wgt_dur_val", NULL, 
+																		 attributeWeights[[names(attributeNames)[[4]]]], 0, 100, 0.1))
 			),
 			fluidRow(
-				column(4, br(), strong(names(attributeNames)[[5]])),
-				column(8, sliderInput("wgt_acc", NULL, 0, 100, attributeWeights[[names(attributeNames)[[5]]]], 0.1))
+				column(9, sliderInput("wgt_acc", names(attributeNames)[[5]], 
+															0, 100, attributeWeights[[names(attributeNames)[[5]]]], 0.1)),
+				column(3, br(), numericInput("wgt_acc_val", NULL, 
+																		 attributeWeights[[names(attributeNames)[[5]]]], 0, 100, 0.1))
 			),
 			fluidRow(
-				column(4, strong(names(attributeNames)[[6]])),
-				column(8, sliderInput("wgt_rmi", NULL, 0, 100, attributeWeights[[names(attributeNames)[[6]]]], 0.1))
+				column(9, sliderInput("wgt_rmi", names(attributeNames)[[6]], 
+															0, 100, attributeWeights[[names(attributeNames)[[6]]]], 0.1)),
+				column(3, br(), numericInput("wgt_rmi_val", NULL, 
+																		 attributeWeights[[names(attributeNames)[[6]]]], 0, 100, 0.1))
 			),
 			fluidRow(
-				column(4, style="padding-top:2%;", strong(names(attributeNames)[[7]])),
-				column(8, sliderInput("wgt_rse", NULL, 0, 100, attributeWeights[[names(attributeNames)[[7]]]], 0.1))
+				column(9, sliderInput("wgt_rse", names(attributeNames)[[7]], 
+															0, 100, attributeWeights[[names(attributeNames)[[7]]]], 0.1)),
+				column(3, br(), numericInput("wgt_rse_val", NULL, 
+																		 attributeWeights[[names(attributeNames)[[7]]]], 0, 100, 0.1))
 			),
 			fluidRow(
-				column(4, style="padding-top:2%;", strong(names(attributeNames)[[8]])),
-				column(8, sliderInput("wgt_eff", NULL, 0, 100, attributeWeights[[names(attributeNames)[[8]]]], 0.1))
+				column(9, sliderInput("wgt_eff", names(attributeNames)[[8]], 
+															0, 100, attributeWeights[[names(attributeNames)[[8]]]], 0.1)),
+				column(3, br(), numericInput("wgt_eff_val", NULL, 
+																		 attributeWeights[[names(attributeNames)[[8]]]], 0, 100, 0.1))
 			),
 			fluidRow(
-				column(4, style="padding-top:2%;", strong(names(attributeNames)[[9]])),
-				column(8, sliderInput("wgt_fun", NULL, 0, 100, attributeWeights[[names(attributeNames)[[9]]]], 0.1))
+				column(9, sliderInput("wgt_fun", names(attributeNames)[[9]], 
+															0, 100, attributeWeights[[names(attributeNames)[[9]]]], 0.1)),
+				column(3, br(), numericInput("wgt_fun_val", NULL, 
+																		 attributeWeights[[names(attributeNames)[[9]]]], 0, 100, 0.1))
 			)
 		),
 		mainPanel(width = 9,
@@ -91,11 +117,17 @@ server <- function(input, output, session) {
 	evidence <- reactive({
 		as.integer(input$evidence)
 	})
+	selected <- reactive({
+		if (isTruthy(input$interventions)) {
+			rownames(evidenceTables[[input$diseaseStage]][[1]]) %in% input$interventions
+		} else interventionTypes %in% input$interventionTypes
+	})
 	sourceTables <- reactive({
 		abind::abind(evidenceTables[[input$diseaseStage]][evidence()], 
-								 rev.along = 0)[interventionTypes %in% input$interventions, , , drop = FALSE]
+								 rev.along = 0)[selected(), , , drop = FALSE]
 	})
 	preferenceTables <- reactive({
+		req(sourceTables())
 		out <- apply(sourceTables(), 3,
 								 function(t) sapply(1:length(attributeNames), function(d) attributeLevels[[d]][t[, d]]))
 		dim(out) <- dim(sourceTables())
@@ -110,27 +142,33 @@ server <- function(input, output, session) {
 		out / sum(out) * 100
 	})
 	preferenceScores <- reactive({
-		setNames(rowMeans(apply(preferenceTables(), 3, function(x) x %*% preferenceWeights())),
-						 interventionNames[interventionTypes %in% input$interventions])
+		pref <- apply(preferenceTables(), 3, function(x) x %*% preferenceWeights())
+		dim(pref) <- dim(preferenceTables())[c(1, 3)]
+
+		setNames(rowMeans(pref), interventionNames[selected()])
 	})
 	
 	# Output values (based on reactive expressions)
 	output$selectedEvidenceTable <- renderDT({
+		req(sourceTables())
+
 		out <- round(apply(sourceTables(), c(1, 2), weighted.mean, w = evidenceTablesWeight[evidence()]))
-		out <- cbind(interventionNames[interventionTypes %in% input$interventions],
-								 sapply(1:ncol(out), function(d) attributeNames[[d]][out[, d]]),
-								 round(preferenceScores(), 1))
+		out <- matrix(sapply(1:ncol(out), function(d) attributeNames[[d]][out[, d]]), ncol = length(attributeNames))
+		out <- cbind(interventionNames[selected()], out, round(preferenceScores(), 1))
 		colnames(out) <- c("Intervention", names(attributeNames), "Preference score")
+		out <- out[order(preferenceScores(), decreasing = TRUE), , drop = FALSE]
+		rownames(out) <- as.character(1:nrow(out))
 		
-		out[order(preferenceScores(), decreasing = TRUE), ]
+		out
 	},
-	rownames = as.character(1:(dim(sourceTables())[[1]])),
 	autoHideNavigation = TRUE,
-	options = list(pageLength = 20))
+	options = list(pageLength = 10))
 	
 	output$preferencePlot <- renderPlot({
+		req(preferenceTables())
+
 		apply(preferenceTables(), c(1, 2), weighted.mean, w = evidenceTablesWeight[evidence()]) %>%
-			plyr::aaply(1, function(x) x * preferenceWeights()) %>%
+			plyr::aaply(1, function(x) x * preferenceWeights(), .drop = FALSE) %>%
 			as_tibble(rownames = "Intervention") %>%
 			gather("attribute", "value", -1) %>%
 			mutate(Intervention = fct_reorder(factor(Intervention), value, sum),
@@ -141,7 +179,7 @@ server <- function(input, output, session) {
 				scale_fill_brewer("Attribute", type = "qual", palette = "Paired") +
 				scale_y_continuous(NULL, limits = c(0, 100), expand = c(0, 0))
 	},
-	height = function() 12 * dim(preferenceTables())[[1]])
+	height = function() max(200, 12 * dim(preferenceTables())[[1]]))
 	
 	output$preferenceWeightsPlot <- renderPlot({
 		ggplot(tibble(att = factor(names(preferenceWeights()), levels = rev(names(preferenceWeights()))), 
@@ -165,15 +203,15 @@ server <- function(input, output, session) {
 	observe({
 		input$resetWeights
 		
-		isolate(updateSliderInput(session, "wgt_rec", value = attributeWeights[[1]]))
-		isolate(updateSliderInput(session, "wgt_qua", value = attributeWeights[[2]]))
-		isolate(updateSliderInput(session, "wgt_cos", value = attributeWeights[[3]]))
-		isolate(updateSliderInput(session, "wgt_dur", value = attributeWeights[[4]]))
-		isolate(updateSliderInput(session, "wgt_acc", value = attributeWeights[[5]]))
-		isolate(updateSliderInput(session, "wgt_rmi", value = attributeWeights[[6]]))
-		isolate(updateSliderInput(session, "wgt_rse", value = attributeWeights[[7]]))
-		isolate(updateSliderInput(session, "wgt_eff", value = attributeWeights[[8]]))
-		isolate(updateSliderInput(session, "wgt_fun", value = attributeWeights[[9]]))
+		updateSliderInput(session, "wgt_rec", value = attributeWeights[[1]])
+		updateSliderInput(session, "wgt_qua", value = attributeWeights[[2]])
+		updateSliderInput(session, "wgt_cos", value = attributeWeights[[3]])
+		updateSliderInput(session, "wgt_dur", value = attributeWeights[[4]])
+		updateSliderInput(session, "wgt_acc", value = attributeWeights[[5]])
+		updateSliderInput(session, "wgt_rmi", value = attributeWeights[[6]])
+		updateSliderInput(session, "wgt_rse", value = attributeWeights[[7]])
+		updateSliderInput(session, "wgt_eff", value = attributeWeights[[8]])
+		updateSliderInput(session, "wgt_fun", value = attributeWeights[[9]])
 	})
 	
 	observe({
@@ -190,8 +228,37 @@ server <- function(input, output, session) {
 		updateSliderInput(session, "wgt_eff", value = wgt[[8]])
 		updateSliderInput(session, "wgt_fun", value = wgt[[9]])
 	})
+	
+	observe({ updateNumericInput(session, "wgt_rec_val", value = input$wgt_rec) })
+	observe({ updateSliderInput(session, "wgt_rec", value = input$wgt_rec_val) })
+	observe({ updateNumericInput(session, "wgt_qua_val", value = input$wgt_qua) })
+	observe({ updateSliderInput(session, "wgt_qua", value = input$wgt_qua_val) })
+	observe({ updateNumericInput(session, "wgt_cos_val", value = input$wgt_cos) })
+	observe({ updateSliderInput(session, "wgt_cos", value = input$wgt_cos_val) })
+	observe({ updateNumericInput(session, "wgt_dur_val", value = input$wgt_dur) })
+	observe({ updateSliderInput(session, "wgt_dur", value = input$wgt_dur_val) })
+	observe({ updateNumericInput(session, "wgt_acc_val", value = input$wgt_acc) })
+	observe({ updateSliderInput(session, "wgt_acc", value = input$wgt_acc_val) })
+	observe({ updateNumericInput(session, "wgt_rmi_val", value = input$wgt_rmi) })
+	observe({ updateSliderInput(session, "wgt_rmi", value = input$wgt_rmi_val) })
+	observe({ updateNumericInput(session, "wgt_rse_val", value = input$wgt_rse) })
+	observe({ updateSliderInput(session, "wgt_rse", value = input$wgt_rse_val) })
+	observe({ updateNumericInput(session, "wgt_eff_val", value = input$wgt_eff) })
+	observe({ updateSliderInput(session, "wgt_eff", value = input$wgt_eff_val) })
+	observe({ updateNumericInput(session, "wgt_eff_val", value = input$wgt_eff) })
+	observe({ updateSliderInput(session, "wgt_eff", value = input$wgt_eff_val) })
+	
+	observeEvent(input$interventionTypes, { 
+		updateSelectInput(session, "interventions", 
+											choices = if (isTruthy(input$interventionTypes)) {
+												c("(All)" = "", interventionList[input$interventionTypes]) 
+											} else c("None Selected!" = ""),
+											selected = "")},
+		ignoreInit = TRUE, ignoreNULL = FALSE)
+	observeEvent(input$clearFilter, { updateSelectInput(session, "interventions", selected = "")},
+							 ignoreInit = TRUE)
 }
 
 
 # Run app
-shinyApp(ui = htmlTemplate("www/index.html"), server = server)
+shinyApp(ui = ui, server = server)

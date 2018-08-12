@@ -27,7 +27,10 @@ attributeLevels <- plyr::llply(attributeNames, function(x) 0:(length(x) - 1) / (
 attributeWeights <- setNames(rep(100 / length(attributeNames), length(attributeNames)), names(attributeNames))
 
 interventionNames <- clean_RACGP$Intervention
-interventionTypes <- rep(1, length(interventionNames))
+interventionTypes <- rep("All", length(interventionNames))
+interventionList <- setNames(lapply(unique(interventionTypes),
+																		function(type) interventionNames[interventionTypes==type]),
+														 unique(interventionTypes))
 
 evidenceTables <- list(
 	Overall = list(RACGP = create_evidence_table(clean_RACGP, 
@@ -42,7 +45,7 @@ evidenceTables <- list(
 
 evidenceTablesWeight <- c(RACGP = 1)
 
-save(interventionNames, interventionTypes, 
+save(interventionNames, interventionTypes, interventionList,
 		 evidenceTables, evidenceTablesWeight, 
 		 attributeNames, attributeLevels, attributeWeights,
 		 file = "data/evidenceTables.Rdata")
