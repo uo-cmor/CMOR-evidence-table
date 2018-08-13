@@ -17,17 +17,20 @@ ui <- fluidPage(
 		sidebarPanel(width = 3,
 			fluidRow(
 				column(4, 
-					radioButtons("diseaseStage", "Disease Stage",
+					strong("Disease Stage:"), actionLink("helpDiseaseStage", NULL, icon("info-circle")),
+					radioButtons("diseaseStage", NULL,
 											 choices = list("Overall", "Early", "Mid", "Late"),
 											 selected = "Overall")
 				),
 				column(8,
 					fluidRow(
 						column(6,
-							checkboxGroupInput("evidence", "Source of Evidence:", choices = list("RACGP" = 1), selected = 1)
+							strong("Source of Evidence:"), actionLink("helpEvidence", NULL, icon("info-circle")),
+							checkboxGroupInput("evidence", NULL, choices = list("RACGP" = 1), selected = 1)
 						),
 						column(6,
-							checkboxGroupInput("interventionTypes", "Interventions:", choices = list("All"), selected = c("All"))
+							strong("Interventions:"), actionLink("helpInterventions", NULL, icon("info-circle")),
+							checkboxGroupInput("interventionTypes", NULL, choices = list("All"), selected = c("All"))
 						)
 					),
 					fluidRow(
@@ -38,11 +41,13 @@ ui <- fluidPage(
 				)
 			),
 			hr(),
-			checkboxGroupInput("cost_effectiveness", "Cost-effectiveness results:",
+			strong("Cost-effectiveness results:"), actionLink("helpCostEffectiveness", NULL, icon("info-circle")),
+			checkboxGroupInput("cost_effectiveness", NULL,
 												 choices = list("NZ health system perspective" = 1, "NZ societal perspective" = 2)),
 			hr(),
 			fluidRow(
-				column(7, strong("Preference Weights:"), br(), actionLink("resetWeights", "(Reset)")),
+				column(7, strong("Preference Weights:"), actionLink("helpPreferenceWeights", NULL, icon("info-circle")),
+							 br(), actionLink("resetWeights", "(Reset)")),
 				column(5, style = "text-align:right",
 					actionLink("normaliseWeights", HTML("Normalise Weights<br>(sum to 100)"))
 				)
@@ -105,7 +110,7 @@ ui <- fluidPage(
 		mainPanel(width = 9,
 			tabsetPanel(type="tabs",
 									tabPanel("Evidence Table", DTOutput("selectedEvidenceTable")),
-									tabPanel("Plot", plotOutput("preferencePlot")))
+									tabPanel("Plot", plotOutput("preferencePlot", click = "plot_click")))
 		)
 	)
 )
@@ -125,6 +130,18 @@ server <- function(input, output, session) {
 	sourceTables <- reactive({
 		abind::abind(evidenceTables[[input$diseaseStage]][evidence()], 
 								 rev.along = 0)[selected(), , , drop = FALSE]
+	})
+	printTable <- reactive({
+		req(sourceTables())
+		
+		out <- round(apply(sourceTables(), c(1, 2), weighted.mean, w = evidenceTablesWeight[evidence()]))
+		out <- matrix(sapply(1:ncol(out), function(d) attributeNames[[d]][out[, d]]), ncol = length(attributeNames))
+		out <- cbind(interventionNames[selected()], out, round(preferenceScores(), 1))
+		colnames(out) <- c("Intervention", names(attributeNames), "Preference score")
+		out <- out[order(preferenceScores(), decreasing = TRUE), , drop = FALSE]
+		rownames(out) <- as.character(1:nrow(out))
+		
+		out
 	})
 	preferenceTables <- reactive({
 		req(sourceTables())
@@ -148,36 +165,56 @@ server <- function(input, output, session) {
 		setNames(rowMeans(pref), interventionNames[selected()])
 	})
 	
-	# Output values (based on reactive expressions)
-	output$selectedEvidenceTable <- renderDT({
-		req(sourceTables())
-
-		out <- round(apply(sourceTables(), c(1, 2), weighted.mean, w = evidenceTablesWeight[evidence()]))
-		out <- matrix(sapply(1:ncol(out), function(d) attributeNames[[d]][out[, d]]), ncol = length(attributeNames))
-		out <- cbind(interventionNames[selected()], out, round(preferenceScores(), 1))
-		colnames(out) <- c("Intervention", names(attributeNames), "Preference score")
-		out <- out[order(preferenceScores(), decreasing = TRUE), , drop = FALSE]
-		rownames(out) <- as.character(1:nrow(out))
-		
-		out
-	},
-	autoHideNavigation = TRUE,
-	options = list(pageLength = 10))
-	
-	output$preferencePlot <- renderPlot({
+	plotdata <- reactive({
 		req(preferenceTables())
-
 		apply(preferenceTables(), c(1, 2), weighted.mean, w = evidenceTablesWeight[evidence()]) %>%
 			plyr::aaply(1, function(x) x * preferenceWeights(), .drop = FALSE) %>%
 			as_tibble(rownames = "Intervention") %>%
 			gather("attribute", "value", -1) %>%
 			mutate(Intervention = fct_reorder(factor(Intervention), value, sum),
-						 attribute = factor(attribute, levels = names(attributeNames))) %>%
-			ggplot(aes(Intervention, value, fill = attribute)) + 
-				geom_col(colour = "white") + 
-				coord_flip() +
-				scale_fill_brewer("Attribute", type = "qual", palette = "Paired") +
-				scale_y_continuous(NULL, limits = c(0, 100), expand = c(0, 0))
+						 attribute = factor(attribute, levels = names(attributeNames)))
+	})
+	
+	selectedIntervention <- reactiveValues(label = character(0), x = numeric(0), y = numeric(0))
+
+	# Output values (based on reactive expressions)
+	output$selectedEvidenceTable <- renderDT({
+		printTable()
+	},
+	autoHideNavigation = TRUE,
+	options = list(pageLength = 10))
+	
+	output$preferencePlot <- renderPlot({
+		plotdata <- req(plotdata())
+		if (isTruthy(input$plot_click)) {
+			selectedIntervention$label <- 
+				with(as_tibble(printTable()) %>%
+						 	filter(Intervention == nearPoints(plotdata, input$plot_click, 
+						 																		threshold = Inf, maxpoints = 1)$Intervention),
+						 paste0("***", Intervention, "***", 
+									  "\nRecommendation = ", Recommendation,
+									  "\nQuality of Evidence = ", `Quality of Evidence`,
+									  "\nCost = ", Cost,
+									  "\nDuration of Effect = ", `Duration of Effect`,
+									  "\nAccessibility = ", Accessibility,
+									  "\nRisk of Mild/Moderate Harm = ", `Risk of Mild/Moderate Harm`,
+									  "\nRisk of Serious Harm = ", `Risk of Serious Harm`,
+									  "\nEffectiveness (Pain) = ", `Effectiveness (Pain)`,
+									  "\nEffectiveness (Function) = ", `Effectiveness (Function)`))
+			selectedIntervention$x <- input$plot_click$y
+			selectedIntervention$y <- input$plot_click$x
+		}
+
+		ggplot(plotdata(), aes(Intervention, value, fill = attribute)) + 
+			geom_col(colour = "white") + 
+			geom_label(aes(x, y, label = label, fill = NULL), 
+								 data = tibble(x = selectedIntervention$x,
+								 							 y = selectedIntervention$y,
+								 							 label = selectedIntervention$label),
+								 hjust = "inward", vjust = "inward", show.legend = FALSE) +
+			coord_flip() +
+			scale_fill_brewer("Attribute", type = "qual", palette = "Paired") +
+			scale_y_continuous(NULL, limits = c(0, 100), expand = c(0, 0))
 	},
 	height = function() max(200, 12 * dim(preferenceTables())[[1]]))
 	
@@ -257,6 +294,56 @@ server <- function(input, output, session) {
 		ignoreInit = TRUE, ignoreNULL = FALSE)
 	observeEvent(input$clearFilter, { updateSelectInput(session, "interventions", selected = "")},
 							 ignoreInit = TRUE)
+	
+	# Help dialog boxes
+	observeEvent(input$helpDiseaseStage, {
+		showModal(modalDialog(
+			title = "Disease Stage:",
+			"Select the disease stage for which to show evidence.", br(), br(),
+			"Some interventions have stronger expert recommendation or quality of evidence at different stages of
+			 the disease course",
+			easyClose = TRUE, footer = NULL))
+	})
+	
+	observeEvent(input$helpEvidence, {
+		showModal(modalDialog(
+			title = "Source of Evidence",
+			"Different sources of evidence (e.g clinical practice guidelines, systematic reviews) can be selected.", 
+			br(), br(),
+			"At this stage only the Royal Australian College of General Practitioners guidelines are available",
+			easyClose = TRUE, footer = NULL))
+	})
+	
+	observeEvent(input$helpInterventions, {
+		showModal(modalDialog(
+			title = "Interventions",
+			"Interventions can be filtered by type using these check boxes,",
+			"and if desired further filtered by specific intervention in the filter selection box below.", br(), br(),
+			"If no filter is applied, all interventions (of the selected types) will be shown.",
+			easyClose = TRUE, footer = NULL))
+	})
+	
+	observeEvent(input$helpCostEffectiveness, {
+		showModal(modalDialog(
+			title = "Cost-effectiveness Results",
+			"These are not yet available",
+			easyClose = TRUE, footer = NULL))
+	})
+	
+	observeEvent(input$helpPreferenceWeights, {
+		showModal(modalDialog(
+			title = "Preference Weights",
+			"The attributes are aggregated, by default, using the New Zealand stakeholder preference weights elicited as 
+			   part of our project 'The impact and management of rising osteoarthritis burden'.", br(), br(),
+			"If you want to use alternative preference weights, these can be set using the sliders or numeric input boxes in
+			   this section.", br(), 
+			"All preference weights must sum to 100. This is done automatically for the table and plot; to see the 
+         recalculated values in the input fields, use the 'Normalize Weights' button", br(),
+			"Weights can be reset to the NZ stakeholder weights using the 'Reset' button",
+			easyClose = TRUE, footer = NULL))
+	})
+	
+	
 }
 
 
