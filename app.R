@@ -12,7 +12,7 @@ load("data/evidenceTables.Rdata")
 
 # Define UI
 ui <- fluidPage(
-	titlePanel("CMOR Evidence Table and Preference Ranking for OA Interventions"),
+	titlePanel("CMOR Evidence Table and Preference Ranking for OA Interventions", windowTitle = "CMOR Evidence Table"),
 	sidebarLayout(
 		sidebarPanel(width = 3,
 			fluidRow(
