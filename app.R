@@ -167,6 +167,7 @@ server <- function(input, output, session) {
 	
 	plotdata <- reactive({
 		req(preferenceTables())
+		
 		apply(preferenceTables(), c(1, 2), weighted.mean, w = evidenceTablesWeight[evidence()]) %>%
 			plyr::aaply(1, function(x) x * preferenceWeights(), .drop = FALSE) %>%
 			as_tibble(rownames = "Intervention") %>%
@@ -175,7 +176,39 @@ server <- function(input, output, session) {
 						 attribute = factor(attribute, levels = names(attributeNames)))
 	})
 	
-	selectedIntervention <- reactiveValues(label = character(0), x = numeric(0), y = numeric(0))
+	selectedIntervention <- reactiveValues( # For storing which point to show label for
+		name = character(0), 
+		label = character(0), 
+		x = numeric(0), 
+		y = numeric(0)
+	)
+	
+	observeEvent(plotdata(), {
+		selectedIntervention$name <- character(0)
+		selectedIntervention$label <- character(0)
+		selectedIntervention$x <- numeric(0)
+		selectedIntervention$y <- numeric(0)
+	})
+	
+	observeEvent(input$plot_click, {
+		sel <- as_tibble(printTable()) %>%
+			filter(Intervention == nearPoints(plotdata(), input$plot_click, 
+																				threshold = Inf, maxpoints = 1)$Intervention)
+		selectedIntervention$name <- sel$Intervention
+		selectedIntervention$label <- 
+			with(sel,
+					 paste0("Recommendation = ", Recommendation,
+					 			 "\nQuality of Evidence = ", `Quality of Evidence`,
+					 			 "\nCost = ", Cost,
+					 			 "\nDuration of Effect = ", `Duration of Effect`,
+					 			 "\nAccessibility = ", Accessibility,
+					 			 "\nRisk of Mild/Moderate Harm = ", `Risk of Mild/Moderate Harm`,
+					 			 "\nRisk of Serious Harm = ", `Risk of Serious Harm`,
+					 			 "\nEffectiveness (Pain) = ", `Effectiveness (Pain)`,
+					 			 "\nEffectiveness (Function) = ", `Effectiveness (Function)`))
+		selectedIntervention$x <- input$plot_click$y
+		selectedIntervention$y <- input$plot_click$x
+	})
 
 	# Output values (based on reactive expressions)
 	output$selectedEvidenceTable <- renderDT({
@@ -186,32 +219,19 @@ server <- function(input, output, session) {
 	
 	output$preferencePlot <- renderPlot({
 		plotdata <- req(plotdata())
-		if (isTruthy(input$plot_click)) {
-			selectedIntervention$label <- 
-				with(as_tibble(printTable()) %>%
-						 	filter(Intervention == nearPoints(plotdata, input$plot_click, 
-						 																		threshold = Inf, maxpoints = 1)$Intervention),
-						 paste0("***", Intervention, "***", 
-									  "\nRecommendation = ", Recommendation,
-									  "\nQuality of Evidence = ", `Quality of Evidence`,
-									  "\nCost = ", Cost,
-									  "\nDuration of Effect = ", `Duration of Effect`,
-									  "\nAccessibility = ", Accessibility,
-									  "\nRisk of Mild/Moderate Harm = ", `Risk of Mild/Moderate Harm`,
-									  "\nRisk of Serious Harm = ", `Risk of Serious Harm`,
-									  "\nEffectiveness (Pain) = ", `Effectiveness (Pain)`,
-									  "\nEffectiveness (Function) = ", `Effectiveness (Function)`))
-			selectedIntervention$x <- input$plot_click$y
-			selectedIntervention$y <- input$plot_click$x
-		}
+		labdata <- tibble(x = selectedIntervention$x,
+											y = selectedIntervention$y,
+											name = selectedIntervention$name,
+											label = selectedIntervention$label)
 
-		ggplot(plotdata(), aes(Intervention, value, fill = attribute)) + 
-			geom_col(colour = "white") + 
-			geom_label(aes(x, y, label = label, fill = NULL), 
-								 data = tibble(x = selectedIntervention$x,
-								 							 y = selectedIntervention$y,
-								 							 label = selectedIntervention$label),
-								 hjust = "inward", vjust = "inward", show.legend = FALSE) +
+		ggplot(plotdata(), aes(Intervention, value)) + 
+			geom_col(aes(fill = attribute), colour = "white") + 
+			geom_label(aes(x, y, label = name), data = labdata, show.legend = FALSE,
+								 hjust = "inward", vjust = "inward", fontface="bold", colour = NA, alpha = 0.8) +
+			geom_text(aes(x, y, label = name), data = labdata, show.legend = FALSE,
+								 hjust = "inward", vjust = "inward", fontface="bold", nudge_x = -0.1, nudge_y = 0.1) +
+			geom_label(aes(x, y, label = label), data = labdata, show.legend = FALSE,
+								 hjust = "inward", vjust = "inward", nudge_x = -1.3) +
 			coord_flip() +
 			scale_fill_brewer("Attribute", type = "qual", palette = "Paired") +
 			scale_y_continuous(NULL, limits = c(0, 100), expand = c(0, 0))
