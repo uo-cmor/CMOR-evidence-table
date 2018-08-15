@@ -1,12 +1,11 @@
 library(tidyverse)
 library(readxl)
 
-raw_RACGP <- read_xlsx("data/raw/Performance-Matrix.xlsx", skip = 1)
+raw_RACGP <- read_xlsx("data/raw/Performance-Matrix-RW.xlsx", skip = 1)
 raw_weights <- read_xlsx("data/raw/Attribute-Weights.xlsx", skip = 1)
 
 clean_RACGP <- raw_RACGP %>%
 	filter(`1000minds variable names` %in% c(1, 10)) %>%
-	select(Alternative, Rec, Rec1, Rec2, Rec3, Qua, Cos, `Dur\r\n`, Acc, Rmi, Rse, Eff) %>%
 	transmute(Intervention = 
 							str_remove_all(Alternative, 
 														 paste0("( . knee( ((\\(same as hip\\))|(and/or hip \\(same for both\\))|(\\(not available in NZ\\))))*)|",
@@ -27,7 +26,10 @@ clean_RACGP <- raw_RACGP %>%
 						Acc = case_when(Acc=="\u267f\u267f\u267f" ~ 3, Acc=="\u267f\u267f" ~ 2, Acc=="\u267f" ~ 1),
 						Rmi = case_when(Rmi=="\u26a0" ~ 3, Rmi=="\u26a0\u26a0" ~ 2, Rmi=="\u26a0\u26a0\u26a0" ~ 1),
 						Rse = case_when(Rse=="\u26a0" ~ 3, Rse=="\u26a0\u26a0" ~ 2, Rse=="\u26a0\u26a0\u26a0" ~ 1),
-						Eff = case_when(Eff=="\u2695\u2695\u2695" ~ 3, Eff=="\u2695\u2695" ~ 2, Eff=="\u2695" ~ 1))
+						Eff = case_when(Eff=="\u2695\u2695\u2695" ~ 3, Eff=="\u2695\u2695" ~ 2, Eff=="\u2695" ~ 1),
+						"Cost value" = `Cost value`, "Cost duration" = `Cost duration`,
+						"Duration value" = `Duration value`, "Rmi value" = c(">50%", "25% - 50%", "<25%")[Rmi],
+						"Rse value" = c(">0.5%", "0.2% - 0.5%", "<0.2%")[Rse], "Effectiveness value" = `Effectiveness value`)
 
 clean_weights <- raw_weights %>%
 	gather("level", "weight", 2:6, na.rm = TRUE) %>%

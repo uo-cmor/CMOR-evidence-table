@@ -10,7 +10,20 @@ create_evidence_table <- function(df, varnames) {
 	out
 }
 
-clean_RACGP <- clean_RACGP[complete.cases(clean_RACGP), ]
+create_evidence_details_table <- function(df) {
+	transmute(df, 
+						Cos = str_c("(", `Cost value`, coalesce(str_c(" ", `Cost duration`), ""), ")"),
+						Dur = str_c("(", `Duration value`, ")"),
+						Rmi = str_c("(", `Rmi value`, ")"),
+						Rse = str_c("(", `Rse value`, ")"),
+						Eff = str_c("(", `Effectiveness value`, ")"))
+}
+
+clean_RACGP <- clean_RACGP[complete.cases(clean_RACGP %>% 
+																						select(c(c("Rec", "Qua", "Cos", "Dur", "Acc", "Rmi", "Rse", "Eff"),
+																										 c("Rec1", "Qua1", "Cos", "Dur", "Acc", "Rmi", "Rse", "Eff"),
+																										 c("Rec2", "Qua2", "Cos", "Dur", "Acc", "Rmi", "Rse", "Eff"),
+																										 c("Rec3", "Qua3", "Cos", "Dur", "Acc", "Rmi", "Rse", "Eff")))), ]
 
 attributeNames <- list(
 	Recommendation = c("Strong Against", "Conditional Against", "Neutral", "Conditional For", "Strong For"),
@@ -39,9 +52,16 @@ evidenceTables <- list(
 	Late = list(RACGP = create_evidence_table(clean_RACGP, c("Rec3", "Qua3", "Cos", "Dur", "Acc", "Rmi", "Rse", "Eff")))
 )
 
+evidenceTablesDetails <- list(
+	Overall = list(RACGP = create_evidence_details_table(clean_RACGP)),
+	Early = list(RACGP = create_evidence_details_table(clean_RACGP)),
+	Mid = list(RACGP = create_evidence_details_table(clean_RACGP)),
+	Late = list(RACGP = create_evidence_details_table(clean_RACGP))
+)
+
 evidenceTablesWeight <- c(RACGP = 1)
 
 save(interventionNames, interventionTypes, interventionList,
-		 evidenceTables, evidenceTablesWeight, 
+		 evidenceTables, evidenceTablesWeight, evidenceTablesDetails,
 		 attributeNames, attributeLevels, attributeWeights,
 		 file = "data/evidenceTables.Rdata")
