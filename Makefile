@@ -1,10 +1,7 @@
-VPATH = data scripts reports
-
-WORDSTYLES := reports/word-styles-reference-01.docx
+VPATH = data scripts
 
 # Variable definitions
-RAW_DATA := $(addprefix data/raw/,Performance-Matrix.xlsx)
-#FIGURES := $(addsuffix .jpg,$(addprefix reports/figures/fig-,...))
+RAW_DATA := $(addprefix data/raw/,Performance-Matrix.xlsx Attribute-Weights.xlsx)
 
 all: data/evidenceTables.Rdata
 

@@ -20,11 +20,11 @@ attributeNames <- list(
 	Accessibility = c("Inaccessible", "Neither accessible or inaccessible", "Accessible"),
 	"Risk of Mild/Moderate Harm" = c("High", "Medium", "Low"),
 	"Risk of Serious Harm" = c("High", "Medium", "Low"),
-	"Effectiveness (Pain)" = c("Low", "Medium", "High"),
-	"Effectiveness (Function)" = c("Low", "Medium", "High")
+	"Effectiveness" = c("Low", "Medium", "High")
 )
-attributeLevels <- plyr::llply(attributeNames, function(x) 0:(length(x) - 1) / (length(x) - 1))
-attributeWeights <- setNames(rep(100 / length(attributeNames), length(attributeNames)), names(attributeNames))
+attributeLevels <- plyr::llply(names(attributeNames), function(x) (clean_weights %>% filter(attribute==x))$weight)
+attributeWeights <- setNames(plyr::laply(attributeLevels, max), names(attributeNames))
+attributeLevels <- plyr::llply(attributeLevels, function(x) x / max(x))
 
 interventionNames <- clean_RACGP$Intervention
 interventionTypes <- rep("All", length(interventionNames))
@@ -33,14 +33,10 @@ interventionList <- setNames(lapply(unique(interventionTypes),
 														 unique(interventionTypes))
 
 evidenceTables <- list(
-	Overall = list(RACGP = create_evidence_table(clean_RACGP, 
-																							 c("Rec", "Qua", "Cos", "Dur", "Acc", "Rmi", "Rse", "Eff", "Fun"))),
-	Early = list(RACGP = create_evidence_table(clean_RACGP, 
-																						 c("Rec1", "Qua1", "Cos", "Dur", "Acc", "Rmi", "Rse", "Eff", "Fun"))),
-	Mid = list(RACGP = create_evidence_table(clean_RACGP, 
-																					 c("Rec2", "Qua2", "Cos", "Dur", "Acc", "Rmi", "Rse", "Eff", "Fun"))),
-	Late = list(RACGP = create_evidence_table(clean_RACGP, 
-																						c("Rec3", "Qua3", "Cos", "Dur", "Acc", "Rmi", "Rse", "Eff", "Fun")))
+	Overall = list(RACGP = create_evidence_table(clean_RACGP, c("Rec", "Qua", "Cos", "Dur", "Acc", "Rmi", "Rse", "Eff"))),
+	Early = list(RACGP = create_evidence_table(clean_RACGP, c("Rec1", "Qua1", "Cos", "Dur", "Acc", "Rmi", "Rse", "Eff"))),
+	Mid = list(RACGP = create_evidence_table(clean_RACGP, c("Rec2", "Qua2", "Cos", "Dur", "Acc", "Rmi", "Rse", "Eff"))),
+	Late = list(RACGP = create_evidence_table(clean_RACGP, c("Rec3", "Qua3", "Cos", "Dur", "Acc", "Rmi", "Rse", "Eff")))
 )
 
 evidenceTablesWeight <- c(RACGP = 1)

@@ -2,10 +2,11 @@ library(tidyverse)
 library(readxl)
 
 raw_RACGP <- read_xlsx("data/raw/Performance-Matrix.xlsx", skip = 1)
+raw_weights <- read_xlsx("data/raw/Attribute-Weights.xlsx", skip = 1)
 
 clean_RACGP <- raw_RACGP %>%
 	filter(`1000minds variable names` %in% c(1, 10)) %>%
-	select(Alternative, Rec, Rec1, Rec2, Rec3, Qua, Cos, `Dur\r\n`, Acc, Rmi, Rse, Eff, Fun) %>%
+	select(Alternative, Rec, Rec1, Rec2, Rec3, Qua, Cos, `Dur\r\n`, Acc, Rmi, Rse, Eff) %>%
 	transmute(Intervention = 
 							str_remove_all(Alternative, 
 														 paste0("( . knee( ((\\(same as hip\\))|(and/or hip \\(same for both\\))|(\\(not available in NZ\\))))*)|",
@@ -26,7 +27,14 @@ clean_RACGP <- raw_RACGP %>%
 						Acc = case_when(Acc=="\u267f\u267f\u267f" ~ 3, Acc=="\u267f\u267f" ~ 2, Acc=="\u267f" ~ 1),
 						Rmi = case_when(Rmi=="\u26a0" ~ 3, Rmi=="\u26a0\u26a0" ~ 2, Rmi=="\u26a0\u26a0\u26a0" ~ 1),
 						Rse = case_when(Rse=="\u26a0" ~ 3, Rse=="\u26a0\u26a0" ~ 2, Rse=="\u26a0\u26a0\u26a0" ~ 1),
-						Eff = case_when(Eff=="\u2695\u2695\u2695" ~ 3, Eff=="\u2695\u2695" ~ 2, Eff=="\u2695" ~ 1),
-						Fun = case_when(Fun=="\u2695\u2695\u2695" ~ 3, Fun=="\u2695\u2695" ~ 2, Fun=="\u2695" ~ 1))
+						Eff = case_when(Eff=="\u2695\u2695\u2695" ~ 3, Eff=="\u2695\u2695" ~ 2, Eff=="\u2695" ~ 1))
 
-save(clean_RACGP, file = "data/data.Rdata")
+clean_weights <- raw_weights %>%
+	gather("level", "weight", 2:6, na.rm = TRUE) %>%
+	transmute(attribute = str_replace_all(X__1, c("Risk of mild to moderate side-effects" = "Risk of Mild/Moderate Harm",
+																								"Risk of serious harm" = "Risk of Serious Harm",
+																								"Duration" = "Duration of Effect",
+																								"Quality of the evidence" = "Quality of Evidence")),
+						level = as.integer(level), weight)
+
+save(clean_RACGP, clean_weights, file = "data/data.Rdata")
