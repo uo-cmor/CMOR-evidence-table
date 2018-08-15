@@ -1,14 +1,16 @@
 # Load libraries
 library(shiny)
 library(DT)
+library(plyr)
 library(tidyverse)
+library(abind)
 
 # Load data (evidence tables)
 load("data/evidenceTables.Rdata")
 
 
 # Source scripts
-
+source("scripts/plot-utils.R")
 
 # Define UI
 ui <- fluidPage(
@@ -102,18 +104,12 @@ ui <- fluidPage(
 															0, 100, attributeWeights[[names(attributeNames)[[8]]]], 0.1)),
 				column(3, br(), numericInput("wgt_eff_val", NULL, 
 																		 attributeWeights[[names(attributeNames)[[8]]]], 0, 100, 0.1))
-			),
-			fluidRow(
-				column(9, sliderInput("wgt_fun", names(attributeNames)[[9]], 
-															0, 100, attributeWeights[[names(attributeNames)[[9]]]], 0.1)),
-				column(3, br(), numericInput("wgt_fun_val", NULL, 
-																		 attributeWeights[[names(attributeNames)[[9]]]], 0, 100, 0.1))
 			)
 		),
 		mainPanel(width = 9,
 			tabsetPanel(type="tabs",
 									tabPanel("Evidence Table", DTOutput("selectedEvidenceTable")),
-									tabPanel("Plot", plotOutput("preferencePlot", click = "plot_click")))
+									tabPanel("Plot", plotOutput("preferencePlot", click = clickOpts("plot_click", clip = FALSE))))
 		)
 	)
 )
@@ -131,18 +127,26 @@ server <- function(input, output, session) {
 		} else interventionTypes %in% input$interventionTypes
 	})
 	sourceTables <- reactive({
-		abind::abind(evidenceTables[[input$diseaseStage]][evidence()], 
-								 rev.along = 0)[selected(), , , drop = FALSE]
+		abind(evidenceTables[[input$diseaseStage]][evidence()], rev.along = 0)[selected(), , , drop = FALSE]
 	})
 	printTable <- reactive({
 		req(sourceTables())
 		
-		out <- round(apply(sourceTables(), c(1, 2), weighted.mean, w = evidenceTablesWeight[evidence()]))
-		out <- matrix(sapply(1:ncol(out), function(d) attributeNames[[d]][out[, d]]), ncol = length(attributeNames))
-		out <- cbind(interventionNames[selected()], out, round(preferenceScores(), 1))
-		colnames(out) <- c("Intervention", names(attributeNames), "Preference score")
-		out <- out[order(preferenceScores(), decreasing = TRUE), , drop = FALSE]
-		rownames(out) <- as.character(1:nrow(out))
+		out <- as.data.frame(round(apply(sourceTables(), c(1, 2), weighted.mean, w = evidenceTablesWeight[evidence()]))) %>%
+			rownames_to_column("Intervention")
+		l_ply(names(attributeNames), function(nm) out[[nm]] <<- factor(out[[nm]], levels = seq_along(attributeNames[[nm]]), 
+																																	 labels = attributeNames[[nm]]))
+		out <- out %>%
+			mutate("Preference Score" = preferenceScores()) %>%
+			arrange(desc(`Preference Score`)) %>%
+			mutate("Preference Score" = round(`Preference Score`, 1))
+
+		# out <- out[order(preferenceScores(), decreasing = TRUE), ]
+		# 
+		# out <- matrix(sapply(1:ncol(out), function(d) attributeNames[[d]][out[, d]]), ncol = length(attributeNames))
+		# out <- cbind(interventionNames[selected()], out, round(preferenceScores(), 1))
+		# colnames(out) <- c("Intervention", names(attributeNames), "Preference score")
+		# rownames(out) <- as.character(1:nrow(out))
 		
 		out
 	})
@@ -157,7 +161,7 @@ server <- function(input, output, session) {
 	})
 	preferenceWeights <- reactive({
 		out <- setNames(c(input$wgt_rec, input$wgt_qua, input$wgt_cos, input$wgt_dur, input$wgt_acc, 
-											input$wgt_rmi, input$wgt_rse, input$wgt_eff, input$wgt_fun), names(attributeNames))
+											input$wgt_rmi, input$wgt_rse, input$wgt_eff), names(attributeNames))
 		
 		out / sum(out) * 100
 	})
@@ -194,9 +198,11 @@ server <- function(input, output, session) {
 	})
 	
 	observeEvent(input$plot_click, {
-		sel <- as_tibble(printTable()) %>%
-			filter(Intervention == nearPoints(plotdata(), input$plot_click, 
-																				threshold = Inf, maxpoints = 1)$Intervention)
+		sel <- printTable() %>%
+			filter(Intervention %in% nearBars(plotdata() %>% spread(attribute, value) %>% 
+																				transmute(Intervention, wgt = rowSums(select(., names(attributeNames)))), 
+																			input$plot_click, xvar = "wgt",
+																			threshold = 0, maxpoints = 1)$Intervention)
 		selectedIntervention$name <- sel$Intervention
 		selectedIntervention$label <- 
 			with(sel,
@@ -207,18 +213,18 @@ server <- function(input, output, session) {
 					 			 "\nAccessibility = ", Accessibility,
 					 			 "\nRisk of Mild/Moderate Harm = ", `Risk of Mild/Moderate Harm`,
 					 			 "\nRisk of Serious Harm = ", `Risk of Serious Harm`,
-					 			 "\nEffectiveness (Pain) = ", `Effectiveness (Pain)`,
-					 			 "\nEffectiveness (Function) = ", `Effectiveness (Function)`))
+					 			 "\nEffectiveness = ", `Effectiveness`))
 		selectedIntervention$x <- input$plot_click$y
 		selectedIntervention$y <- input$plot_click$x
-	})
+	}, ignoreNULL = TRUE)
 
 	# Output values (based on reactive expressions)
 	output$selectedEvidenceTable <- renderDT({
 		printTable()
 	},
 	autoHideNavigation = TRUE,
-	options = list(pageLength = 10))
+	style = 'bootstrap',
+	options = list(pageLength = 25))
 	
 	output$preferencePlot <- renderPlot({
 		plotdata <- req(plotdata())
@@ -227,7 +233,7 @@ server <- function(input, output, session) {
 											name = selectedIntervention$name,
 											label = selectedIntervention$label)
 
-		ggplot(plotdata(), aes(Intervention, value)) + 
+		ggplot(plotdata, aes(Intervention, value)) + 
 			geom_col(aes(fill = attribute), colour = "white") + 
 			geom_label(aes(x, y, label = name), data = labdata, show.legend = FALSE,
 								 hjust = "inward", vjust = "inward", fontface="bold", colour = NA, alpha = 0.8) +
@@ -237,28 +243,11 @@ server <- function(input, output, session) {
 								 hjust = "inward", vjust = "inward", nudge_x = -1.3) +
 			coord_flip() +
 			scale_fill_brewer("Attribute", type = "qual", palette = "Paired") +
-			scale_y_continuous(NULL, limits = c(0, 100), expand = c(0, 0))
+			scale_y_continuous(NULL, limits = c(0, 100), expand = c(0, 0)) +
+			scale_x_discrete(NULL)
 	},
 	height = function() max(200, 12 * dim(preferenceTables())[[1]]))
-	
-	output$preferenceWeightsPlot <- renderPlot({
-		ggplot(tibble(att = factor(names(preferenceWeights()), levels = rev(names(preferenceWeights()))), 
-									wgt = preferenceWeights()), 
-					 aes(0, wgt, fill = att)) + 
-			geom_col(position = "stack") +
-			scale_y_continuous(NULL, expand = c(0, 0), breaks = seq(0, 100, 5), minor_breaks = NULL) +
-			scale_fill_brewer(NULL, type = "qual", palette = "Paired", guide = FALSE) +
-			coord_flip() +
-			theme_minimal() + 
-			theme(axis.text.y = element_blank(), axis.title.y = element_blank(), 
-						axis.line.x = element_line(colour = "black"), axis.ticks.x = element_line(colour = "black"), 
-						panel.grid.major.y = element_blank(), panel.grid.minor.y = element_blank(), 
-						panel.grid.major.x = element_line(colour = "black"),
-						plot.background = element_rect(fill = "#FFFFFF00", linetype = 0), 
-						panel.background = element_blank(), panel.ontop = TRUE, 
-						plot.margin = margin(0, 0, 0, 0))
-	})
-	
+
 	# Update input widgets
 	observe({
 		input$resetWeights
@@ -271,7 +260,6 @@ server <- function(input, output, session) {
 		updateSliderInput(session, "wgt_rmi", value = attributeWeights[[6]])
 		updateSliderInput(session, "wgt_rse", value = attributeWeights[[7]])
 		updateSliderInput(session, "wgt_eff", value = attributeWeights[[8]])
-		updateSliderInput(session, "wgt_fun", value = attributeWeights[[9]])
 	})
 	
 	observe({
@@ -286,7 +274,6 @@ server <- function(input, output, session) {
 		updateSliderInput(session, "wgt_rmi", value = wgt[[6]])
 		updateSliderInput(session, "wgt_rse", value = wgt[[7]])
 		updateSliderInput(session, "wgt_eff", value = wgt[[8]])
-		updateSliderInput(session, "wgt_fun", value = wgt[[9]])
 	})
 	
 	observe({ updateNumericInput(session, "wgt_rec_val", value = input$wgt_rec) })
@@ -305,9 +292,7 @@ server <- function(input, output, session) {
 	observe({ updateSliderInput(session, "wgt_rse", value = input$wgt_rse_val) })
 	observe({ updateNumericInput(session, "wgt_eff_val", value = input$wgt_eff) })
 	observe({ updateSliderInput(session, "wgt_eff", value = input$wgt_eff_val) })
-	observe({ updateNumericInput(session, "wgt_eff_val", value = input$wgt_eff) })
-	observe({ updateSliderInput(session, "wgt_eff", value = input$wgt_eff_val) })
-	
+
 	observeEvent(input$interventionTypes, { 
 		updateSelectInput(session, "interventions", 
 											choices = if (isTruthy(input$interventionTypes)) {
@@ -333,7 +318,9 @@ server <- function(input, output, session) {
 			title = "Source of Evidence",
 			"Different sources of evidence (e.g clinical practice guidelines, systematic reviews) can be selected.", 
 			br(), br(),
-			"At this stage only the Royal Australian College of General Practitioners guidelines are available",
+			tags$dl(
+				tags$dt("RACGP:"), tags$dd("Royal Australian College of General Practitioners clinical guidelines")
+			),
 			easyClose = TRUE, footer = NULL))
 	})
 	
@@ -342,7 +329,8 @@ server <- function(input, output, session) {
 			title = "Interventions",
 			"Interventions can be filtered by type using these check boxes,",
 			"and if desired further filtered by specific intervention in the filter selection box below.", br(), br(),
-			"If no filter is applied, all interventions (of the selected types) will be shown.",
+			"If no filter is applied, all interventions (of the selected types) will be shown.", br(), br(),
+			"At this stage, no filters are implemented.",
 			easyClose = TRUE, footer = NULL))
 	})
 	
