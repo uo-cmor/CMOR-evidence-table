@@ -357,4 +357,4 @@ server <- function(input, output, session) {
 
 
 # Run app
-shinyApp(ui = ui, server = server)
+shinyApp(ui = htmlTemplate("www/index.html"), server = server)
