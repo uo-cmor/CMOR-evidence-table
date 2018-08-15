@@ -235,12 +235,10 @@ server <- function(input, output, session) {
 
 		ggplot(plotdata, aes(Intervention, value)) + 
 			geom_col(aes(fill = attribute), colour = "white") + 
-			geom_label(aes(x, y, label = name), data = labdata, show.legend = FALSE,
-								 hjust = "inward", vjust = "inward", fontface="bold", colour = NA, alpha = 0.8) +
-			geom_text(aes(x, y, label = name), data = labdata, show.legend = FALSE,
-								 hjust = "inward", vjust = "inward", fontface="bold", nudge_x = -0.1, nudge_y = 0.1) +
+			geom_col(aes(group = attribute), fill = NA, size = 1, colour = "black",
+							 data = filter(plotdata, Intervention %in% labdata$name), show.legend = FALSE) +
 			geom_label(aes(x, y, label = label), data = labdata, show.legend = FALSE,
-								 hjust = "inward", vjust = "inward", nudge_x = -1.3) +
+								 hjust = "left", vjust = "inward") +
 			coord_flip() +
 			scale_fill_brewer("Attribute", type = "qual", palette = "Paired") +
 			scale_y_continuous(NULL, limits = c(0, 100), expand = c(0, 0)) +
