@@ -12,11 +12,12 @@ create_evidence_table <- function(df, varnames) {
 
 create_evidence_details_table <- function(df) {
 	transmute(df, 
-						Cos = str_c("(", `Cost value`, coalesce(str_c(" ", `Cost duration`), ""), ")"),
-						Dur = str_c("(", `Duration value`, ")"),
-						Rmi = str_c("(", `Rmi value`, ")"),
-						Rse = str_c("(", `Rse value`, ")"),
-						Eff = str_c("(", `Effectiveness value`, ")"))
+						Intervention = interventionTypes,
+						Cost = str_c(`Cost value`, coalesce(str_c(" ", `Cost duration`), "")),
+						"Duration of Effect" = `Duration value`,
+						"Risk of Mild/Moderate Harm" = `Rmi value`,
+						"Risk of Serious Harm" =`Rse value`,
+						Effectiveness = `Effectiveness value`)
 }
 
 clean_RACGP <- clean_RACGP[complete.cases(clean_RACGP %>% 
@@ -40,10 +41,54 @@ attributeWeights <- setNames(plyr::laply(attributeLevels, max), names(attributeN
 attributeLevels <- plyr::llply(attributeLevels, function(x) x / max(x))
 
 interventionNames <- clean_RACGP$Intervention
-interventionTypes <- rep("All", length(interventionNames))
-interventionList <- setNames(lapply(unique(interventionTypes),
-																		function(type) interventionNames[interventionTypes==type]),
-														 unique(interventionTypes))
+interventionList <- list(
+	"Alternative medicines" = c("Avocado-soybean unsaponifiables", "Boswellia serrata extract", "Curcuma/curcuminoid",
+															"Pycnogenol", "Glucosamine", "Chondroitin", 
+															"Glucosamine and chondroitin in compound form", "Vitamin D", "Omega-3 fatty acids",
+															"Collagen", "Methylsulfonylmethane"),
+	"Electrotherapies" = c("Pulsed electromagnetic/ shortwave therapy", "Other electrotherapy (interferential)", 
+												 "Other electrotherapy (laser)", "Other electrotherapy (shock wave)", 
+												 "Transcutaneous electrical nerve stimulation (TENS)", "Therapeutic ultrasound", 
+												 "Acupuncture (laser)", "Acupuncture (traditional and electroacupuncture)"),
+	"Exercise interventions" = c("ALL LAND-BASED EXERCISE (all land based, muscle-strengthening, walking, Tai Chi)",
+															 "Aquatic exercise/ hydrotherapy", "Knee exercise: Cycling only", 
+															 "Knee exercise: Land-based exercise (stationary cycling, hatha yoga)",
+															 "Knee exercise: MUSCLE STRENGTHENING ONLY for lower limb strengthening", 
+															 "Knee exercise: MUSCLE STRENGTHENING ONLY for quadriceps strengthening",
+															 "Knee exercise: Tai Chi only", "Knee exercise: Walking only", 
+															 "Knee exercise: Yoga only"),
+	"Injectable agents" = c("Viscosupplementation injection", "Platelet-rich plasma (PRP) injection", "Stem cell therapy",
+													"Dextrose prolotherapy", "Fibroblast growth factor (FGF)", "Corticosteroid injection"),
+	"Mechanical aids and devices" = c(
+		"Knee braces (re-aligning patellofemoral braces)", "Knee braces (valgus unloading/re-alignment braces)",
+		"Knee braces (varus unloading/re-alignment braces)", 
+		"Shoe orthotics (lateral wedge insoles for medial tibiofemoral knee OA)",
+		"Shoe orthotics (medial wedged insoles for lateral tibiofemoral OA and valgus deformity)",
+		"Shoe orthotics (shock absorbing insoles or arch supports)", "Footwear (minimalist footwear)", 
+		"Footwear (rocker soled shoes)", "Footwear (unloading shoes)", "Taping (kinesio taping)", 
+		"Taping (patellar taping)", "Assistive walking device"
+	),
+	"Pharmacological interventions (over the counter)" = c("Paracetamol", "Topical capsaicin", "Topical NSAIDs"),
+	"Pharmacological interventions (prescription medication only)" = c(
+		"Interleukin-1 (IL-1) inhibitors", "Methotrexate", "Oral opioids", "Transdermal buprenorphine", 
+		"Transdermal Fentanyl", "Colchicine", "Anti-nerve growth factor (NGF)", "Calcitonin", "Biphosphonates", 
+		"Doxycycline", "Oral non-steroidal anti-inflammatory drugs (NSAIDs) including COX-2 inhibitors", "Diacerein",
+		"Duloxetine", "Strontium ranelate"),
+	"Psychological interventions" = c("Cognitive behavioural therapy"),
+	"Other physical therapies" = c("Manual therapy (massage)", "Manual therapy (mobilisation and manipulation)"),
+	"Self-management and education interventions" = c("self-management education programs", "Heat therapy", 
+																										"Cold therapy"),
+	"Surgical interventions" = c("Arthroscopic cartilage repair ", "Arthroscopic lavage and debridement",
+															 "Arthroscopic meniscectomy ", "Total Joint Replacement"),
+	"Weight management" = c("Weight management")
+)
+interventionTypes <- apply(sapply(interventionList, function(l) interventionNames %in% l), 1, function(x) names(x)[x])
+
+
+# interventionTypes <- rep("All", length(interventionNames))
+# interventionList <- setNames(lapply(unique(interventionTypes),
+# 																		function(type) interventionNames[interventionTypes==type]),
+# 														 unique(interventionTypes))
 
 evidenceTables <- list(
 	Overall = list(RACGP = create_evidence_table(clean_RACGP, c("Rec", "Qua", "Cos", "Dur", "Acc", "Rmi", "Rse", "Eff"))),
