@@ -178,7 +178,7 @@ server <- function(input, output, session) {
 		sourceTablesDetails <- req(sourceTablesDetails())
 		
 		if (dim(sourceTablesDetails)[[3]] == 1) {
-			out <- as.data.frame(sourceTablesDetails[, , ])
+			out <- as.data.frame(sourceTablesDetails[, , , drop = FALSE])
 		} else {
 			out <- as.data.frame(apply(sourceTablesDetails, c(1, 2), 
 																 function(x) paste0(names(x), ": ", x, collapse = "\n")))
