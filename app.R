@@ -254,7 +254,6 @@ server <- function(input, output, session) {
 	output$selectedEvidenceTable <- renderDT({
 		datatable(printTable(),
 							autoHideNavigation = TRUE,
-							style = 'bootstrap',
 							escape = c(TRUE, sapply(names(printTable()), function(x) is.null(printTableDetails()[[x]]))),
 							options = list(pageLength = 25))
 	})
@@ -307,21 +306,21 @@ server <- function(input, output, session) {
 		updateSliderInput(session, "wgt_eff", value = wgt[[8]])
 	})
 	
-	observe({ updateNumericInput(session, "wgt_rec_val", value = input$wgt_rec) })
+	# observe({ updateNumericInput(session, "wgt_rec_val", value = input$wgt_rec) })
 	observe({ updateSliderInput(session, "wgt_rec", value = input$wgt_rec_val) })
-	observe({ updateNumericInput(session, "wgt_qua_val", value = input$wgt_qua) })
+	#observe({ updateNumericInput(session, "wgt_qua_val", value = input$wgt_qua) })
 	observe({ updateSliderInput(session, "wgt_qua", value = input$wgt_qua_val) })
-	observe({ updateNumericInput(session, "wgt_cos_val", value = input$wgt_cos) })
+	#observe({ updateNumericInput(session, "wgt_cos_val", value = input$wgt_cos) })
 	observe({ updateSliderInput(session, "wgt_cos", value = input$wgt_cos_val) })
-	observe({ updateNumericInput(session, "wgt_dur_val", value = input$wgt_dur) })
+	#observe({ updateNumericInput(session, "wgt_dur_val", value = input$wgt_dur) })
 	observe({ updateSliderInput(session, "wgt_dur", value = input$wgt_dur_val) })
-	observe({ updateNumericInput(session, "wgt_acc_val", value = input$wgt_acc) })
+	#observe({ updateNumericInput(session, "wgt_acc_val", value = input$wgt_acc) })
 	observe({ updateSliderInput(session, "wgt_acc", value = input$wgt_acc_val) })
-	observe({ updateNumericInput(session, "wgt_rmi_val", value = input$wgt_rmi) })
+	#observe({ updateNumericInput(session, "wgt_rmi_val", value = input$wgt_rmi) })
 	observe({ updateSliderInput(session, "wgt_rmi", value = input$wgt_rmi_val) })
-	observe({ updateNumericInput(session, "wgt_rse_val", value = input$wgt_rse) })
+	#observe({ updateNumericInput(session, "wgt_rse_val", value = input$wgt_rse) })
 	observe({ updateSliderInput(session, "wgt_rse", value = input$wgt_rse_val) })
-	observe({ updateNumericInput(session, "wgt_eff_val", value = input$wgt_eff) })
+	#observe({ updateNumericInput(session, "wgt_eff_val", value = input$wgt_eff) })
 	observe({ updateSliderInput(session, "wgt_eff", value = input$wgt_eff_val) })
 
 	observeEvent(input$interventionTypes, { 
@@ -509,7 +508,7 @@ server <- function(input, output, session) {
 			strong(em("Levels (best to worst):")),
 			tags$ul(
 				tags$li(strong("Low:"), "1 in 4 chance (25%)"),
-				tags$li(strong("Medium:"), "2 in 4 chance (50%)"),
+				tags$li(strong("Moderate:"), "2 in 4 chance (50%)"),
 				tags$li(strong("High:"), "3 in 4 chance (75%)")
 			),
 			easyClose = TRUE, footer = NULL
@@ -523,7 +522,7 @@ server <- function(input, output, session) {
 			strong(em("Levels (best to worst):")),
 			tags$ul(
 				tags$li(strong("Low:"), "1 in 500 chance (0.2%)"),
-				tags$li(strong("Medium:"), "1 in 200 chance (0.5%)"),
+				tags$li(strong("Moderate:"), "1 in 200 chance (0.5%)"),
 				tags$li(strong("High:"), "1 in 50 chance (2%)")
 			),
 			easyClose = TRUE, footer = NULL
@@ -553,4 +552,4 @@ server <- function(input, output, session) {
 
 
 # Run app
-shinyApp(ui = ui, server = server)
+shinyApp(ui = htmlTemplate("www/index.html"), server = server)
