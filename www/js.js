@@ -21,11 +21,15 @@ updateWeights("wgt_rse", "wgt_rse_val");
 updateWeights("wgt_eff", "wgt_eff_val");
 
 //Toggle options and weights panels
-options_tab.addEventListener("click", function(){
-  // if (options_panel.style.display === "none") {
-  //       options_panel.style.display = "block";
-  //   } else {
-  //       options_panel.style.display = "none";
-  //   }
-    alert("yo");
-});
+function togglePanel(tab, panel) {
+  tab.addEventListener("click", function(){
+    if (panel.style.display === "none") {
+          panel.style.display = "block";
+      } else {
+          panel.style.display = "none";
+      }
+  });
+}
+
+togglePanel(options_tab, options_panel);
+togglePanel(weights_tab, weights_panel);

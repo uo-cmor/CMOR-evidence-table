@@ -72,8 +72,8 @@
         <form class="well">
 
           <!-- Options section -->
-          <div class="row options">
-            <div class="col-sm-3 col-xs-6 col-md-2 col-lg-4">
+          <div class="row options" style="display:none;">
+            <div class="col-sm-3 col-xs-6 col-md-2 col-lg-6">
               <strong>Disease Stage:</strong>
               <a id="helpDiseaseStage" href="#" class="action-button">
                 <i class="fa fa-info-circle"></i>
@@ -107,7 +107,7 @@
                 </div> <!--.shiny-options-group-->
               </div> <!--.form-group-->
             </div> <!--.col-sm-3-->
-            <div class="col-sm-3 col-xs-6 col-md-2 col-lg-4">
+            <div class="col-sm-3 col-xs-6 col-md-2 col-lg-6">
               <strong>Source of Evidence:</strong>
               <a id="helpEvidence" href="#" class="action-button">
                 <i class="fa fa-info-circle"></i>
@@ -123,21 +123,90 @@
                 </div>
               </div>
             </div> <!--.col-sm-3-->
-            <div class="col-sm-3 col-xs-6 col-md-2 col-lg-4">
+            <div class="col-sm-6 col-xs-6 col-lg-12">
               <strong>Interventions:</strong>
               <a id="helpInterventions" href="#" class="action-button">
-                <i class="fa fa-info-circle"></i>
+               <i class="fa fa-info-circle"></i>
               </a>
+              <br/>
+              <a id="allInterventions" href="#" class="action-button">(select all)</a>
+              <a id="noInterventions" href="#" class="action-button">(select none)</a>
               <div id="interventionTypes" class="form-group shiny-input-checkboxgroup shiny-input-container">
-                <div class="shiny-options-group">
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox" name="interventionTypes" value="All" checked="checked"/>
-                      <span>All</span>
-                    </label>
-                  </div>
-                </div>
-              </div>
+               <div class="shiny-options-group">
+                 <div class="checkbox">
+                   <label>
+                     <input type="checkbox" name="interventionTypes" value="Self-management and education interventions" checked="checked"/>
+                     <span>Self-management and education interventions</span>
+                   </label>
+                 </div>
+                 <div class="checkbox">
+                   <label>
+                     <input type="checkbox" name="interventionTypes" value="Psychological interventions" checked="checked"/>
+                     <span>Psychological interventions</span>
+                   </label>
+                 </div>
+                 <div class="checkbox">
+                   <label>
+                     <input type="checkbox" name="interventionTypes" value="Exercise interventions" checked="checked"/>
+                     <span>Exercise interventions</span>
+                   </label>
+                 </div>
+                 <div class="checkbox">
+                   <label>
+                     <input type="checkbox" name="interventionTypes" value="Other physical therapies" checked="checked"/>
+                     <span>Other physical therapies</span>
+                   </label>
+                 </div>
+                 <div class="checkbox">
+                   <label>
+                     <input type="checkbox" name="interventionTypes" value="Weight management" checked="checked"/>
+                     <span>Weight management</span>
+                   </label>
+                 </div>
+                 <div class="checkbox">
+                   <label>
+                     <input type="checkbox" name="interventionTypes" value="Mechanical aids and devices" checked="checked"/>
+                     <span>Mechanical aids and devices</span>
+                   </label>
+                 </div>
+                 <div class="checkbox">
+                   <label>
+                     <input type="checkbox" name="interventionTypes" value="Electrotherapies" checked="checked"/>
+                     <span>Electrotherapies</span>
+                   </label>
+                 </div>
+                 <div class="checkbox">
+                   <label>
+                     <input type="checkbox" name="interventionTypes" value="Pharmacological interventions (over the counter)" checked="checked"/>
+                     <span>Pharmacological interventions (over the counter)</span>
+                   </label>
+                 </div>
+                 <div class="checkbox">
+                   <label>
+                     <input type="checkbox" name="interventionTypes" value="Pharmacological interventions (prescription medication only)" checked="checked"/>
+                     <span>Pharmacological interventions (prescription medication only)</span>
+                   </label>
+                 </div>
+                 <div class="checkbox">
+                   <label>
+                     <input type="checkbox" name="interventionTypes" value="Injectable agents" checked="checked"/>
+                     <span>Injectable agents</span>
+                   </label>
+                 </div>
+                 <div class="checkbox">
+                   <label>
+                     <input type="checkbox" name="interventionTypes" value="Alternative medicines" checked="checked"/>
+                     <span>Alternative medicines</span>
+                   </label>
+                 </div>
+                 <div class="checkbox">
+                   <label>
+                     <input type="checkbox" name="interventionTypes" value="Surgical interventions" checked="checked"/>
+                     <span>Surgical interventions</span>
+                   </label>
+                 </div>
+               </div> <!--.shiny-options-group-->
+             </div> <!--.interventionTypes-->
             </div> <!--.col-sm-3-->
             <div class="col-xs-12 col-sm-3 col-md-6 col-lg-12">
               <div class="row">
@@ -151,82 +220,104 @@
                   <div class="form-group shiny-input-container">
                    <div>
                      <select id="interventions" multiple="multiple"><option value="">(All)</option>
-    <optgroup label="All">
-    <option value="self-management education programs">self-management education programs</option>
-    <option value="Cognitive behavioural therapy">Cognitive behavioural therapy</option>
-    <option value="ALL LAND-BASED EXERCISE (all land based, muscle-strengthening, walking, Tai Chi)">ALL LAND-BASED EXERCISE (all land based, muscle-strengthening, walking, Tai Chi)</option>
-    <option value="Knee exercise: MUSCLE STRENGTHENING ONLY for quadriceps strengthening">Knee exercise: MUSCLE STRENGTHENING ONLY for quadriceps strengthening</option>
-    <option value="Knee exercise: MUSCLE STRENGTHENING ONLY for lower limb strengthening">Knee exercise: MUSCLE STRENGTHENING ONLY for lower limb strengthening</option>
-    <option value="Knee exercise: Walking only">Knee exercise: Walking only</option>
-    <option value="Knee exercise: Cycling only">Knee exercise: Cycling only</option>
-    <option value="Knee exercise: Tai Chi only">Knee exercise: Tai Chi only</option>
-    <option value="Knee exercise: Yoga only">Knee exercise: Yoga only</option>
-    <option value="Knee exercise: Land-based exercise (stationary cycling, hatha yoga)">Knee exercise: Land-based exercise (stationary cycling, hatha yoga)</option>
-    <option value="Aquatic exercise/ hydrotherapy">Aquatic exercise/ hydrotherapy</option>
-    <option value="Manual therapy (massage)">Manual therapy (massage)</option>
-    <option value="Manual therapy (mobilisation and manipulation)">Manual therapy (mobilisation and manipulation)</option>
-    <option value="Weight management">Weight management</option>
-    <option value="Heat therapy">Heat therapy</option>
-    <option value="Cold therapy">Cold therapy</option>
-    <option value="Knee braces (varus unloading/re-alignment braces)">Knee braces (varus unloading/re-alignment braces)</option>
-    <option value="Knee braces (valgus unloading/re-alignment braces)">Knee braces (valgus unloading/re-alignment braces)</option>
-    <option value="Knee braces (re-aligning patellofemoral braces)">Knee braces (re-aligning patellofemoral braces)</option>
-    <option value="Shoe orthotics (shock absorbing insoles or arch supports)">Shoe orthotics (shock absorbing insoles or arch supports)</option>
-    <option value="Shoe orthotics (lateral wedge insoles for medial tibiofemoral knee OA)">Shoe orthotics (lateral wedge insoles for medial tibiofemoral knee OA)</option>
-    <option value="Shoe orthotics (medial wedged insoles for lateral tibiofemoral OA and valgus deformity)">Shoe orthotics (medial wedged insoles for lateral tibiofemoral OA and valgus deformity)</option>
-    <option value="Footwear (unloading shoes)">Footwear (unloading shoes)</option>
-    <option value="Footwear (minimalist footwear)">Footwear (minimalist footwear)</option>
-    <option value="Footwear (rocker soled shoes)">Footwear (rocker soled shoes)</option>
-    <option value="Taping (patellar taping)">Taping (patellar taping)</option>
-    <option value="Taping (kinesio taping)">Taping (kinesio taping)</option>
-    <option value="Assistive walking device">Assistive walking device</option>
-    <option value="Pulsed electromagnetic/ shortwave therapy">Pulsed electromagnetic/ shortwave therapy</option>
-    <option value="Other electrotherapy (laser)">Other electrotherapy (laser)</option>
-    <option value="Other electrotherapy (shock wave)">Other electrotherapy (shock wave)</option>
-    <option value="Other electrotherapy (interferential)">Other electrotherapy (interferential)</option>
-    <option value="Transcutaneous electrical nerve stimulation (TENS)">Transcutaneous electrical nerve stimulation (TENS)</option>
-    <option value="Therapeutic ultrasound">Therapeutic ultrasound</option>
-    <option value="Acupuncture (traditional and electroacupuncture)">Acupuncture (traditional and electroacupuncture)</option>
-    <option value="Acupuncture (laser)">Acupuncture (laser)</option>
-    <option value="Paracetamol">Paracetamol</option>
-    <option value="Oral non-steroidal anti-inflammatory drugs (NSAIDs) including COX-2 inhibitors">Oral non-steroidal anti-inflammatory drugs (NSAIDs) including COX-2 inhibitors</option>
-    <option value="Oral opioids">Oral opioids</option>
-    <option value="Topical NSAIDs">Topical NSAIDs</option>
-    <option value="Transdermal buprenorphine">Transdermal buprenorphine</option>
-    <option value="Transdermal Fentanyl">Transdermal Fentanyl</option>
-    <option value="Topical capsaicin">Topical capsaicin</option>
-    <option value="Duloxetine">Duloxetine</option>
-    <option value="Strontium ranelate">Strontium ranelate</option>
-    <option value="Fibroblast growth factor (FGF)">Fibroblast growth factor (FGF)</option>
-    <option value="Doxycycline">Doxycycline</option>
-    <option value="Biphosphonates">Biphosphonates</option>
-    <option value="Calcitonin">Calcitonin</option>
-    <option value="Interleukin-1 (IL-1) inhibitors">Interleukin-1 (IL-1) inhibitors</option>
-    <option value="Anti-nerve growth factor (NGF)">Anti-nerve growth factor (NGF)</option>
-    <option value="Colchicine">Colchicine</option>
-    <option value="Methotrexate">Methotrexate</option>
-    <option value="Corticosteroid injection">Corticosteroid injection</option>
-    <option value="Viscosupplementation injection">Viscosupplementation injection</option>
-    <option value="Platelet-rich plasma (PRP) injection">Platelet-rich plasma (PRP) injection</option>
-    <option value="Stem cell therapy">Stem cell therapy</option>
-    <option value="Dextrose prolotherapy">Dextrose prolotherapy</option>
-    <option value="Avocado-soybean unsaponifiables">Avocado-soybean unsaponifiables</option>
-    <option value="Boswellia serrata extract">Boswellia serrata extract</option>
-    <option value="Curcuma/curcuminoid">Curcuma/curcuminoid</option>
-    <option value="Pycnogenol">Pycnogenol</option>
-    <option value="Glucosamine">Glucosamine</option>
-    <option value="Chondroitin">Chondroitin</option>
-    <option value="Glucosamine and chondroitin in compound form">Glucosamine and chondroitin in compound form</option>
-    <option value="Vitamin D">Vitamin D</option>
-    <option value="Omega-3 fatty acids">Omega-3 fatty acids</option>
-    <option value="Collagen">Collagen</option>
-    <option value="Methylsulfonylmethane">Methylsulfonylmethane</option>
-    <option value="Diacerein">Diacerein</option>
-    <option value="Arthroscopic lavage and debridement">Arthroscopic lavage and debridement</option>
-    <option value="Arthroscopic meniscectomy ">Arthroscopic meniscectomy </option>
-    <option value="Arthroscopic cartilage repair ">Arthroscopic cartilage repair </option>
-    <option value="Total Joint Replacement">Total Joint Replacement</option>
-    </optgroup>
+                       <optgroup label="Alternative medicines">
+                   		   <option value="Avocado-soybean unsaponifiables">Avocado-soybean unsaponifiables</option>
+                   		 	 <option value="Boswellia serrata extract">Boswellia serrata extract</option>
+                   		 	 <option value="Curcuma/curcuminoid">Curcuma/curcuminoid</option>
+                   		 	 <option value="Pycnogenol">Pycnogenol</option>
+                   		 	 <option value="Glucosamine">Glucosamine</option>
+                   		 	 <option value="Chondroitin">Chondroitin</option>
+                   		 	 <option value="Glucosamine and chondroitin in compound form">Glucosamine and chondroitin in compound form</option>
+                   		 	 <option value="Vitamin D">Vitamin D</option>
+                   		 	 <option value="Omega-3 fatty acids">Omega-3 fatty acids</option>
+                   		 	 <option value="Collagen">Collagen</option>
+                   		   <option value="Methylsulfonylmethane">Methylsulfonylmethane</option>
+                   		 </optgroup>
+                   		 <optgroup label="Electrotherapies">
+                   		   <option value="Pulsed electromagnetic/ shortwave therapy">Pulsed electromagnetic/ shortwave therapy</option>
+                   		 	 <option value="Other electrotherapy (interferential)">Other electrotherapy (interferential)</option>
+                   		 	 <option value="Other electrotherapy (laser)">Other electrotherapy (laser)</option>
+                   		 	 <option value="Other electrotherapy (shock wave)">Other electrotherapy (shock wave)</option>
+                   		 	 <option value="Transcutaneous electrical nerve stimulation (TENS)">Transcutaneous electrical nerve stimulation (TENS)</option>
+                   		 	 <option value="Therapeutic ultrasound">Therapeutic ultrasound</option>
+                   		 	 <option value="Acupuncture (laser)">Acupuncture (laser)</option>
+                   		 	 <option value="Acupuncture (traditional and electroacupuncture)">Acupuncture (traditional and electroacupuncture)</option>
+                   		 </optgroup>
+                   		 <optgroup label="Exercise interventions">
+                   		   <option value="ALL LAND-BASED EXERCISE (all land based, muscle-strengthening, walking, Tai Chi)">ALL LAND-BASED EXERCISE (all land based, muscle-strengthening, walking, Tai Chi)</option>
+                   		 	 <option value="Aquatic exercise/ hydrotherapy">Aquatic exercise/ hydrotherapy</option>
+                   		 	 <option value="Knee exercise: Cycling only">Knee exercise: Cycling only</option>
+                   		 	 <option value="Knee exercise: Land-based exercise (stationary cycling, hatha yoga)">Knee exercise: Land-based exercise (stationary cycling, hatha yoga)</option>
+                   		 	 <option value="Knee exercise: MUSCLE STRENGTHENING ONLY for lower limb strengthening">Knee exercise: MUSCLE STRENGTHENING ONLY for lower limb strengthening</option>
+                   		 	 <option value="Knee exercise: MUSCLE STRENGTHENING ONLY for quadriceps strengthening">Knee exercise: MUSCLE STRENGTHENING ONLY for quadriceps strengthening</option>
+                   		 	 <option value="Knee exercise: Tai Chi only">Knee exercise: Tai Chi only</option>
+                   		 	 <option value="Knee exercise: Walking only">Knee exercise: Walking only</option>
+                   		 	 <option value="Knee exercise: Yoga only">Knee exercise: Yoga only</option>
+                   		 </optgroup>
+                   		 <optgroup label="Injectable agents">
+                   		    <option value="Viscosupplementation injection">Viscosupplementation injection</option>
+                   		 	 <option value="Platelet-rich plasma (PRP) injection">Platelet-rich plasma (PRP) injection</option>
+                   		 	 <option value="Stem cell therapy">Stem cell therapy</option>
+                   		 	 <option value="Dextrose prolotherapy">Dextrose prolotherapy</option>
+                   		 	 <option value="Fibroblast growth factor (FGF)">Fibroblast growth factor (FGF)</option>
+                   		 	 <option value="Corticosteroid injection">Corticosteroid injection</option>
+                   		 </optgroup>
+                   		 <optgroup label="Mechanical aids and devices">
+                   		   <option value="Knee braces (re-aligning patellofemoral braces)">Knee braces (re-aligning patellofemoral braces)</option>
+                   		 	 <option value="Knee braces (valgus unloading/re-alignment braces)">Knee braces (valgus unloading/re-alignment braces)</option>
+                   		 	 <option value="Knee braces (varus unloading/re-alignment braces)">Knee braces (varus unloading/re-alignment braces)</option>
+                   		 	 <option value="Shoe orthotics (lateral wedge insoles for medial tibiofemoral knee OA)">Shoe orthotics (lateral wedge insoles for medial tibiofemoral knee OA)</option>
+                   		 	 <option value="Shoe orthotics (medial wedged insoles for lateral tibiofemoral OA and valgus deformity)">Shoe orthotics (medial wedged insoles for lateral tibiofemoral OA and valgus deformity)</option>
+                   		 	 <option value="Shoe orthotics (shock absorbing insoles or arch supports)">Shoe orthotics (shock absorbing insoles or arch supports)</option>
+                   		 	 <option value="Footwear (minimalist footwear)">Footwear (minimalist footwear)</option>
+                   		 	 <option value="Footwear (rocker soled shoes)">Footwear (rocker soled shoes)</option>
+                   		 	 <option value="Footwear (unloading shoes)">Footwear (unloading shoes)</option>
+                   		 	 <option value="Taping (kinesio taping)">Taping (kinesio taping)</option>
+                   		 	 <option value="Taping (patellar taping)">Taping (patellar taping)</option>
+                   		 	 <option value="Assistive walking device">Assistive walking device</option>
+                   		 </optgroup>
+                   		 <optgroup label="Pharmacological interventions (over the counter)">
+                   		   <option value="Paracetamol">Paracetamol</option>
+                   			 <option value="Topical capsaicin">Topical capsaicin</option>
+                   			 <option value="Topical NSAIDs">Topical NSAIDs</option>
+                   		 </optgroup>
+                   		 <optgroup label="Pharmacological interventions (prescription medication only)">
+                   		 	 <option value="Interleukin-1 (IL-1) inhibitors">Interleukin-1 (IL-1) inhibitors</option>
+                   		 	 <option value="Methotrexate">Methotrexate</option>
+                   		 	 <option value="Oral opioids">Oral opioids</option>
+                   		 	 <option value="Transdermal buprenorphine">Transdermal buprenorphine</option>
+                   		 	 <option value="Transdermal Fentanyl">Transdermal Fentanyl</option>
+                   		 	 <option value="Colchicine">Colchicine</option>
+                   		 	 <option value="Anti-nerve growth factor (NGF)">Anti-nerve growth factor (NGF)</option>
+                   		 	 <option value="Calcitonin">Calcitonin</option>
+                   		 	 <option value="Biphosphonates">Biphosphonates</option>
+                   		 	 <option value="Doxycycline">Doxycycline</option>
+                   		 	 <option value="Oral non-steroidal anti-inflammatory drugs (NSAIDs) including COX-2 inhibitors">Oral non-steroidal anti-inflammatory drugs (NSAIDs) including COX-2 inhibitors</option>
+                   		 	 <option value="Diacerein">Diacerein</option>
+                   		 	 <option value="Duloxetine">Duloxetine</option>
+                   		   <option value="Strontium ranelate">Strontium ranelate</option>
+                   		 </optgroup>
+                   		 <optgroup label="Psychological interventions">
+                   		   <option value="Cognitive behavioural therapy">Cognitive behavioural therapy</option>
+                   		 </optgroup>
+                   		 <optgroup label="Other physical therapies">
+                   		   <option value="Manual therapy (massage)">Manual therapy (massage)</option>
+                   			 <option value="Manual therapy (mobilisation and manipulation)">Manual therapy (mobilisation and manipulation)</option>
+                   		 </optgroup>
+                   		 <optgroup label="Self-management and education interventions">
+                   		   <option value="self-management education programs">self-management education programs</option>
+                   			 <option value="Heat therapy">Heat therapy</option>
+                   			 <option value="Cold therapy">Cold therapy</option>
+                   		 </optgroup>
+                   		 <optgroup label="Surgical interventions">
+                   		   <option value="Arthroscopic cartilage repair ">Arthroscopic cartilage repair </option>
+                   		 	 <option value="Arthroscopic lavage and debridement">Arthroscopic lavage and debridement</option>
+                   		 	 <option value="Arthroscopic meniscectomy ">Arthroscopic meniscectomy </option>
+                   		 	 <option value="Total Joint Replacement">Total Joint Replacement</option>
+                   		 </optgroup>
+                   		 <optgroup label="Weight management">
+                   		   <option value="Weight management">Weight management</option>
+                   		 </optgroup>
                      </select>
                      <script type="application/json" data-for="interventions">{}</script>
                     </div>
@@ -237,7 +328,7 @@
           </div> <!--.row--> <!-- End of options section-->
 
           <!-- Weights section -->
-          <div class="weights">
+          <div class="weights" style="display:none;">
             <div class="row">
               <div class="col-xs-6">
                 <strong>Preference Weights:</strong>
