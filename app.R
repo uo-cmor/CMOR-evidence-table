@@ -232,6 +232,7 @@ server <- function(input, output, session) {
 										threshold = 0, maxpoints = 1)$Intervention
 		labels <- printTableValues() %>% filter(Intervention %in% sel)
 		values <- plotdata() %>% filter(Intervention %in% sel) %>% spread(attribute, value)
+		if (length(sel)>0) values <- values %>% mutate_at(names(attributeNames), round, 1)
 		
 		selectedIntervention$name <- sel
 		selectedIntervention$label <- 
