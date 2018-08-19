@@ -1,73 +1,121 @@
+
 <!DOCTYPE html>
 <html>
 <head>
 
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <script type="application/shiny-singletons"></script>
-  <script type="application/html-dependencies">json2[2014.02.04];jquery[1.12.4];shiny[1.1.0];ionrangeslider[2.1.6];strftime[0.9.2];htmlwidgets[1.2];datatables-css[0.0.0];datatables-binding[0.4];crosstalk[1.0.0];bootstrap[3.3.7]</script>
-<script src="shared/json2-min.js"></script>
-<script src="shared/jquery.min.js"></script>
-<link href="shared/shiny.css" rel="stylesheet" />
-<script src="shared/shiny.min.js"></script>
-<link href="shared/ionrangeslider/css/ion.rangeSlider.css" rel="stylesheet" />
-<link href="shared/ionrangeslider/css/ion.rangeSlider.skinShiny.css" rel="stylesheet" />
-<script src="shared/ionrangeslider/js/ion.rangeSlider.min.js"></script>
-<script src="shared/strftime/strftime-min.js"></script>
-<script src="htmlwidgets-1.2/htmlwidgets.js"></script>
-<link href="datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="datatables-binding-0.4/datatables.js"></script>
-<link href="crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
-<script src="crosstalk-1.0.0/js/crosstalk.min.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="shared/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-<script src="shared/bootstrap/js/bootstrap.min.js"></script>
-<script src="shared/bootstrap/shim/html5shiv.min.js"></script>
-<script src="shared/bootstrap/shim/respond.min.js"></script>  
-<title>CMOR Evidence Table and Preference Ranking for OA Interventions</title>
+  <script type="application/html-dependencies">json2[2014.02.04];jquery[1.12.4];shiny[1.1.0];font-awesome[4.7.0];selectize[0.11.2];ionrangeslider[2.1.6];strftime[0.9.2];htmlwidgets[1.2];datatables-css[0.0.0];datatables-binding[0.4];crosstalk[1.0.0];bootstrap[3.3.7]</script>
+	<script src="shared/json2-min.js"></script>
+	<script src="shared/jquery.min.js"></script>
+	<link href="shared/shiny.css" rel="stylesheet" />
+	<script src="shared/shiny.min.js"></script>
+	<link href="shared/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+	<link href="shared/selectize/css/selectize.bootstrap3.css" rel="stylesheet" />
+	<!--[if lt IE 9]>
+	<script src="shared/selectize/js/es5-shim.min.js"></script>
+	<![endif]-->
+	<script src="shared/selectize/js/selectize.min.js"></script>
+	<link href="shared/ionrangeslider/css/ion.rangeSlider.css" rel="stylesheet" />
+	<link href="shared/ionrangeslider/css/ion.rangeSlider.skinShiny.css" rel="stylesheet" />
+	<script src="shared/ionrangeslider/js/ion.rangeSlider.min.js"></script>
+	<script src="shared/strftime/strftime-min.js"></script>
+	<script src="htmlwidgets.js"></script>
+	<link href="datatables-crosstalk.css" rel="stylesheet" />
+	<script src="datatables.js"></script>
+	<link href="crosstalk.css" rel="stylesheet" />
+	<script src="crosstalk.min.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link href="shared/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+	<script src="shared/bootstrap/js/bootstrap.min.js"></script>
+	<script src="shared/bootstrap/shim/html5shiv.min.js"></script>
+	<script src="shared/bootstrap/shim/respond.min.js"></script>  <title>CMOR Evidence Table</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 
 </head>
 
 <body>
   <div class="container-fluid">
     <h2>CMOR Evidence Table and Preference Ranking for OA Interventions</h2>
+    <p>
+      This application provides access to evidence tables for osteoarthritis interventions used in the project
+      'The impact and management of rising osteoarthritis burden'.
+      These data are preliminary and should not be cited as is.
+    </p>
+    <!-- Navigation panel -->
     <div class="row">
-      <div class="col-sm-3">
+      <div class="col-lg-3"></div>
+      <div class="col-lg-9">
+        <ul class="nav nav-tabs" data-tabsetid="9829">
+          <li class="active">
+            <a href="#tab-9829-1" data-toggle="tab" data-value="Evidence Table">Evidence Table</a>
+          </li>
+          <li>
+            <a href="#tab-9829-2" data-toggle="tab" data-value="Plot">Plot</a>
+          </li>
+          <li>
+            <a id="options-tab" href="#">Options <span class="fas fa-angle-down"></span></a>
+          </li>
+          <li>
+            <a id="interventions-tab" href="#">Interventions <span class="fas fa-angle-down"></span></a>
+          </li>
+          <li>
+            <a id="weights-tab" href="#">Weights <span class="fas fa-angle-down"></span></a>
+          </li>
+        </ul>
+      </div> <!--col-lg-9-->
+    </div> <!--row-->
+
+    <!-- Main -->
+    <div class="row">
+
+      <!-- Side/top panel -->
+      <div class="col-lg-3">
         <form class="well">
-          <div class="row">
-            <div class="col-sm-4">
-              <div id="diseaseStage" class="form-group shiny-input-radiogroup shiny-input-container">
-                <label class="control-label" for="diseaseStage">Disease Stage</label>
+
+          <!-- Options section -->
+          <div class="row options" style="display:none;">
+            <div class="col-xs-6 col-sm-7 col-md-6">
+              <strong>Disease Stage:</strong>
+              <a id="helpDiseaseStage" href="#" class="action-button">
+                <i class="fa fa-info-circle"></i>
+              </a>
+              <div id="diseaseStage" class="form-group shiny-input-radiogroup shiny-input-container clearfix">
                 <div class="shiny-options-group">
-                  <div class="radio">
+                  <div class="radio first">
                     <label>
                       <input type="radio" name="diseaseStage" value="Overall" checked="checked"/>
                       <span>Overall</span>
                     </label>
-                  </div>
-                  <div class="radio">
+                  </div> <!--.radio-->
+                  <div class="radio" >
                     <label>
                       <input type="radio" name="diseaseStage" value="Early"/>
                       <span>Early</span>
                     </label>
-                  </div>
+                  </div> <!--.radio-->
                   <div class="radio">
                     <label>
                       <input type="radio" name="diseaseStage" value="Mid"/>
                       <span>Mid</span>
                     </label>
-                  </div>
+                  </div> <!--.radio-->
                   <div class="radio">
                     <label>
                       <input type="radio" name="diseaseStage" value="Late"/>
                       <span>Late</span>
                     </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-4">
+                  </div> <!--.radio-->
+                </div> <!--.shiny-options-group-->
+              </div> <!--.form-group-->
+            </div> <!--.col-xs-6-->
+            <div class="col-xs-6 col-sm-5 col-md-6">
+              <strong>Source of Evidence:</strong>
+              <a id="helpEvidence" href="#" class="action-button">
+                <i class="fa fa-info-circle"></i>
+              </a>
               <div id="evidence" class="form-group shiny-input-checkboxgroup shiny-input-container">
-                <label class="control-label" for="evidence">Source of Evidence:</label>
                 <div class="shiny-options-group">
                   <div class="checkbox">
                     <label>
@@ -77,167 +125,406 @@
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="col-sm-4">
-              <div id="interventions" class="form-group shiny-input-checkboxgroup shiny-input-container">
-                <label class="control-label" for="interventions">Interventions:</label>
-                <div class="shiny-options-group">
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox" name="interventions" value="1" checked="checked"/>
-                      <span>All</span>
-                    </label>
+            </div> <!--.col-xs-6-->
+          </div> <!--.row--> <!-- End of options section-->
+
+          <!-- Interventions section -->
+          <div class="row interventions" style="display:none;">
+
+            <div class="row">
+              <div class="col-xs-12">
+                <strong>Interventions:</strong>
+                <a id="helpInterventions" href="#" class="action-button">
+                 <i class="fa fa-info-circle"></i>
+                </a>
+                <br/>
+                <a id="allInterventions" href="#" class="action-button">(select all)</a>
+                <a id="noInterventions" href="#" class="action-button">(select none)</a>
+              </div> <!--.col-xs-12-->
+            </div> <!--.row-->
+
+            <div class="row">
+              <div id="interventionTypes" class="control-label shiny-input-checkboxgroup shiny-input-container">
+               <div class="shiny-options-group">
+
+                 <div class="col-sm-4 col-lg-12">
+                   <div class="checkbox">
+                     <label>
+                       <input type="checkbox" name="interventionTypes" value="Self-management and education interventions" checked="checked"/>
+                       <span>Self-management and education interventions</span>
+                     </label>
+                   </div>
+                   <div class="checkbox">
+                     <label>
+                       <input type="checkbox" name="interventionTypes" value="Psychological interventions" checked="checked"/>
+                       <span>Psychological interventions</span>
+                     </label>
+                   </div>
+                   <div class="checkbox">
+                     <label>
+                       <input type="checkbox" name="interventionTypes" value="Exercise interventions" checked="checked"/>
+                       <span>Exercise interventions</span>
+                     </label>
+                   </div>
+                   <div class="checkbox">
+                     <label>
+                       <input type="checkbox" name="interventionTypes" value="Other physical therapies" checked="checked"/>
+                       <span>Other physical therapies</span>
+                     </label>
+                   </div>
+                   <div class="checkbox">
+                     <label>
+                       <input type="checkbox" name="interventionTypes" value="Weight management" checked="checked"/>
+                       <span>Weight management</span>
+                     </label>
+                   </div>
+                   <div class="checkbox">
+                     <label>
+                       <input type="checkbox" name="interventionTypes" value="Mechanical aids and devices" checked="checked"/>
+                       <span>Mechanical aids and devices</span>
+                     </label>
+                   </div>
+                   <div class="checkbox">
+                     <label>
+                       <input type="checkbox" name="interventionTypes" value="Electrotherapies" checked="checked"/>
+                       <span>Electrotherapies</span>
+                     </label>
+                   </div>
+                 </div> <!--.col-sm-4-->
+
+                  <div class="col-sm-4 col-lg-12">
+                    <div class="checkbox" id="break-checkbox">
+                      <label>
+                        <input type="checkbox" name="interventionTypes" value="Pharmacological interventions (over the counter)" checked="checked"/>
+                        <span>Pharmacological interventions (over the counter)</span>
+                      </label>
+                    </div>
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" name="interventionTypes" value="Pharmacological interventions (prescription medication only)" checked="checked"/>
+                        <span>Pharmacological interventions (prescription medication only)</span>
+                      </label>
+                    </div>
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" name="interventionTypes" value="Injectable agents" checked="checked"/>
+                        <span>Injectable agents</span>
+                      </label>
+                    </div>
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" name="interventionTypes" value="Alternative medicines" checked="checked"/>
+                        <span>Alternative medicines</span>
+                      </label>
+                    </div>
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" name="interventionTypes" value="Surgical interventions" checked="checked"/>
+                        <span>Surgical interventions</span>
+                      </label>
+                    </div>
+                  </div> <!--.col-sm-4-->
+
+                  <div class="col-sm-4 col-lg-12">
+                    <div class="row">
+                      <div class="col-lg-2 col-sm-12">
+                        <strong>Filter: </strong>
+                        <div>
+                          <a id="clearFilter" href="#" class="action-button">(Clear)</a>
+                        </div>
+                      </div> <!--.col-lg-2-->
+                      <div class="col-lg-10 col-sm-12">
+                        <div class="form-group shiny-input-container">
+                         <div>
+                           <select id="interventions" multiple="multiple"><option value="">(All)</option>
+                             <optgroup label="Alternative medicines">
+                         		   <option value="Avocado-soybean unsaponifiables">Avocado-soybean unsaponifiables</option>
+                         		 	 <option value="Boswellia serrata extract">Boswellia serrata extract</option>
+                         		 	 <option value="Curcuma/curcuminoid">Curcuma/curcuminoid</option>
+                         		 	 <option value="Pycnogenol">Pycnogenol</option>
+                         		 	 <option value="Glucosamine">Glucosamine</option>
+                         		 	 <option value="Chondroitin">Chondroitin</option>
+                         		 	 <option value="Glucosamine and chondroitin in compound form">Glucosamine and chondroitin in compound form</option>
+                         		 	 <option value="Vitamin D">Vitamin D</option>
+                         		 	 <option value="Omega-3 fatty acids">Omega-3 fatty acids</option>
+                         		 	 <option value="Collagen">Collagen</option>
+                         		   <option value="Methylsulfonylmethane">Methylsulfonylmethane</option>
+                         		 </optgroup>
+                         		 <optgroup label="Electrotherapies">
+                         		   <option value="Pulsed electromagnetic/ shortwave therapy">Pulsed electromagnetic/ shortwave therapy</option>
+                         		 	 <option value="Other electrotherapy (interferential)">Other electrotherapy (interferential)</option>
+                         		 	 <option value="Other electrotherapy (laser)">Other electrotherapy (laser)</option>
+                         		 	 <option value="Other electrotherapy (shock wave)">Other electrotherapy (shock wave)</option>
+                         		 	 <option value="Transcutaneous electrical nerve stimulation (TENS)">Transcutaneous electrical nerve stimulation (TENS)</option>
+                         		 	 <option value="Therapeutic ultrasound">Therapeutic ultrasound</option>
+                         		 	 <option value="Acupuncture (laser)">Acupuncture (laser)</option>
+                         		 	 <option value="Acupuncture (traditional and electroacupuncture)">Acupuncture (traditional and electroacupuncture)</option>
+                         		 </optgroup>
+                         		 <optgroup label="Exercise interventions">
+                         		   <option value="ALL LAND-BASED EXERCISE (all land based, muscle-strengthening, walking, Tai Chi)">ALL LAND-BASED EXERCISE (all land based, muscle-strengthening, walking, Tai Chi)</option>
+                         		 	 <option value="Aquatic exercise/ hydrotherapy">Aquatic exercise/ hydrotherapy</option>
+                         		 	 <option value="Knee exercise: Cycling only">Knee exercise: Cycling only</option>
+                         		 	 <option value="Knee exercise: Land-based exercise (stationary cycling, hatha yoga)">Knee exercise: Land-based exercise (stationary cycling, hatha yoga)</option>
+                         		 	 <option value="Knee exercise: MUSCLE STRENGTHENING ONLY for lower limb strengthening">Knee exercise: MUSCLE STRENGTHENING ONLY for lower limb strengthening</option>
+                         		 	 <option value="Knee exercise: MUSCLE STRENGTHENING ONLY for quadriceps strengthening">Knee exercise: MUSCLE STRENGTHENING ONLY for quadriceps strengthening</option>
+                         		 	 <option value="Knee exercise: Tai Chi only">Knee exercise: Tai Chi only</option>
+                         		 	 <option value="Knee exercise: Walking only">Knee exercise: Walking only</option>
+                         		 	 <option value="Knee exercise: Yoga only">Knee exercise: Yoga only</option>
+                         		 </optgroup>
+                         		 <optgroup label="Injectable agents">
+                         		    <option value="Viscosupplementation injection">Viscosupplementation injection</option>
+                         		 	 <option value="Platelet-rich plasma (PRP) injection">Platelet-rich plasma (PRP) injection</option>
+                         		 	 <option value="Stem cell therapy">Stem cell therapy</option>
+                         		 	 <option value="Dextrose prolotherapy">Dextrose prolotherapy</option>
+                         		 	 <option value="Fibroblast growth factor (FGF)">Fibroblast growth factor (FGF)</option>
+                         		 	 <option value="Corticosteroid injection">Corticosteroid injection</option>
+                         		 </optgroup>
+                         		 <optgroup label="Mechanical aids and devices">
+                         		   <option value="Knee braces (re-aligning patellofemoral braces)">Knee braces (re-aligning patellofemoral braces)</option>
+                         		 	 <option value="Knee braces (valgus unloading/re-alignment braces)">Knee braces (valgus unloading/re-alignment braces)</option>
+                         		 	 <option value="Knee braces (varus unloading/re-alignment braces)">Knee braces (varus unloading/re-alignment braces)</option>
+                         		 	 <option value="Shoe orthotics (lateral wedge insoles for medial tibiofemoral knee OA)">Shoe orthotics (lateral wedge insoles for medial tibiofemoral knee OA)</option>
+                         		 	 <option value="Shoe orthotics (medial wedged insoles for lateral tibiofemoral OA and valgus deformity)">Shoe orthotics (medial wedged insoles for lateral tibiofemoral OA and valgus deformity)</option>
+                         		 	 <option value="Shoe orthotics (shock absorbing insoles or arch supports)">Shoe orthotics (shock absorbing insoles or arch supports)</option>
+                         		 	 <option value="Footwear (minimalist footwear)">Footwear (minimalist footwear)</option>
+                         		 	 <option value="Footwear (rocker soled shoes)">Footwear (rocker soled shoes)</option>
+                         		 	 <option value="Footwear (unloading shoes)">Footwear (unloading shoes)</option>
+                         		 	 <option value="Taping (kinesio taping)">Taping (kinesio taping)</option>
+                         		 	 <option value="Taping (patellar taping)">Taping (patellar taping)</option>
+                         		 	 <option value="Assistive walking device">Assistive walking device</option>
+                         		 </optgroup>
+                         		 <optgroup label="Pharmacological interventions (over the counter)">
+                         		   <option value="Paracetamol">Paracetamol</option>
+                         			 <option value="Topical capsaicin">Topical capsaicin</option>
+                         			 <option value="Topical NSAIDs">Topical NSAIDs</option>
+                         		 </optgroup>
+                         		 <optgroup label="Pharmacological interventions (prescription medication only)">
+                         		 	 <option value="Interleukin-1 (IL-1) inhibitors">Interleukin-1 (IL-1) inhibitors</option>
+                         		 	 <option value="Methotrexate">Methotrexate</option>
+                         		 	 <option value="Oral opioids">Oral opioids</option>
+                         		 	 <option value="Transdermal buprenorphine">Transdermal buprenorphine</option>
+                         		 	 <option value="Transdermal Fentanyl">Transdermal Fentanyl</option>
+                         		 	 <option value="Colchicine">Colchicine</option>
+                         		 	 <option value="Anti-nerve growth factor (NGF)">Anti-nerve growth factor (NGF)</option>
+                         		 	 <option value="Calcitonin">Calcitonin</option>
+                         		 	 <option value="Biphosphonates">Biphosphonates</option>
+                         		 	 <option value="Doxycycline">Doxycycline</option>
+                         		 	 <option value="Oral non-steroidal anti-inflammatory drugs (NSAIDs) including COX-2 inhibitors">Oral non-steroidal anti-inflammatory drugs (NSAIDs) including COX-2 inhibitors</option>
+                         		 	 <option value="Diacerein">Diacerein</option>
+                         		 	 <option value="Duloxetine">Duloxetine</option>
+                         		   <option value="Strontium ranelate">Strontium ranelate</option>
+                         		 </optgroup>
+                         		 <optgroup label="Psychological interventions">
+                         		   <option value="Cognitive behavioural therapy">Cognitive behavioural therapy</option>
+                         		 </optgroup>
+                         		 <optgroup label="Other physical therapies">
+                         		   <option value="Manual therapy (massage)">Manual therapy (massage)</option>
+                         			 <option value="Manual therapy (mobilisation and manipulation)">Manual therapy (mobilisation and manipulation)</option>
+                         		 </optgroup>
+                         		 <optgroup label="Self-management and education interventions">
+                         		   <option value="self-management education programs">self-management education programs</option>
+                         			 <option value="Heat therapy">Heat therapy</option>
+                         			 <option value="Cold therapy">Cold therapy</option>
+                         		 </optgroup>
+                         		 <optgroup label="Surgical interventions">
+                         		   <option value="Arthroscopic cartilage repair ">Arthroscopic cartilage repair </option>
+                         		 	 <option value="Arthroscopic lavage and debridement">Arthroscopic lavage and debridement</option>
+                         		 	 <option value="Arthroscopic meniscectomy ">Arthroscopic meniscectomy </option>
+                         		 	 <option value="Total Joint Replacement">Total Joint Replacement</option>
+                         		 </optgroup>
+                         		 <optgroup label="Weight management">
+                         		   <option value="Weight management">Weight management</option>
+                         		 </optgroup>
+                           </select>
+                           <script type="application/json" data-for="interventions">{}</script>
+                          </div>
+                        </div> <!--.form-group-->
+                      </div> <!--.col-lg-10-->
+                    </div> <!--.row-->
+                  </div> <!--.col-sm-4-->
+
+               </div> <!--.shiny-options-group-->
+             </div> <!--.interventionTypes-->
+            </div> <!--.row-->
+          </div> <!--.row--> <!-- End of interventions section-->
+
+          <!-- Weights section -->
+          <div class="weights" style="display:none;">
+            <div class="row">
+              <div class="col-xs-6">
+                <strong>Preference Weights:</strong>
+                <a id="helpPreferenceWeights" href="#" class="action-button">
+                  <i class="fa fa-info-circle"></i>
+                </a>
+                <br/>
+                <a id="resetWeights" href="#" class="action-button">(Reset)</a>
+              </div>
+              <div class="col-xs-6" style="text-align:right">
+                <a id="normaliseWeights" href="#" class="action-button">Normalise Weights<br>(sum to 100)</a>
+              </div>
+            </div> <!--.row-->
+
+            <div class="row">
+              <div class="col-md-4 col-sm-6 col-lg-12">
+                <div class="row">
+                  <div class="col-xs-9">
+                    <div class="form-group shiny-input-container">
+                      <label class="control-label" for="wgt_rec">Recommendation</label>
+                      <input class="js-range-slider" id="wgt_rec" data-min="0" data-max="100" data-from="19.0487" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <hr/>
-          <div id="cost_effectiveness" class="form-group shiny-input-checkboxgroup shiny-input-container">
-            <label class="control-label" for="cost_effectiveness">Cost-effectiveness results:</label>
-            <div class="shiny-options-group">
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox" name="cost_effectiveness" value="1"/>
-                  <span>NZ health system perspective</span>
-                </label>
-              </div>
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox" name="cost_effectiveness" value="2"/>
-                  <span>NZ societal perspective</span>
-                </label>
-              </div>
-            </div>
-          </div>
-          <hr/>
-          <div class="row">
-            <div class="col-sm-6">
-              <strong>Preference Weights:</strong>
-            </div>
-            <div class="col-sm-6">
-              <button id="resetWeights" type="button" class="btn btn-default action-button">Reset</button>
-              <button id="normaliseWeights" type="button" class="btn btn-default action-button">Normalise</button>
-            </div>
-          </div>
-          <br/>
-          <div class="row">
-            <div class="col-sm-4">
-              <br/>
-              <strong>Recommendation</strong>
-            </div>
-            <div class="col-sm-8">
-              <div class="form-group shiny-input-container">
-                <input class="js-range-slider" id="wgt_rec" data-min="0" data-max="100" data-from="11.1111111111111" data-step="0.1" data-grid="true" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-4" style="padding-top:2%;">
-              <strong>Quality of Evidence</strong>
-            </div>
-            <div class="col-sm-8">
-              <div class="form-group shiny-input-container">
-                <input class="js-range-slider" id="wgt_qua" data-min="0" data-max="100" data-from="11.1111111111111" data-step="0.1" data-grid="true" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-4">
-              <br/>
-              <strong>Cost</strong>
-            </div>
-            <div class="col-sm-8">
-              <div class="form-group shiny-input-container">
-                <input class="js-range-slider" id="wgt_cos" data-min="0" data-max="100" data-from="11.1111111111111" data-step="0.1" data-grid="true" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-4" style="padding-top:2%;">
-              <strong>Duration of Effect</strong>
-            </div>
-            <div class="col-sm-8">
-              <div class="form-group shiny-input-container">
-                <input class="js-range-slider" id="wgt_dur" data-min="0" data-max="100" data-from="11.1111111111111" data-step="0.1" data-grid="true" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-4">
-              <br/>
-              <strong>Accessibility</strong>
-            </div>
-            <div class="col-sm-8">
-              <div class="form-group shiny-input-container">
-                <input class="js-range-slider" id="wgt_acc" data-min="0" data-max="100" data-from="11.1111111111111" data-step="0.1" data-grid="true" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-4">
-              <strong>Risk of Mild/Moderate Harm</strong>
-            </div>
-            <div class="col-sm-8">
-              <div class="form-group shiny-input-container">
-                <input class="js-range-slider" id="wgt_rmi" data-min="0" data-max="100" data-from="11.1111111111111" data-step="0.1" data-grid="true" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-4" style="padding-top:2%;">
-              <strong>Risk of Serious Harm</strong>
-            </div>
-            <div class="col-sm-8">
-              <div class="form-group shiny-input-container">
-                <input class="js-range-slider" id="wgt_rse" data-min="0" data-max="100" data-from="11.1111111111111" data-step="0.1" data-grid="true" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-4" style="padding-top:2%;">
-              <strong>Effectiveness (Pain)</strong>
-            </div>
-            <div class="col-sm-8">
-              <div class="form-group shiny-input-container">
-                <input class="js-range-slider" id="wgt_eff" data-min="0" data-max="100" data-from="11.1111111111111" data-step="0.1" data-grid="true" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-4" style="padding-top:2%;">
-              <strong>Effectiveness (Function)</strong>
-            </div>
-            <div class="col-sm-8">
-              <div class="form-group shiny-input-container">
-                <input class="js-range-slider" id="wgt_fun" data-min="0" data-max="100" data-from="11.1111111111111" data-step="0.1" data-grid="true" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-      <div class="col-sm-9">
+                  <div class="col-xs-3">
+                    <br/>
+                    <div class="form-group shiny-input-container">
+                      <input id="wgt_rec_val" type="number" class="form-control" value="19.0487" min="0" max="100" step="0.1"/>
+                    </div>
+                  </div>
+                </div> <!--.row-->
+              </div> <!--.col-md-4-->
+
+              <div class="col-md-4 col-sm-6 col-lg-12">
+                <div class="row">
+                  <div class="col-xs-9">
+                    <div class="form-group shiny-input-container">
+                      <label class="control-label" for="wgt_qua">Quality of Evidence</label>
+                      <input class="js-range-slider" id="wgt_qua" data-min="0" data-max="100" data-from="17.6476" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
+                    </div>
+                  </div>
+                  <div class="col-xs-3">
+                    <br/>
+                    <div class="form-group shiny-input-container">
+                      <input id="wgt_qua_val" type="number" class="form-control" value="17.6476" min="0" max="100" step="0.1"/>
+                    </div>
+                  </div>
+                </div> <!--.row-->
+              </div> <!--.col-md-4-->
+
+              <div class="col-md-4 col-sm-6 col-lg-12">
+                <div class="row">
+                  <div class="col-xs-9">
+                    <div class="form-group shiny-input-container">
+                      <label class="control-label" for="wgt_cos">Cost</label>
+                      <input class="js-range-slider" id="wgt_cos" data-min="0" data-max="100" data-from="6.6089" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
+                    </div>
+                  </div>
+                  <div class="col-xs-3">
+                    <br/>
+                    <div class="form-group shiny-input-container">
+                      <input id="wgt_cos_val" type="number" class="form-control" value="6.6089" min="0" max="100" step="0.1"/>
+                    </div>
+                  </div>
+                </div> <!--.row-->
+              </div> <!--.col-md-4-->
+
+              <div class="col-md-4 col-sm-6 col-lg-12">
+                <div class="row">
+                  <div class="col-xs-9">
+                    <div class="form-group shiny-input-container">
+                      <label class="control-label" for="wgt_dur">Duration of Effect</label>
+                      <input class="js-range-slider" id="wgt_dur" data-min="0" data-max="100" data-from="13.1824" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
+                    </div>
+                  </div>
+                  <div class="col-xs-3">
+                    <br/>
+                    <div class="form-group shiny-input-container">
+                      <input id="wgt_dur_val" type="number" class="form-control" value="13.1824" min="0" max="100" step="0.1"/>
+                    </div>
+                  </div>
+                </div> <!--.row-->
+              </div> <!--.col-md-4-->
+
+              <div class="col-md-4 col-sm-6 col-lg-12">
+                <div class="row">
+                  <div class="col-xs-9">
+                    <div class="form-group shiny-input-container">
+                      <label class="control-label" for="wgt_acc">Accessibility</label>
+                      <input class="js-range-slider" id="wgt_acc" data-min="0" data-max="100" data-from="6.2685" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
+                    </div>
+                  </div>
+                  <div class="col-xs-3">
+                    <br/>
+                    <div class="form-group shiny-input-container">
+                      <input id="wgt_acc_val" type="number" class="form-control" value="6.2685" min="0" max="100" step="0.1"/>
+                    </div>
+                  </div>
+                </div> <!--.row-->
+              </div> <!--.col-md-4-->
+
+              <div class="col-md-4 col-sm-6 col-lg-12">
+                <div class="row">
+                  <div class="col-xs-9">
+                    <div class="form-group shiny-input-container">
+                      <label class="control-label" for="wgt_rmi">Risk of Mild/Moderate Harm</label>
+                      <input class="js-range-slider" id="wgt_rmi" data-min="0" data-max="100" data-from="9.4111" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
+                    </div>
+                  </div>
+                  <div class="col-xs-3">
+                    <br/>
+                    <div class="form-group shiny-input-container">
+                      <input id="wgt_rmi_val" type="number" class="form-control" value="9.4111" min="0" max="100" step="0.1"/>
+                    </div>
+                  </div>
+                </div> <!--.row-->
+              </div> <!--.col-md-4-->
+
+              <div class="col-md-4 col-sm-6 col-lg-12">
+                <div class="row">
+                  <div class="col-xs-9">
+                    <div class="form-group shiny-input-container">
+                      <label class="control-label" for="wgt_rse">Risk of Serious Harm</label>
+                      <input class="js-range-slider" id="wgt_rse" data-min="0" data-max="100" data-from="12.8225" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
+                    </div>
+                  </div>
+                  <div class="col-xs-3">
+                    <br/>
+                    <div class="form-group shiny-input-container">
+                      <input id="wgt_rse_val" type="number" class="form-control" value="12.8225" min="0" max="100" step="0.1"/>
+                    </div>
+                  </div>
+                </div> <!--.row-->
+              </div> <!--.col-md-4-->
+
+              <div class="col-md-4 col-sm-6 col-lg-12">
+                <div class="row">
+                  <div class="col-xs-9">
+                    <div class="form-group shiny-input-container">
+                      <label class="control-label" for="wgt_eff">Effectiveness</label>
+                      <input class="js-range-slider" id="wgt_eff" data-min="0" data-max="100" data-from="15.0103" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
+                    </div>
+                  </div>
+                  <div class="col-xs-3">
+                    <br/>
+                    <div class="form-group shiny-input-container">
+                      <input id="wgt_eff_val" type="number" class="form-control" value="15.0103" min="0" max="100" step="0.1"/>
+                    </div>
+                  </div>
+                </div> <!--.row-->
+              </div> <!--.col-md-4-->
+
+            </div> <!--.row-->
+          </div> <!--.weights--> <!-- End of weights section-->
+
+        </form> <!--.well-->
+      </div> <!--.col-lg-3-->
+
+      <div class="col-lg-9">
         <div class="tabbable">
-          <ul class="nav nav-tabs" data-tabsetid="1430">
-            <li class="active">
-              <a href="#tab-1430-1" data-toggle="tab" data-value="Evidence Table">Evidence Table</a>
-            </li>
-            <li>
-              <a href="#tab-1430-2" data-toggle="tab" data-value="Plot">Plot</a>
-            </li>
-          </ul>
-          <div class="tab-content" data-tabsetid="1430">
-            <div class="tab-pane active" data-value="Evidence Table" id="tab-1430-1">
+          <!-- Previous place of navbar -->
+          <div class="tab-content" data-tabsetid="9829">
+            <div class="tab-pane active" data-value="Evidence Table" id="tab-9829-1">
               <div id="selectedEvidenceTable" style="width:100%; height:auto; " class="datatables html-widget html-widget-output"></div>
             </div>
-            <div class="tab-pane" data-value="Plot" id="tab-1430-2">
-              <div id="preferencePlot" class="shiny-plot-output" style="width: 100% ; height: 400px"></div>
+            <div class="tab-pane" data-value="Plot" id="tab-9829-2">
+              <div id="preferencePlot" class="shiny-plot-output" style="width: 100% ; height: 400px" data-click-id="plot_click" data-click-clip="FALSE"></div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</body>
+      </div> <!--.col-lg-9-->
+    </div> <!--.row--> <!-- End of Main -->
 
+  </div> <!--.container-fluid-->
+
+  <script type="text/javascript" src="js.js"></script>
+
+</body>
 </html>
