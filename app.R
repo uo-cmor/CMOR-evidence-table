@@ -368,8 +368,7 @@ server <- function(input, output, session) {
 			title = "Interventions",
 			"Interventions can be filtered by type using these check boxes,",
 			"and if desired further filtered by specific intervention in the filter selection box below.", br(), br(),
-			"If no filter is applied, all interventions (of the selected types) will be shown.", br(), br(),
-			"At this stage, no filters are implemented.",
+			"If no filter is applied, all interventions (of the selected types) will be shown.",
 			easyClose = TRUE, footer = NULL))
 	})
 	
