@@ -58,6 +58,9 @@
             <a id="options-tab" href="#">Options <span class="fas fa-angle-down"></span></a>
           </li>
           <li>
+            <a id="interventions-tab" href="#">Interventions <span class="fas fa-angle-down"></span></a>
+          </li>
+          <li>
             <a id="weights-tab" href="#">Weights <span class="fas fa-angle-down"></span></a>
           </li>
         </ul>
@@ -73,20 +76,20 @@
 
           <!-- Options section -->
           <div class="row options" style="display:none;">
-            <div class="col-sm-3 col-xs-6 col-md-2 col-lg-6">
+            <div class="col-xs-6 col-sm-7 col-md-6">
               <strong>Disease Stage:</strong>
               <a id="helpDiseaseStage" href="#" class="action-button">
                 <i class="fa fa-info-circle"></i>
               </a>
-              <div id="diseaseStage" class="form-group shiny-input-radiogroup shiny-input-container">
+              <div id="diseaseStage" class="form-group shiny-input-radiogroup shiny-input-container clearfix">
                 <div class="shiny-options-group">
-                  <div class="radio">
+                  <div class="radio first">
                     <label>
                       <input type="radio" name="diseaseStage" value="Overall" checked="checked"/>
                       <span>Overall</span>
                     </label>
                   </div> <!--.radio-->
-                  <div class="radio">
+                  <div class="radio" >
                     <label>
                       <input type="radio" name="diseaseStage" value="Early"/>
                       <span>Early</span>
@@ -106,8 +109,8 @@
                   </div> <!--.radio-->
                 </div> <!--.shiny-options-group-->
               </div> <!--.form-group-->
-            </div> <!--.col-sm-3-->
-            <div class="col-sm-3 col-xs-6 col-md-2 col-lg-6">
+            </div> <!--.col-xs-6-->
+            <div class="col-xs-6 col-sm-5 col-md-6">
               <strong>Source of Evidence:</strong>
               <a id="helpEvidence" href="#" class="action-button">
                 <i class="fa fa-info-circle"></i>
@@ -122,10 +125,14 @@
                   </div>
                 </div>
               </div>
-            </div> <!--.col-sm-3-->
+            </div> <!--.col-xs-6-->
+          </div> <!--.row--> <!-- End of options section-->
 
-            <div class="col-sm-6 col-xs-6 col-lg-12">
-              <div class="row">
+          <!-- Interventions section -->
+          <div class="row interventions" style="display:none;">
+
+            <div class="row">
+              <div class="col-xs-12">
                 <strong>Interventions:</strong>
                 <a id="helpInterventions" href="#" class="action-button">
                  <i class="fa fa-info-circle"></i>
@@ -133,13 +140,14 @@
                 <br/>
                 <a id="allInterventions" href="#" class="action-button">(select all)</a>
                 <a id="noInterventions" href="#" class="action-button">(select none)</a>
-              </div> <!--.row-->
+              </div> <!--.col-xs-12-->
+            </div> <!--.row-->
 
             <div class="row">
-              <div id="interventionTypes" class="form-group shiny-input-checkboxgroup shiny-input-container">
+              <div id="interventionTypes" class="control-label shiny-input-checkboxgroup shiny-input-container">
                <div class="shiny-options-group">
 
-                 <div class="col-sm-6 col-lg-12">
+                 <div class="col-sm-4 col-lg-12">
                    <div class="checkbox">
                      <label>
                        <input type="checkbox" name="interventionTypes" value="Self-management and education interventions" checked="checked"/>
@@ -182,16 +190,16 @@
                        <span>Electrotherapies</span>
                      </label>
                    </div>
-                   <div class="checkbox">
-                     <label>
-                       <input type="checkbox" name="interventionTypes" value="Pharmacological interventions (over the counter)" checked="checked"/>
-                       <span>Pharmacological interventions (over the counter)</span>
-                     </label>
-                   </div>
-                  </div> <!--.col-sm-6-->
+                 </div> <!--.col-sm-4-->
 
-                  <div class="col-sm-6 col-lg-12">
+                  <div class="col-sm-4 col-lg-12">
                     <div class="checkbox" id="break-checkbox">
+                      <label>
+                        <input type="checkbox" name="interventionTypes" value="Pharmacological interventions (over the counter)" checked="checked"/>
+                        <span>Pharmacological interventions (over the counter)</span>
+                      </label>
+                    </div>
+                    <div class="checkbox">
                       <label>
                         <input type="checkbox" name="interventionTypes" value="Pharmacological interventions (prescription medication only)" checked="checked"/>
                         <span>Pharmacological interventions (prescription medication only)</span>
@@ -215,7 +223,9 @@
                         <span>Surgical interventions</span>
                       </label>
                     </div>
-                    <br>
+                  </div> <!--.col-sm-4-->
+
+                  <div class="col-sm-4 col-lg-12">
                     <div class="row">
                       <div class="col-lg-2 col-sm-12">
                         <strong>Filter: </strong>
@@ -331,15 +341,12 @@
                         </div> <!--.form-group-->
                       </div> <!--.col-lg-10-->
                     </div> <!--.row-->
-                  </div> <!--.col-sm-6-->
+                  </div> <!--.col-sm-4-->
 
                </div> <!--.shiny-options-group-->
              </div> <!--.interventionTypes-->
             </div> <!--.row-->
-
-
-            </div> <!--.col-sm-3-->
-          </div> <!--.row--> <!-- End of options section-->
+          </div> <!--.row--> <!-- End of interventions section-->
 
           <!-- Weights section -->
           <div class="weights" style="display:none;">
@@ -358,7 +365,7 @@
             </div> <!--.row-->
 
             <div class="row">
-              <div class="col-md-3 col-sm-6 col-lg-12">
+              <div class="col-md-4 col-sm-6 col-lg-12">
                 <div class="row">
                   <div class="col-xs-9">
                     <div class="form-group shiny-input-container">
@@ -373,9 +380,9 @@
                     </div>
                   </div>
                 </div> <!--.row-->
-              </div> <!--.col-md-3-->
+              </div> <!--.col-md-4-->
 
-              <div class="col-md-3 col-sm-6 col-lg-12">
+              <div class="col-md-4 col-sm-6 col-lg-12">
                 <div class="row">
                   <div class="col-xs-9">
                     <div class="form-group shiny-input-container">
@@ -390,9 +397,9 @@
                     </div>
                   </div>
                 </div> <!--.row-->
-              </div> <!--.col-md-3-->
+              </div> <!--.col-md-4-->
 
-              <div class="col-md-3 col-sm-6 col-lg-12">
+              <div class="col-md-4 col-sm-6 col-lg-12">
                 <div class="row">
                   <div class="col-xs-9">
                     <div class="form-group shiny-input-container">
@@ -407,9 +414,9 @@
                     </div>
                   </div>
                 </div> <!--.row-->
-              </div> <!--.col-md-3-->
+              </div> <!--.col-md-4-->
 
-              <div class="col-md-3 col-sm-6 col-lg-12">
+              <div class="col-md-4 col-sm-6 col-lg-12">
                 <div class="row">
                   <div class="col-xs-9">
                     <div class="form-group shiny-input-container">
@@ -424,9 +431,9 @@
                     </div>
                   </div>
                 </div> <!--.row-->
-              </div> <!--.col-md-3-->
+              </div> <!--.col-md-4-->
 
-              <div class="col-md-3 col-sm-6 col-lg-12">
+              <div class="col-md-4 col-sm-6 col-lg-12">
                 <div class="row">
                   <div class="col-xs-9">
                     <div class="form-group shiny-input-container">
@@ -441,9 +448,9 @@
                     </div>
                   </div>
                 </div> <!--.row-->
-              </div> <!--.col-md-3-->
+              </div> <!--.col-md-4-->
 
-              <div class="col-md-3 col-sm-6 col-lg-12">
+              <div class="col-md-4 col-sm-6 col-lg-12">
                 <div class="row">
                   <div class="col-xs-9">
                     <div class="form-group shiny-input-container">
@@ -458,9 +465,9 @@
                     </div>
                   </div>
                 </div> <!--.row-->
-              </div> <!--.col-md-3-->
+              </div> <!--.col-md-4-->
 
-              <div class="col-md-3 col-sm-6 col-lg-12">
+              <div class="col-md-4 col-sm-6 col-lg-12">
                 <div class="row">
                   <div class="col-xs-9">
                     <div class="form-group shiny-input-container">
@@ -475,9 +482,9 @@
                     </div>
                   </div>
                 </div> <!--.row-->
-              </div> <!--.col-md-3-->
+              </div> <!--.col-md-4-->
 
-              <div class="col-md-3 col-sm-6 col-lg-12">
+              <div class="col-md-4 col-sm-6 col-lg-12">
                 <div class="row">
                   <div class="col-xs-9">
                     <div class="form-group shiny-input-container">
@@ -492,7 +499,7 @@
                     </div>
                   </div>
                 </div> <!--.row-->
-              </div> <!--.col-md-3-->
+              </div> <!--.col-md-4-->
 
             </div> <!--.row-->
           </div> <!--.weights--> <!-- End of weights section-->
