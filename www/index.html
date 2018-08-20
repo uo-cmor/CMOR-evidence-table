@@ -38,17 +38,15 @@
 <body>
   <div class="container-fluid">
     <h2>CMOR Evidence Table and Preference Ranking for OA Interventions</h2>
-    <p>
-      This application provides access to evidence tables for osteoarthritis interventions used in the project
-      'The impact and management of rising osteoarthritis burden'.
-      These data are preliminary and should not be cited as is.
-    </p>
     <!-- Navigation panel -->
     <div class="row">
       <div class="col-lg-3"></div>
       <div class="col-lg-9">
         <ul class="nav nav-tabs" data-tabsetid="9829">
-          <li class="active">
+        	<li class="active">
+            <a href="#tab-9829-3" data-toggle="tab" data-value="About">About</a>
+          </li>
+          <li>
             <a href="#tab-9829-1" data-toggle="tab" data-value="Evidence Table">Evidence Table</a>
           </li>
           <li>
@@ -511,7 +509,15 @@
         <div class="tabbable">
           <!-- Previous place of navbar -->
           <div class="tab-content" data-tabsetid="9829">
-            <div class="tab-pane active" data-value="Evidence Table" id="tab-9829-1">
+            <div class="tab-pane active" data-value="About" id="tab-9829-3">
+              <div style="width:100%; height:auto;">
+                <p>This application provides access to evidence tables for osteoarthritis interventions used in the project
+                  'The impact and management of rising osteoarthritis burden'.
+                  These data are preliminary and should not be cited as is.
+                </p>
+              </div>
+            </div>
+            <div class="tab-pane" data-value="Evidence Table" id="tab-9829-1">
               <div id="selectedEvidenceTable" style="width:100%; height:auto; " class="datatables html-widget html-widget-output"></div>
             </div>
             <div class="tab-pane" data-value="Plot" id="tab-9829-2">
