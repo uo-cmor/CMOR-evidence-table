@@ -524,9 +524,33 @@
           <div class="tab-content" data-tabsetid="9829">
             <div class="tab-pane active" data-value="About" id="tab-9829-3">
               <div style="width:100%; height:auto;">
-                <p>This application provides access to evidence tables for osteoarthritis interventions used in the project
-                  'The impact and management of rising osteoarthritis burden'.
-                  These data are preliminary and should not be cited as is.
+                <h3 style="background-color:yellow; text-align:center;"><strong>***PRELIMINARY RESULTS: NOT FOR CITATION***</strong></h3>
+                <h3>Introduction</h3>
+                <p>
+                  This application provides access to evidence tables for osteoarthritis interventions used in the project <em>The impact and management of rising osteoarthritis burden</em> (Prof Haxby Abbott, Centre for Musculoskeletal Outcomes Research, University of Otago).
+                </p>
+                <p>
+                  To get started, select the desired options in the <span class="hidden-xs hidden-sm hidden-md">options panel to the left</span><span class="hidden-lg">Options, Interventions, and Preference Weights drop-down tabs above</span> and click the 'Evidence Table' or 'Plot' tabs above to see the results.
+                </p>
+                <h3>How it works:</h3>
+                <p>
+                  In this application, interventions for the clinical management of knee osteoarthritis are characterised according to eight attributes: recommendation (appropriateness for the stage of the disease), quality of evidence, cost, duration of effect, accessibility, risk of mild/moderate harm, risk of serious harm, and effectiveness. Each attribute describes between 3 and 5 levels of performance, in increasing order of desirability (for the details of the levels described by each attribute, click the help icon <a><i class="fa fa-info-circle"></i></a> next to the attribute heading in the Preference Weights panel).
+                </p>
+                <p>
+                  In our study, the performance of each intervention according to these eight attributes was informed by the Royal Australian College of General Practitioners' Clinical Practice Guidelines for osteoarthritis, supplemented where necessary by additional sources including (in decreasing order of preference) systematic reviews and meta-analyses, other published data, and research team judgement. This performance scoring can differ at different stages of the disease course (for example, total joint replacement has little evidence and is generally not recommended/appropriate for early-stage disease, but is strongly recommended for patients with severe late-stage disease); to incorporate this in the ranking model, evidence tables can be constructed for early, mid, or late-stage disease using the 'Disease Stage' option. In future iterations of this evidence table, we will incorporate the option to select different sources of evidence to inform the table and resulting preference weights.
+                </p>
+                <p>
+                  To avoid potential biases in stakeholder evaluations of the interventions due to prior beliefs or pre-conceived ideas about different treatments, preference weights, or the relative values assigned to each intervention, were derived indirectly by obtaining preference weights for the eight attributes, which can then be summed to derive an aggregate preference score for each intervention. The preference weights presented here were derived from a study of the preferences of key New Zealand stakeholder groups (consumers/OA patients, M&amacr;ori health advocates, health care providers, health policy makers, and content area experts). To investigate the effect on preference rankings using any other set of preference weights, move the sliders/numeric inputs in the Preference Weights panel.
+                </p>
+                <p>
+                  The Evidence Table can be sorted by intervention name, attribute, or preference score by clicking on the column headers, and searched for specific interventions or attribute levels using the search box
+                </p>
+                <p>
+                  You can also click on the bar for an intervention in the Plot to provide a summary of the attribute levels and associated preference weights for that intervention. Click elsewhere on the plot to remove the summary.
+                </p>
+                <h3>Contact</h3>
+                <p>
+                  For enquiries, contact Dr Ross Wilson, Centre for Musculoskeletal Outcomes Research, University of Otago (<a href="mailto:ross.wilson@otago.ac.nz?Subject=CMOR%20Evidence%20Table">ross.wilson@otago.ac.nz</a>)
                 </p>
               </div>
             </div>
@@ -569,7 +593,7 @@
             <h4 class="modal-title">Source of Evidence</h4>
           </div>
           <div class="modal-body">
-            <p>Different sources of evidence (e.g clinical practice guidelines, systematic reviews) can be selected.</p><br>
+            <p>Different sources of evidence (e.g clinical practice guidelines, systematic reviews) can be selected (at this stage, only the RACGP guidlines are available).</p><br>
             <p><strong>RACGP:</strong><br>
               Royal Australian College of General Practitioners clinical guidelines</p>
           </div>
@@ -604,10 +628,10 @@
             <h4 class="modal-title">Preference Weights</h4>
           </div>
           <div class="modal-body">
-            <p>The attributes are aggregated, by default, using the New Zealand stakeholder preference weights elicited as part of our project 'The impact and management of rising osteoarthritis burden'.</p><br>
-            <p>If you want to use alternative preference weights, these can be set using the sliders or numeric input boxes in this section.</p><br>
-            <p>All preference weights must sum to 100. This is done automatically for the table and plot; to see the recalculated values in the input fields, use the 'Normalize Weights' button
-              Weights can be reset to the NZ stakeholder weights using the 'Reset' button</p>
+            <p>The attributes are aggregated, by default, using the New Zealand stakeholder preference weights elicited as part of our project 'The impact and management of rising osteoarthritis burden'.</p>
+            <p>If you want to use alternative preference weights, these can be set using the sliders or numeric input boxes in this section.</p>
+            <p>All preference weights must sum to 100. This is done automatically for the table and plot; to see the recalculated values in the input fields, use the 'Normalize Weights' button.</p>
+            <p>Weights can be reset to the NZ stakeholder weights using the 'Reset' button</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -620,13 +644,11 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title">Recommendation for using the treatment at any stage of OA - e.g. early or advanced</h4>
+            <h4 class="modal-title">Recommendation for using the treatment at the given stage of OA</h4>
           </div>
           <div class="modal-body">
-            <p>Providing or using the right treatments or services at the early/mild, or advanced stage of OA. For example,
-				       it would not be recommended or appropriate to use powerful drug treatments such as opioids before, say,
-               self-management and education, physical exercise or, less-powerful drug therapies such as paracetamol.</p><br>
-            <strong><em></em>Levels (best to worst):</strong>
+            <p>Providing or using the right treatments or services at the early/mild, mid, or late/advanced stage of OA. For example, it would not be recommended or appropriate to use powerful drug treatments such as opioids before, say, self-management and education, physical exercise, or less-powerful drug therapies such as paracetamol.</p><br>
+            <strong><em>Levels (best to worst):</em></strong>
             <ul>
               <li><strong>Strong for: </strong>all or almost all informed people would use the treatment at this stage</li>
               <li><strong>Conditional for: </strong>most informed people would use the treatment at this stage, <em>but not all</em></li>
@@ -634,7 +656,7 @@
               <li><strong>Conditional against: </strong>most informed people would try another treatment at this stage, <em>but not all</em></li>
               <li><strong>Strong against: </strong>all or almost all informed people would try another treatment at this stage</li>
             </ul>
-            <p>Note: <em>but not all</em> means that a substantial number of people would still choose (or not choose) the treatment</p>
+            <p>Note: <em>...but not all</em> means that a substantial number of people would still choose (or not choose) the treatment</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -651,19 +673,12 @@
             <h4 class="modal-title">Quality of the evidence – how confident you are that the treatment works</h4>
           </div>
           <div class="modal-body">
-            <p>The extent to which one can be confident that the effects of the treatment or service described are real.
-      				'Evidence' can mean different things to different people, however, there is an accepted hierarchy of how
-      				valid each source is. For example, anecdotal claims about the effectiveness of treatment in advertisements,
-      				from peers or family members, or from individual treatment providers may not be as convincing as independent
-      				health professional advice, rigorous research, peer-reviewed Systematic Reviews, or authoritative Clinical
-      				Practice Guidelines.</p><br>
-            <strong><em></em>Levels (best to worst):</strong>
+            <p>The extent to which one can be confident that the effects of the treatment or service described are real. 'Evidence' can mean different things to different people, however, there is an accepted hierarchy of how valid each source is. For example, anecdotal claims about the effectiveness of treatment in advertisements, from peers or family members, or from individual treatment providers may not be as convincing as independent health professional advice, rigorous research, peer-reviewed Systematic Reviews, or authoritative Clinical Practice Guidelines.</p><br>
+            <strong><em>Levels (best to worst):</em></strong>
             <ul>
               <li><strong>High: </strong>further research is very unlikely to change our confidence in the likely effect of the intervention</li>
-              <li><strong>Moderate: </strong>further research is likely to have an important impact on our confidence in the likelihood of effect
-								of the intervention and may change the estimate</li>
-              <li><strong>Low: </strong>further research is very likely to have an important impact on our confidence in the likelihood of
-								effect of the intervention and is likely to change the estimate</li>
+              <li><strong>Moderate: </strong>further research is likely to have an important impact on our confidence in the likelihood of effect of the intervention and may change the estimate</li>
+              <li><strong>Low: </strong>further research is very likely to have an important impact on our confidence in the likelihood of effect of the intervention and is likely to change the estimate</li>
               <li><strong>Very low: </strong>Any estimate of the treatment effect is very uncertain</li>
             </ul>
           </div>
@@ -682,15 +697,12 @@
             <h4 class="modal-title">Cost of Treatment</h4>
           </div>
           <div class="modal-body">
-            <p>Total financial costs relevant to the use or provision of health care for OA - e.g. costs to the health
-      				system, out-of-pocket costs to the consumer and, the societal costs of providing health care for OA. Societal
-      				costs include tax revenue and lost wages due to time away from work, reduced employment or early retirement.</p><br>
-            <strong><em></em>Levels (best to worst):</strong>
+            <p>Total financial costs relevant to the use or provision of health care for OA - e.g. costs to the health system, out-of-pocket costs to the consumer and, the societal costs of providing health care for OA. Societal costs include tax revenue and lost wages due to time away from work, reduced employment or early retirement.</p><br>
+            <strong><em>Levels (best to worst):</em></strong>
             <ul>
               <li><strong>Low: </strong>$0-$100 per month OR less than $1500 total</li>
               <li><strong>Medium: </strong>$100-$1000 per month OR $1500-$15,000 total</li>
-              <li><strong>High: </strong>further research is very likely to have an important impact on our confidence in the likelihood of
-								effect of the intervention and is likely to change the estimate</li>
+              <li><strong>High: </strong>$1000 or more per month OR $15,000+ total</li>
             </ul>
           </div>
           <div class="modal-footer">
@@ -710,14 +722,12 @@
           <div class="modal-body">
             <p>The length of time the benefits of the treatment last. E.g., the beneficial effects of surgery, if
       				appropriate, may last for 10-15 years after initial healing has occurred, with little ongoing care until
-      				10-15 years have elapsed. In contrast, drug therapy may require frequent dosing every 4 hours to maintain its
-      				effect on pain.</p><br>
-            <strong><em></em>Levels (best to worst):</strong>
+      				10-15 years have elapsed. In contrast, drug therapy may require frequent dosing every 4 hours to maintain its effect on pain.</p><br>
+            <strong><em>Levels (best to worst):</em></strong>
             <ul>
-              <li><strong>Long: </strong>the effects of the treatment are experienced for 10 years or longer - e.g. sustained weight loss</li>
-              <li><strong>Medium: </strong>the effects of the treatment are experienced for several months to a year or more - e.g. physical
-								exercise</li>
-              <li><strong>Short: </strong>the effects of the treatment are experienced for up to 4-6 hours - e.g. drug therapy</li>
+              <li><strong>Long: </strong>the effects of the treatment are experienced for 10 years or longer</li>
+              <li><strong>Medium: </strong>the effects of the treatment are experienced for several months to several years</li>
+              <li><strong>Short: </strong>the effects of the treatment are experienced for up to 4-6 hours</li>
             </ul>
           </div>
           <div class="modal-footer">
@@ -735,16 +745,12 @@
             <h4 class="modal-title">Accessibility</h4>
           </div>
           <div class="modal-body">
-            <p>The extent to which the treatment or service can be accessed by people with OA. For example, the distance to
-      				nearest provider, wait time and, the ability for culturally and linguistically groups or people from diverse
-      				sociodemographic background to equally access health care for OA (fairness).</p><br>
-            <strong><em></em>Levels (best to worst):</strong>
+            <p>The extent to which the treatment or service can be accessed by people with OA. For example, the distance to nearest provider, wait time and, the ability for cultural and linguistic groups or people from diverse sociodemographic backgrounds to equally access health care for OA (fairness).</p><br>
+            <strong><em>Levels (best to worst):</em></strong>
             <ul>
-              <li><strong>Accessible: </strong>the treatment can be accessed by the person living with OA in a week or so, regardless
-                of their travel needs</li>
+              <li><strong>Accessible: </strong>the treatment can be accessed by the person living with OA in a week or so, regardless of their travel needs</li>
               <li><strong>Neither accessible nor inaccessible </strong></li>
-              <li><strong>Inaccessible: </strong>There may be a waiting time of a month or more to receive the treatment; the provider
-                may be inconvenient to reach; or, the treatment may not be accessible at all because of health-system related factors</li>
+              <li><strong>Inaccessible: </strong>There may be a waiting time of a month or more to receive the treatment; the provider may be inconvenient to reach; or the treatment may not be accessible at all because of health system-related factors</li>
             </ul>
           </div>
           <div class="modal-footer">
@@ -762,9 +768,8 @@
             <h4 class="modal-title">Risk of mild or moderate side-effects</h4>
           </div>
           <div class="modal-body">
-            <p>Mild to moderate treatment side-effects associated with comfort or safety - e.g. temporary pain, discomfort,
-				       nausea, heartburn or stomach pain.</p><br>
-            <strong><em></em>Levels (best to worst):</strong>
+            <p>Mild to moderate treatment side-effects associated with comfort or safety - e.g. temporary pain, discomfort, nausea, heartburn or stomach pain.</p><br>
+            <strong><em>Levels (best to worst):</em></strong>
             <ul>
               <li><strong>Low: </strong>1 in 4 chance (25%)</li>
               <li><strong>Moderate: </strong>2 in 4 chance (50%)</li>
@@ -787,7 +792,7 @@
           </div>
           <div class="modal-body">
             <p>Severe treatment side-effects - e.g. implant failure, drug toxicity, stomach bleeding or ulcer.</p><br>
-            <strong><em></em>Levels (best to worst):</strong>
+            <strong><em>Levels (best to worst):</em></strong>
             <ul>
               <li><strong>Low: </strong>1 in 500 chance (0.2%)</li>
               <li><strong>Moderate: </strong>1 in 200 chance (0.5%)</li>
@@ -809,18 +814,14 @@
             <h4 class="modal-title">Effectiveness</h4>
           </div>
           <div class="modal-body">
-            <p>The ability for the treatment or service to achieve the desired result - e.g. the change in pain and
-				      function, caused by the intervention.</p><br>
-            <p>Effectiveness is different to quality of the evidence because it describes the impact, or how ‘big’ the
-      				change caused by the treatment is, not how likely it is to happen, or how confident you are that it’ll happen
-      				– this is the 'quality of the evidence'. For example, a highly effective treatment with a very low quality of
-      				evidence means that the likelihood, or chance of it actually working is very small and, if it did work, it
-      				would have a high/large impact on pain and/or function.</p><br>
-            <strong><em></em>Levels (best to worst):</strong>
+            <p>The ability for the treatment or service to achieve the desired result - e.g. the change in pain and function, caused by the intervention.</p>
+            <p>Effectiveness is different to quality of the evidence because it describes the impact, or how ‘big’ the change caused by the treatment is, not how likely it is to happen, or how confident you are that it’ll happen – this is the 'quality of the evidence'. For example, a highly effective treatment with a very low quality of evidence means that the likelihood, or chance of it actually working is very small but, if it did work, it would have a high/large impact on pain and/or function.</p>
+            <p>Effectiveness is measured by the standardised mean difference (SMD) in pain levels, defined as the mean reduction in pain levels following treatment, divided by the standard deviation of baseline pain levels.</p><br>
+            <strong><em>Levels (best to worst):</em></strong>
             <ul>
-              <li><strong>High </strong></li>
-              <li><strong>Medium </strong></li>
-              <li><strong>Low </strong></li>
+              <li><strong>High: </strong>SMD > 0.5</li>
+              <li><strong>Medium: </strong>0.2 < SMD < 0.5</li>
+              <li><strong>Low: </strong>SMD < 0.2</li>
             </ul>
           </div>
           <div class="modal-footer">
