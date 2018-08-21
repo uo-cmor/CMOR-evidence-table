@@ -10,6 +10,11 @@
 .control-label {
   margin-top: 10px;
 }
+a[data-toggle=modal]:focus,
+a[data-toggle=modal]:hover {
+  outline: none;
+  text-decoration: none;
+}
 /*-------- Options panel ----------*/
 .well {
   margin: 0;

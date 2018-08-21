@@ -32,7 +32,6 @@
 	<script src="shared/bootstrap/shim/respond.min.js"></script>  <title>CMOR Evidence Table</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
-
 </head>
 
 <body>
@@ -76,9 +75,7 @@
           <div class="row options" style="display:none;">
             <div class="col-xs-6 col-sm-7 col-md-6">
               <strong>Disease Stage:</strong>
-              <a id="helpDiseaseStage" href="#" class="action-button">
-                <i class="fa fa-info-circle"></i>
-              </a>
+              <a data-toggle="modal" data-target="#helpDiseaseStage" href="#"><i class="fa fa-info-circle"></i></a>
               <div id="diseaseStage" class="form-group shiny-input-radiogroup shiny-input-container clearfix">
                 <div class="shiny-options-group">
                   <div class="radio first">
@@ -110,7 +107,7 @@
             </div> <!--.col-xs-6-->
             <div class="col-xs-6 col-sm-5 col-md-6">
               <strong>Source of Evidence:</strong>
-              <a id="helpEvidence" href="#" class="action-button">
+              <a data-toggle="modal" data-target="#helpEvidence" href="#">
                 <i class="fa fa-info-circle"></i>
               </a>
               <div id="evidence" class="form-group shiny-input-checkboxgroup shiny-input-container">
@@ -132,7 +129,7 @@
             <div class="row">
               <div class="col-xs-12">
                 <strong>Interventions:</strong>
-                <a id="helpInterventions" href="#" class="action-button">
+                <a data-toggle="modal" data-target="#helpInterventions" href="#">
                  <i class="fa fa-info-circle"></i>
                 </a>
                 <br/>
@@ -351,7 +348,7 @@
             <div class="row">
               <div class="col-xs-6">
                 <strong>Preference Weights:</strong>
-                <a id="helpPreferenceWeights" href="#" class="action-button">
+                <a data-toggle="modal" data-target="#helpPreferenceWeights" href="#">
                   <i class="fa fa-info-circle"></i>
                 </a>
                 <br/>
@@ -367,7 +364,9 @@
                 <div class="row">
                   <div class="col-xs-9">
                     <div class="form-group shiny-input-container">
-                      <label class="control-label" for="wgt_rec">Recommendation</label>
+                      <label class="control-label" for="wgt_rec">Recommendation
+                        <a data-toggle="modal" data-target="#helpRec" href="#"><i class="fa fa-info-circle"></i></a>
+                      </label>
                       <input class="js-range-slider" id="wgt_rec" data-min="0" data-max="100" data-from="19.0487" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
                     </div>
                   </div>
@@ -384,7 +383,9 @@
                 <div class="row">
                   <div class="col-xs-9">
                     <div class="form-group shiny-input-container">
-                      <label class="control-label" for="wgt_qua">Quality of Evidence</label>
+                      <label class="control-label" for="wgt_qua">Quality of Evidence
+                        <a data-toggle="modal" data-target="#helpQua" href="#"><i class="fa fa-info-circle"></i></a>
+                      </label>
                       <input class="js-range-slider" id="wgt_qua" data-min="0" data-max="100" data-from="17.6476" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
                     </div>
                   </div>
@@ -401,7 +402,9 @@
                 <div class="row">
                   <div class="col-xs-9">
                     <div class="form-group shiny-input-container">
-                      <label class="control-label" for="wgt_cos">Cost</label>
+                      <label class="control-label" for="wgt_cos">Cost
+                        <a data-toggle="modal" data-target="#helpCos" href="#"><i class="fa fa-info-circle"></i></a>
+                      </label>
                       <input class="js-range-slider" id="wgt_cos" data-min="0" data-max="100" data-from="6.6089" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
                     </div>
                   </div>
@@ -418,7 +421,9 @@
                 <div class="row">
                   <div class="col-xs-9">
                     <div class="form-group shiny-input-container">
-                      <label class="control-label" for="wgt_dur">Duration of Effect</label>
+                      <label class="control-label" for="wgt_dur">Duration of Effect
+                        <a data-toggle="modal" data-target="#helpDur" href="#"><i class="fa fa-info-circle"></i></a>
+                      </label>
                       <input class="js-range-slider" id="wgt_dur" data-min="0" data-max="100" data-from="13.1824" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
                     </div>
                   </div>
@@ -435,7 +440,9 @@
                 <div class="row">
                   <div class="col-xs-9">
                     <div class="form-group shiny-input-container">
-                      <label class="control-label" for="wgt_acc">Accessibility</label>
+                      <label class="control-label" for="wgt_acc">Accessibility
+                        <a data-toggle="modal" data-target="#helpAcc" href="#"><i class="fa fa-info-circle"></i></a>
+                      </label>
                       <input class="js-range-slider" id="wgt_acc" data-min="0" data-max="100" data-from="6.2685" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
                     </div>
                   </div>
@@ -452,7 +459,9 @@
                 <div class="row">
                   <div class="col-xs-9">
                     <div class="form-group shiny-input-container">
-                      <label class="control-label" for="wgt_rmi">Risk of Mild/Moderate Harm</label>
+                      <label class="control-label" for="wgt_rmi">Risk of Mild/Moderate Harm
+                        <a data-toggle="modal" data-target="#helpRmi" href="#"><i class="fa fa-info-circle"></i></a>
+                      </label>
                       <input class="js-range-slider" id="wgt_rmi" data-min="0" data-max="100" data-from="9.4111" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
                     </div>
                   </div>
@@ -469,7 +478,9 @@
                 <div class="row">
                   <div class="col-xs-9">
                     <div class="form-group shiny-input-container">
-                      <label class="control-label" for="wgt_rse">Risk of Serious Harm</label>
+                      <label class="control-label" for="wgt_rse">Risk of Serious Harm
+                        <a data-toggle="modal" data-target="#helpRse" href="#"><i class="fa fa-info-circle"></i></a>
+                      </label>
                       <input class="js-range-slider" id="wgt_rse" data-min="0" data-max="100" data-from="12.8225" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
                     </div>
                   </div>
@@ -486,7 +497,9 @@
                 <div class="row">
                   <div class="col-xs-9">
                     <div class="form-group shiny-input-container">
-                      <label class="control-label" for="wgt_eff">Effectiveness</label>
+                      <label class="control-label" for="wgt_eff">Effectiveness
+                        <a data-toggle="modal" data-target="#helpEff" href="#"><i class="fa fa-info-circle"></i></a>
+                      </label>
                       <input class="js-range-slider" id="wgt_eff" data-min="0" data-max="100" data-from="15.0103" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
                     </div>
                   </div>
@@ -529,6 +542,293 @@
     </div> <!--.row--> <!-- End of Main -->
 
   </div> <!--.container-fluid-->
+
+  <!-- Modal Popups Content -->
+    <!-- Disease Stage -->
+    <div id="helpDiseaseStage" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Disease Stage</h4>
+          </div>
+          <div class="modal-body">
+            <p>Select the disease stage for which to show evidence.</p><br>
+            <p>Some interventions have stronger expert recommendation or quality of evidence at different stages of the disease course</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Source of Evidence -->
+    <div id="helpEvidence" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Source of Evidence</h4>
+          </div>
+          <div class="modal-body">
+            <p>Different sources of evidence (e.g clinical practice guidelines, systematic reviews) can be selected.</p><br>
+            <p><strong>RACGP:</strong><br>
+              Royal Australian College of General Practitioners clinical guidelines</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Interventions -->
+    <div id="helpInterventions" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Interventions</h4>
+          </div>
+          <div class="modal-body">
+            <p>Interventions can be filtered by type using these check boxes, and if desired further filtered by specific intervention in the filter selection box below.</p><br>
+            <p>If no filter is applied, all interventions (of the selected types) will be shown.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Preference Weights -->
+    <div id="helpPreferenceWeights" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Preference Weights</h4>
+          </div>
+          <div class="modal-body">
+            <p>The attributes are aggregated, by default, using the New Zealand stakeholder preference weights elicited as part of our project 'The impact and management of rising osteoarthritis burden'.</p><br>
+            <p>If you want to use alternative preference weights, these can be set using the sliders or numeric input boxes in this section.</p><br>
+            <p>All preference weights must sum to 100. This is done automatically for the table and plot; to see the recalculated values in the input fields, use the 'Normalize Weights' button
+              Weights can be reset to the NZ stakeholder weights using the 'Reset' button</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Recommendation -->
+    <div id="helpRec" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Recommendation for using the treatment at any stage of OA - e.g. early or advanced</h4>
+          </div>
+          <div class="modal-body">
+            <p>Providing or using the right treatments or services at the early/mild, or advanced stage of OA. For example,
+				       it would not be recommended or appropriate to use powerful drug treatments such as opioids before, say,
+               self-management and education, physical exercise or, less-powerful drug therapies such as paracetamol.</p><br>
+            <strong><em></em>Levels (best to worst):</strong>
+            <ul>
+              <li><strong>Strong for: </strong>all or almost all informed people would use the treatment at this stage</li>
+              <li><strong>Conditional for: </strong>most informed people would use the treatment at this stage, <em>but not all</em></li>
+              <li><strong>Neutral</strong></li>
+              <li><strong>Conditional against: </strong>most informed people would try another treatment at this stage, <em>but not all</em></li>
+              <li><strong>Strong against: </strong>all or almost all informed people would try another treatment at this stage</li>
+            </ul>
+            <p>Note: <em>but not all</em> means that a substantial number of people would still choose (or not choose) the treatment</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quality of Evidence -->
+    <div id="helpQua" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Quality of the evidence – how confident you are that the treatment works</h4>
+          </div>
+          <div class="modal-body">
+            <p>The extent to which one can be confident that the effects of the treatment or service described are real.
+      				'Evidence' can mean different things to different people, however, there is an accepted hierarchy of how
+      				valid each source is. For example, anecdotal claims about the effectiveness of treatment in advertisements,
+      				from peers or family members, or from individual treatment providers may not be as convincing as independent
+      				health professional advice, rigorous research, peer-reviewed Systematic Reviews, or authoritative Clinical
+      				Practice Guidelines.</p><br>
+            <strong><em></em>Levels (best to worst):</strong>
+            <ul>
+              <li><strong>High: </strong>further research is very unlikely to change our confidence in the likely effect of the intervention</li>
+              <li><strong>Moderate: </strong>further research is likely to have an important impact on our confidence in the likelihood of effect
+								of the intervention and may change the estimate</li>
+              <li><strong>Low: </strong>further research is very likely to have an important impact on our confidence in the likelihood of
+								effect of the intervention and is likely to change the estimate</li>
+              <li><strong>Very low: </strong>Any estimate of the treatment effect is very uncertain</li>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cost -->
+    <div id="helpCos" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Cost of Treatment</h4>
+          </div>
+          <div class="modal-body">
+            <p>Total financial costs relevant to the use or provision of health care for OA - e.g. costs to the health
+      				system, out-of-pocket costs to the consumer and, the societal costs of providing health care for OA. Societal
+      				costs include tax revenue and lost wages due to time away from work, reduced employment or early retirement.</p><br>
+            <strong><em></em>Levels (best to worst):</strong>
+            <ul>
+              <li><strong>Low: </strong>$0-$100 per month OR less than $1500 total</li>
+              <li><strong>Medium: </strong>$100-$1000 per month OR $1500-$15,000 total</li>
+              <li><strong>High: </strong>further research is very likely to have an important impact on our confidence in the likelihood of
+								effect of the intervention and is likely to change the estimate</li>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Duration of Effect -->
+    <div id="helpDur" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Duration – how long the treatment effect lasts</h4>
+          </div>
+          <div class="modal-body">
+            <p>The length of time the benefits of the treatment last. E.g., the beneficial effects of surgery, if
+      				appropriate, may last for 10-15 years after initial healing has occurred, with little ongoing care until
+      				10-15 years have elapsed. In contrast, drug therapy may require frequent dosing every 4 hours to maintain its
+      				effect on pain.</p><br>
+            <strong><em></em>Levels (best to worst):</strong>
+            <ul>
+              <li><strong>Long: </strong>the effects of the treatment are experienced for 10 years or longer - e.g. sustained weight loss</li>
+              <li><strong>Medium: </strong>the effects of the treatment are experienced for several months to a year or more - e.g. physical
+								exercise</li>
+              <li><strong>Short: </strong>the effects of the treatment are experienced for up to 4-6 hours - e.g. drug therapy</li>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Accessibility -->
+    <div id="helpAcc" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Accessibility</h4>
+          </div>
+          <div class="modal-body">
+            <p>The extent to which the treatment or service can be accessed by people with OA. For example, the distance to
+      				nearest provider, wait time and, the ability for culturally and linguistically groups or people from diverse
+      				sociodemographic background to equally access health care for OA (fairness).</p><br>
+            <strong><em></em>Levels (best to worst):</strong>
+            <ul>
+              <li><strong>Accessible: </strong>the treatment can be accessed by the person living with OA in a week or so, regardless
+                of their travel needs</li>
+              <li><strong>Neither accessible nor inaccessible </strong></li>
+              <li><strong>Inaccessible: </strong>There may be a waiting time of a month or more to receive the treatment; the provider
+                may be inconvenient to reach; or, the treatment may not be accessible at all because of health-system related factors</li>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Risk of Mild/Moderate Harm -->
+    <div id="helpRmi" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Risk of mild or moderate side-effects</h4>
+          </div>
+          <div class="modal-body">
+            <p>Mild to moderate treatment side-effects associated with comfort or safety - e.g. temporary pain, discomfort,
+				       nausea, heartburn or stomach pain.</p><br>
+            <strong><em></em>Levels (best to worst):</strong>
+            <ul>
+              <li><strong>Low: </strong>1 in 4 chance (25%)</li>
+              <li><strong>Moderate: </strong>2 in 4 chance (50%)</li>
+              <li><strong>High: </strong>3 in 4 chance (75%)</li>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Risk of Serious Harm -->
+    <div id="helpRse" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Risk of serious harm</h4>
+          </div>
+          <div class="modal-body">
+            <p>Severe treatment side-effects - e.g. implant failure, drug toxicity, stomach bleeding or ulcer.</p><br>
+            <strong><em></em>Levels (best to worst):</strong>
+            <ul>
+              <li><strong>Low: </strong>1 in 500 chance (0.2%)</li>
+              <li><strong>Moderate: </strong>1 in 200 chance (0.5%)</li>
+              <li><strong>High: </strong>1 in 50 chance (2%)</li>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Effectiveness -->
+    <div id="helpEff" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Effectiveness</h4>
+          </div>
+          <div class="modal-body">
+            <p>The ability for the treatment or service to achieve the desired result - e.g. the change in pain and
+				      function, caused by the intervention.</p><br>
+            <p>Effectiveness is different to quality of the evidence because it describes the impact, or how ‘big’ the
+      				change caused by the treatment is, not how likely it is to happen, or how confident you are that it’ll happen
+      				– this is the 'quality of the evidence'. For example, a highly effective treatment with a very low quality of
+      				evidence means that the likelihood, or chance of it actually working is very small and, if it did work, it
+      				would have a high/large impact on pain and/or function.</p><br>
+            <strong><em></em>Levels (best to worst):</strong>
+            <ul>
+              <li><strong>High </strong></li>
+              <li><strong>Medium </strong></li>
+              <li><strong>Low </strong></li>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
   <script type="text/javascript" src="js.js"></script>
 
