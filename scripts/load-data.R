@@ -27,9 +27,8 @@ clean_RACGP <- raw_RACGP %>%
 						Rmi = case_when(Rmi=="\u26a0" ~ 3, Rmi=="\u26a0\u26a0" ~ 2, Rmi=="\u26a0\u26a0\u26a0" ~ 1),
 						Rse = case_when(Rse=="\u26a0" ~ 3, Rse=="\u26a0\u26a0" ~ 2, Rse=="\u26a0\u26a0\u26a0" ~ 1),
 						Eff = case_when(Eff=="\u2695\u2695\u2695" ~ 3, Eff=="\u2695\u2695" ~ 2, Eff=="\u2695" ~ 1),
-						"Cost value" = `Cost value`, "Cost duration" = `Cost duration`,
-						"Duration value" = `Duration value`, "Rmi value" = c(">50%", "25% - 50%", "<25%")[Rmi],
-						"Rse value" = c(">0.5%", "0.2% - 0.5%", "<0.2%")[Rse], "Effectiveness value" = `Effectiveness value`)
+						"Cost value" = `Cost value`, "Cost duration" = `Cost duration`, "Duration value" = `Duration value`,
+						"Rmi value" = `Rmi value`, "Rse value" = `Rse value`, "Effectiveness value" = `Effectiveness value`)
 
 clean_weights <- raw_weights %>%
 	gather("level", "weight", 2:6, na.rm = TRUE) %>%

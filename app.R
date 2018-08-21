@@ -15,9 +15,47 @@ source("scripts/plot-utils.R")
 # Define UI
 ui <- fluidPage(
 	titlePanel("CMOR Evidence Table and Preference Ranking for OA Interventions", windowTitle = "CMOR Evidence Table"),
+	h3(style="background-color: yellow; text-align: center;", strong("***PRELIMINARY RESULTS: NOT FOR CITATION***")),
+	h3("Introduction"),
 	p("This application provides access to evidence tables for osteoarthritis interventions used in the project",
-		"'The impact and management of rising osteoarthritis burden'.",
-		"These data are preliminary and should not be cited as is."),
+		em("The impact and management of rising osteoarthritis burden"), "(Prof Haxby Abbott, Centre for Musculoskeletal",
+		"Outcomes Research, University of Otago)."), 
+	p("To get started, select the desired options in the",
+		span(class="hidden-xs hidden-sm hidden-md", "options panel to the left,"),
+		span(class="hidden-lg", "Options, Interventions, and Preference Weights drop-down tabs above, "),
+		"and view the 'Evidence Table' or 'Plot' tabs to see the results."),
+	h3("How it works:"),
+	p("In this application, interventions for the clinical management of knee osteoarthritis are characterised according",
+		"to eight attributes: recommendation (appropriateness for the stage of the disease), quality of evidence, cost,",
+		"duration of effect, accessibility, risk of mild/moderate harm, risk of serious harm, and effectiveness. Each",
+		"attribute describes between 3 and 5 levels of performance, in increasing order of desirability (for the details",
+		"of the levels described by each attribute, click the help icon", a(icon("info-circle")), "next to the attribute",
+		"heading in the Preference Weights panel)."),
+	p("In our study, the performance of each intervention according to these eight attributes was informed by the Royal",
+		"Australian College of General Practitioners' Clinical Practice Guidelines for osteoarthritis, supplemented where",
+		"necessary by additional sources including (in decreasing order of preference) systematic reviews and",
+		"meta-analyses, other published data, and research team judgement. This performance scoring can differ at",
+		"different stages of the disease course (for example, total joint replacement has little evidence and is",
+		"generally not recommended/appropriate for early-stage disease, but is strongly recommended for patients with",
+		"severe late-stage disease); to incorporate this in the ranking model, evidence tables can be constructed for",
+		"early, mid, or late-stage disease using the 'Disease Stage' option. In future iterations of this evidence table,",
+		"we will incorporate the option to select different sources of evidence to inform the table and resulting",
+		"preference weights."),
+	p("To avoid potential biases in stakeholder evaluations of the interventions due to prior beliefs or pre-conceived",
+		"ideas about different treatments, preference weights, or the relative values assigned to each intervention, were",
+		"derived indirectly by obtaining preference weights for the eight attributes, which can then be summed to derive",
+		"an aggregate preference score for each intervention. The preference weights presented here were derived from a",
+		"study of the preferences of key New Zealand stakeholder groups (consumers/OA patients,", HTML("M&amacr;ori"), 
+		"health advocates, health care providers, health policy makers, and content area experts). To investigate the",
+		"effect on preference rankings using any other set of preference weights, move the sliders/numeric inputs in the",
+		"Preference Weights panel."),
+	p("The Evidence Table can be sorted by intervention name, attribute, or preference score by clicking on the column",
+		"headers, and searched for specific interventions or attribute levels using the search box"),
+	p("You can also click on the bar for an intervention in the Plot to provide a summary of the attribute levels and",
+		"associated preference weights for that intervention. Click elsewhere on the plot to remove the summary."),
+	h3("Contact"),
+	p("For enquiries, contact Dr Ross Wilson, Centre for Musculoskeletal Outcomes Research, University of Otago",
+		a(href="mailto:ross.wilson@otago.ac.nz?Subject=CMOR%20Evidence%20Table", "(ross.wilson@otago.ac.nz)")),
 	sidebarLayout(
 		sidebarPanel(width = 3,
 			fluidRow(
@@ -178,13 +216,15 @@ server <- function(input, output, session) {
 		sourceTablesDetails <- req(sourceTablesDetails())
 		
 		if (dim(sourceTablesDetails)[[3]] == 1) {
-			out <- as.data.frame(sourceTablesDetails[, , , drop = FALSE])
+			out <- drop(sourceTablesDetails)
 		} else {
-			out <- as.data.frame(apply(sourceTablesDetails, c(1, 2), 
-																 function(x) paste0(names(x), ": ", x, collapse = "\n")))
+			out <- apply(sourceTablesDetails, c(1, 2), function(x) paste0(names(x), ": ", x, collapse = "\n"))
 		}
 		
-		arrange(out, desc(preferenceScores()))
+		dim(out) <- dim(sourceTablesDetails)[1:2]
+		dimnames(out) <- dimnames(sourceTablesDetails)[1:2]
+		
+		arrange(as.data.frame(out), desc(preferenceScores()))
 	})
 	printTable <- reactive({
 		printTableValues <- req(printTableValues())
@@ -253,10 +293,24 @@ server <- function(input, output, session) {
 
 	# Output values (based on reactive expressions)
 	output$selectedEvidenceTable <- renderDT({
-		datatable(printTable(),
+		printTableValues <- req(printTableValues())
+		printTableDetails <- req(printTableDetails())
+		printTable <- bind_cols(req(printTable()), printTableValues)
+		
+		indices_disp <- 1:(ncol(printTable) / 2)
+			# which(sapply(names(printTable), function(x) !is.null(printTableDetails[[x]])))
+		indices_sort <- (ncol(printTable) / 2 + 1):ncol(printTable)
+		
+		datatable(printTable,
 							autoHideNavigation = TRUE,
-							escape = c(TRUE, sapply(names(printTable()), function(x) is.null(printTableDetails()[[x]]))),
-							options = list(pageLength = 25))
+							escape = c(TRUE, sapply(names(printTable), function(x) is.null(printTableDetails[[x]]))),
+							options = list(
+								pageLength = 25,
+								columnDefs = c(
+									unname(lapply(indices_disp, function(x) list(targets = x, orderData = x + ncol(printTable) / 2))),
+									unname(lapply(indices_sort, function(x) list(targets = x, visible = FALSE, searchable = FALSE)))
+								)
+							))
 	})
 	
 	output$preferencePlot <- renderPlot({
@@ -275,7 +329,8 @@ server <- function(input, output, session) {
 			coord_flip() +
 			scale_fill_brewer("Attribute", type = "qual", palette = "Paired") +
 			scale_y_continuous(NULL, limits = c(0, 100), expand = c(0, 0)) +
-			scale_x_discrete(NULL)
+			scale_x_discrete(NULL) +
+			guides(fill = guide_legend(reverse = TRUE))
 	},
 	height = function() max(200, 12 * dim(preferenceTables())[[1]]))
 
@@ -395,10 +450,10 @@ server <- function(input, output, session) {
 	
 	observeEvent(input$helpRec, {
 		showModal(modalDialog(
-			title = "Recommendation for using the treatment at any stage of OA - e.g. early or advanced",
-			p("Providing or using the right treatments or services at the early/mild, or advanced stage of OA. For example, ",
-				"it would not be recommended or appropriate to use powerful drug treatments such as opioids before, say, ",
-				"self-management and education, physical exercise or, less-powerful drug therapies such as paracetamol."),
+			title = "Recommendation for using the treatment at the given stage of OA",
+			p("Providing or using the right treatments or services at the early/mild, mid, or late/advanced stage of OA. For",
+				"example, it would not be recommended or appropriate to use powerful drug treatments such as opioids before,",
+				"say, self-management and education, physical exercise or, less-powerful drug therapies such as paracetamol."),
 			strong(em("Levels (best to worst):")),
 			tags$ul(
 				tags$li(strong("Strong for:"), "all or almost all informed people would use the treatment at this stage"),
@@ -436,7 +491,7 @@ server <- function(input, output, session) {
 				tags$li(strong("Low:"), 
 								"further research is very likely to have an important impact on our confidence in the likelihood of",
 								"effect of the intervention and is likely to change the estimate"),
-				tags$li(strong("Very low:"), "Any estimate of the treatment effect is very uncertain")
+				tags$li(strong("Very low:"), "any estimate of the treatment effect is very uncertain")
 			),
 			easyClose = TRUE, footer = NULL
 		))
@@ -461,19 +516,15 @@ server <- function(input, output, session) {
 	observeEvent(input$helpDur, {
 		showModal(modalDialog(
 			title = "Duration – how long the treatment effect lasts",
-			p("The length of time the benefits of the treatment last. E.g., the beneficial effects of surgery, if",
+			p("The length of time the benefits of the treatment last; e.g. the beneficial effects of surgery, if",
 				"appropriate, may last for 10-15 years after initial healing has occurred, with little ongoing care until",
 				"10-15 years have elapsed. In contrast, drug therapy may require frequent dosing every 4 hours to maintain its",
 				"effect on pain"),
 			strong(em("Levels (best to worst):")),
 			tags$ul(
-				tags$li(strong("Long:"), 
-								"the effects of the treatment are experienced for 10 years or longer - e.g. sustained weight loss"),
-				tags$li(strong("Medium:"), 
-								"the effects of the treatment are experienced for several months to a year or more - e.g. physical",
-								"exercise"),
-				tags$li(strong("Short:"), 
-								"the effects of the treatment are experienced for up to 4-6 hours - e.g. drug therapy")
+				tags$li(strong("Long:"), "the effects of the treatment are experienced for 10 years or longer"),
+				tags$li(strong("Medium:"), "the effects of the treatment are experienced for several months to several years"),
+				tags$li(strong("Short:"), "the effects of the treatment are experienced for up to 4-6 hours")
 			),
 			easyClose = TRUE, footer = NULL
 		))
@@ -532,18 +583,20 @@ server <- function(input, output, session) {
 	observeEvent(input$helpEff, {
 		showModal(modalDialog(
 			title = "Effectiveness",
-			p("The ability for the treatment or service to achieve the desired result - e.g. the change in pain and",
-				"function, caused by the intervention."),
+			p("The ability for the treatment or service to achieve the desired result - e.g. the change in pain and function",
+				"caused by the intervention."),
 			p("Effectiveness is different to quality of the evidence because it describes the impact, or how ‘big’ the",
 				"change caused by the treatment is, not how likely it is to happen, or how confident you are that it’ll happen",
 				"– this is the 'quality of the evidence'. For example, a highly effective treatment with a very low quality of",
-				"evidence means that the likelihood, or chance of it actually working is very small and, if it did work, it",
+				"evidence means that the likelihood, or chance of it actually working is very small but, if it did work, it",
 				"would have a high/large impact on pain and/or function."),
+			p("Effectiveness is measured by the standardised mean difference (SMD) in pain levels, defined as the mean",
+				"reduction in pain levels following treatment, divided by the standard deviation of baseline pain levels."),
 			strong(em("Levels (best to worst):")),
 			tags$ul(
-				tags$li(strong("High")),
-				tags$li(strong("Medium")),
-				tags$li(strong("Low"))
+				tags$li(strong("High:"), "SMD > 0.5"),
+				tags$li(strong("Medium:"), "0.2 < SMD < 0.5"),
+				tags$li(strong("Low:"), "SMD < 0.2")
 			),
 			easyClose = TRUE, footer = NULL
 		))
@@ -552,4 +605,4 @@ server <- function(input, output, session) {
 
 
 # Run app
-shinyApp(ui = htmlTemplate("www/index.html"), server = server)
+shinyApp(ui = ui, server = server)

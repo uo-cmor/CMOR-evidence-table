@@ -12,12 +12,12 @@ create_evidence_table <- function(df, varnames) {
 
 create_evidence_details_table <- function(df) {
 	transmute(df, 
-						Intervention = interventionTypes,
+						Intervention = str_c("Category: ", interventionTypes),
 						Cost = str_c(`Cost value`, coalesce(str_c(" ", `Cost duration`), "")),
 						"Duration of Effect" = `Duration value`,
 						"Risk of Mild/Moderate Harm" = `Rmi value`,
 						"Risk of Serious Harm" =`Rse value`,
-						Effectiveness = `Effectiveness value`)
+						Effectiveness = str_c("SMD (95% CI): ", `Effectiveness value`))
 }
 
 clean_RACGP <- clean_RACGP[complete.cases(clean_RACGP %>% 
