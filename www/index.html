@@ -39,8 +39,10 @@
     <h2>CMOR Evidence Table and Preference Ranking for OA Interventions</h2>
     <!-- Navigation panel -->
     <div class="row">
-      <div class="col-lg-3"></div>
-      <div class="col-lg-9">
+      <div class="col-lg-3 side-panel">
+        <button type="button" id="panel-button"><span class="fas fa-angle-double-left"></span></button>
+      </div>
+      <div class="col-lg-9 main">
         <ul class="nav nav-tabs" data-tabsetid="9829">
         	<li class="active">
             <a href="#tab-9829-3" data-toggle="tab" data-value="About">About</a>
@@ -52,13 +54,13 @@
             <a href="#tab-9829-2" data-toggle="tab" data-value="Plot">Plot</a>
           </li>
           <li>
-            <a id="options-tab" href="#">Options <span class="fas fa-angle-down"></span></a>
+            <a id="options-tab" class="hidden-lg" href="#">Options <span class="fas fa-angle-down"></span></a>
           </li>
           <li>
-            <a id="interventions-tab" href="#">Interventions <span class="fas fa-angle-down"></span></a>
+            <a id="interventions-tab" class="hidden-lg" href="#">Interventions <span class="fas fa-angle-down"></span></a>
           </li>
           <li>
-            <a id="weights-tab" href="#">Weights <span class="fas fa-angle-down"></span></a>
+            <a id="weights-tab" class="hidden-lg" href="#">Weights <span class="fas fa-angle-down"></span></a>
           </li>
         </ul>
       </div> <!--col-lg-9-->
@@ -68,11 +70,11 @@
     <div class="row">
 
       <!-- Side/top panel -->
-      <div class="col-lg-3">
+      <div class="col-lg-3 side-panel">
         <form class="well">
 
           <!-- Options section -->
-          <div class="row options" style="display:none;">
+          <div class="row visible-lg-block" id="options">
             <div class="col-xs-6 col-sm-7 col-md-6">
               <strong>Disease Stage:</strong>
               <a data-toggle="modal" data-target="#helpDiseaseStage" href="#"><i class="fa fa-info-circle"></i></a>
@@ -124,7 +126,7 @@
           </div> <!--.row--> <!-- End of options section-->
 
           <!-- Interventions section -->
-          <div class="row interventions" style="display:none;">
+          <div class="row visible-lg-block" id="interventions">
 
             <div class="row">
               <div class="col-xs-12">
@@ -344,7 +346,7 @@
           </div> <!--.row--> <!-- End of interventions section-->
 
           <!-- Weights section -->
-          <div class="weights" style="display:none;">
+          <div class="row visible-lg-block" id="weights">
             <div class="row">
               <div class="col-xs-6">
                 <strong>Preference Weights:</strong>
@@ -518,7 +520,7 @@
         </form> <!--.well-->
       </div> <!--.col-lg-3-->
 
-      <div class="col-lg-9">
+      <div class="col-lg-9 main">
         <div class="tabbable">
           <!-- Previous place of navbar -->
           <div class="tab-content" data-tabsetid="9829">

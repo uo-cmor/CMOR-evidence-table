@@ -1,10 +1,12 @@
 // Define variables
-var options_panel = document.querySelector(".options");
+var options_panel = document.querySelector("#options");
+var interventions_panel = document.querySelector("#interventions");
+var weights_panel = document.querySelector("#weights");
+
 var options_tab = document.querySelector("#options-tab");
-var weights_panel = document.querySelector(".weights");
 var weights_tab = document.querySelector("#weights-tab");
-var interventions_panel = document.querySelector(".interventions");
 var interventions_tab = document.querySelector("#interventions-tab");
+var panel_button = document.querySelector("#panel-button");
 
 //Connect slider with numeric inputs
 function updateWeights(input, output) {

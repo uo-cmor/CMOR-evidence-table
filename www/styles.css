@@ -1,8 +1,8 @@
 /*-------- General ----------------*/
 .clearfix::after {
-    content: "";
-    clear: both;
-    display: table;
+  content: "";
+  clear: both;
+  display: table;
 }
 .form-group {
   margin-bottom: 0;
@@ -22,7 +22,7 @@ a[data-toggle=modal]:hover {
   border: none;
   background-color: transparent;
 }
-.options, .weights, .interventions {
+#options, #weights, #interventions {
   background-color: #f5f5f5;
   border: 1px solid #e3e3e3;
   border-radius: 4px;
@@ -43,12 +43,12 @@ a[data-toggle=modal]:hover {
 
 /*-------- Media queries ----------*/
 @media only screen and (min-width: 1200px) {
-  .options, .weights, .interventions {
+  /* .options, .weights, .interventions {
     display: block !important;
-  }
-  #options-tab, #weights-tab, #interventions-tab {
+  } */
+  /* #options-tab, #weights-tab, #interventions-tab {
     display: none;
-  }
+  } */
   .radio {
     width: 100%;
   }
