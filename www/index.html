@@ -46,6 +46,9 @@
             <a href="#tab-9829-3" data-toggle="tab" data-value="About">About</a>
           </li>
           <li>
+            <a href="#tab-9829-4" data-toggle="tab" data-value="Instructions">Instructions</a>
+          </li>
+          <li>
             <a href="#tab-9829-1" data-toggle="tab" data-value="Evidence Table">Evidence Table</a>
           </li>
           <li>
@@ -74,7 +77,7 @@
           <!-- Options section -->
           <div class="row options" style="display:none;">
             <div class="col-xs-6 col-sm-7 col-md-6">
-              <strong>Disease Stage:</strong>
+              <strong>Timing of Interventions:</strong>
               <a data-toggle="modal" data-target="#helpDiseaseStage" href="#"><i class="fa fa-info-circle"></i></a>
               <div id="diseaseStage" class="form-group shiny-input-radiogroup shiny-input-container clearfix">
                 <div class="shiny-options-group">
@@ -115,7 +118,7 @@
                   <div class="checkbox">
                     <label>
                       <input type="checkbox" name="evidence" value="1" checked="checked"/>
-                      <span>RACGP</span>
+                      <span>RACGP Guideline</span>
                     </label>
                   </div>
                 </div>
@@ -362,7 +365,7 @@
             <div class="row">
               <div class="col-md-4 col-sm-6 col-lg-12">
                 <div class="row">
-                  <div class="col-xs-9">
+                  <div class="col-xs-8">
                     <div class="form-group shiny-input-container">
                       <label class="control-label" for="wgt_rec">Recommendation
                         <a data-toggle="modal" data-target="#helpRec" href="#"><i class="fa fa-info-circle"></i></a>
@@ -370,7 +373,7 @@
                       <input class="js-range-slider" id="wgt_rec" data-min="0" data-max="100" data-from="19.0487" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
                     </div>
                   </div>
-                  <div class="col-xs-3">
+                  <div class="col-xs-4">
                     <br/>
                     <div class="form-group shiny-input-container">
                       <input id="wgt_rec_val" type="number" class="form-control" value="19.0487" min="0" max="100" step="0.1"/>
@@ -381,7 +384,7 @@
 
               <div class="col-md-4 col-sm-6 col-lg-12">
                 <div class="row">
-                  <div class="col-xs-9">
+                  <div class="col-xs-8">
                     <div class="form-group shiny-input-container">
                       <label class="control-label" for="wgt_qua">Quality of Evidence
                         <a data-toggle="modal" data-target="#helpQua" href="#"><i class="fa fa-info-circle"></i></a>
@@ -389,7 +392,7 @@
                       <input class="js-range-slider" id="wgt_qua" data-min="0" data-max="100" data-from="17.6476" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
                     </div>
                   </div>
-                  <div class="col-xs-3">
+                  <div class="col-xs-4">
                     <br/>
                     <div class="form-group shiny-input-container">
                       <input id="wgt_qua_val" type="number" class="form-control" value="17.6476" min="0" max="100" step="0.1"/>
@@ -400,7 +403,7 @@
 
               <div class="col-md-4 col-sm-6 col-lg-12">
                 <div class="row">
-                  <div class="col-xs-9">
+                  <div class="col-xs-8">
                     <div class="form-group shiny-input-container">
                       <label class="control-label" for="wgt_cos">Cost
                         <a data-toggle="modal" data-target="#helpCos" href="#"><i class="fa fa-info-circle"></i></a>
@@ -408,7 +411,7 @@
                       <input class="js-range-slider" id="wgt_cos" data-min="0" data-max="100" data-from="6.6089" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
                     </div>
                   </div>
-                  <div class="col-xs-3">
+                  <div class="col-xs-4">
                     <br/>
                     <div class="form-group shiny-input-container">
                       <input id="wgt_cos_val" type="number" class="form-control" value="6.6089" min="0" max="100" step="0.1"/>
@@ -419,7 +422,7 @@
 
               <div class="col-md-4 col-sm-6 col-lg-12">
                 <div class="row">
-                  <div class="col-xs-9">
+                  <div class="col-xs-8">
                     <div class="form-group shiny-input-container">
                       <label class="control-label" for="wgt_dur">Duration of Effect
                         <a data-toggle="modal" data-target="#helpDur" href="#"><i class="fa fa-info-circle"></i></a>
@@ -427,7 +430,7 @@
                       <input class="js-range-slider" id="wgt_dur" data-min="0" data-max="100" data-from="13.1824" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
                     </div>
                   </div>
-                  <div class="col-xs-3">
+                  <div class="col-xs-4">
                     <br/>
                     <div class="form-group shiny-input-container">
                       <input id="wgt_dur_val" type="number" class="form-control" value="13.1824" min="0" max="100" step="0.1"/>
@@ -438,7 +441,7 @@
 
               <div class="col-md-4 col-sm-6 col-lg-12">
                 <div class="row">
-                  <div class="col-xs-9">
+                  <div class="col-xs-8">
                     <div class="form-group shiny-input-container">
                       <label class="control-label" for="wgt_acc">Accessibility
                         <a data-toggle="modal" data-target="#helpAcc" href="#"><i class="fa fa-info-circle"></i></a>
@@ -446,7 +449,7 @@
                       <input class="js-range-slider" id="wgt_acc" data-min="0" data-max="100" data-from="6.2685" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
                     </div>
                   </div>
-                  <div class="col-xs-3">
+                  <div class="col-xs-4">
                     <br/>
                     <div class="form-group shiny-input-container">
                       <input id="wgt_acc_val" type="number" class="form-control" value="6.2685" min="0" max="100" step="0.1"/>
@@ -457,7 +460,7 @@
 
               <div class="col-md-4 col-sm-6 col-lg-12">
                 <div class="row">
-                  <div class="col-xs-9">
+                  <div class="col-xs-8">
                     <div class="form-group shiny-input-container">
                       <label class="control-label" for="wgt_rmi">Risk of Mild/Moderate Harm
                         <a data-toggle="modal" data-target="#helpRmi" href="#"><i class="fa fa-info-circle"></i></a>
@@ -465,7 +468,7 @@
                       <input class="js-range-slider" id="wgt_rmi" data-min="0" data-max="100" data-from="9.4111" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
                     </div>
                   </div>
-                  <div class="col-xs-3">
+                  <div class="col-xs-4">
                     <br/>
                     <div class="form-group shiny-input-container">
                       <input id="wgt_rmi_val" type="number" class="form-control" value="9.4111" min="0" max="100" step="0.1"/>
@@ -476,7 +479,7 @@
 
               <div class="col-md-4 col-sm-6 col-lg-12">
                 <div class="row">
-                  <div class="col-xs-9">
+                  <div class="col-xs-8">
                     <div class="form-group shiny-input-container">
                       <label class="control-label" for="wgt_rse">Risk of Serious Harm
                         <a data-toggle="modal" data-target="#helpRse" href="#"><i class="fa fa-info-circle"></i></a>
@@ -484,7 +487,7 @@
                       <input class="js-range-slider" id="wgt_rse" data-min="0" data-max="100" data-from="12.8225" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
                     </div>
                   </div>
-                  <div class="col-xs-3">
+                  <div class="col-xs-4">
                     <br/>
                     <div class="form-group shiny-input-container">
                       <input id="wgt_rse_val" type="number" class="form-control" value="12.8225" min="0" max="100" step="0.1"/>
@@ -495,7 +498,7 @@
 
               <div class="col-md-4 col-sm-6 col-lg-12">
                 <div class="row">
-                  <div class="col-xs-9">
+                  <div class="col-xs-8">
                     <div class="form-group shiny-input-container">
                       <label class="control-label" for="wgt_eff">Effectiveness
                         <a data-toggle="modal" data-target="#helpEff" href="#"><i class="fa fa-info-circle"></i></a>
@@ -503,7 +506,7 @@
                       <input class="js-range-slider" id="wgt_eff" data-min="0" data-max="100" data-from="15.0103" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
                     </div>
                   </div>
-                  <div class="col-xs-3">
+                  <div class="col-xs-4">
                     <br/>
                     <div class="form-group shiny-input-container">
                       <input id="wgt_eff_val" type="number" class="form-control" value="15.0103" min="0" max="100" step="0.1"/>
@@ -527,18 +530,42 @@
                 <h3 style="background-color:yellow; text-align:center;"><strong>***PRELIMINARY RESULTS: NOT FOR CITATION***</strong></h3>
                 <h3>Introduction</h3>
                 <p>
-                  This application provides access to evidence tables for osteoarthritis interventions used in the project <em>The impact and management of rising osteoarthritis burden</em> (Prof Haxby Abbott, Centre for Musculoskeletal Outcomes Research, University of Otago).
+                  Knee osteoarthritis is a major public health issue associated with chronic pain and disability, substantial public and private healthcare expenditure, and economic impacts through reduced workplace productivity and early retirement. Although there is no cure for osteoarthritis, effective interventions to manage the condition are available, and health service models that provide effective, accessible, acceptable, and equitable care are recognised as crucial to maximise health and economic outcomes for people with osteoarthritis.
                 </p>
                 <p>
-                  To get started, select the desired options in the <span class="hidden-xs hidden-sm hidden-md">options panel to the left</span><span class="hidden-lg">Options, Interventions, and Preference Weights drop-down tabs above</span> and then click the 'Evidence Table' or 'Plot' tabs <span class="hidden-xs hidden-sm hidden-md">above </span>to see the results.
+                  Clinical practice guidelines consistently recommend self-management (including education), exercise/physical activity, and weight loss (if appropriate) as core strategies for the management of osteoarthritis. However, it is widely recognised that that recommended management is inconsistently provided to those living with OA, particularly in primary care settings.
                 </p>
-                <h3>How it works:</h3>
+                <p>Engaging relevant stakeholders – including consumers of osteoarthritis care, healthcare providers, and health policy makers – can help to formulate solutions which are more likely to be effective, acceptable, and feasible within the context of a given health system, maximising their potential for effective uptake and impact. For example, solutions developed with meaningful consumer input may improve intervention adherence, alignment of expectations and outcomes, and strenthen consumer autonomy – the centrepieces of person-centred care; healthcare providers could have greater capacity to choose interventions that are feasible within their local context and supported by and aligned with high-quality evidence.
+                </p>
+                <p>
+                  The objective of this study was to inform the recommendation of interventions for knee osteoarthritis by (a) revealing the preferences of key stakeholders and decision-makers in osteoarthritis care for the attributes of interventions (such as cost, clinical effectiveness, risk of harm, and accessibility to patients); (b) assessing the performance of interventions in relation to these key attributes; and (c) prioritising interventions on the basis of their alignment with preferences.
+                </p>
+                <h3>This tool</h3>
+                <p>
+                  This application provides access to the evidence tables and performance weights used in the project.
+                  for osteoarthritis interventions used in the project <em>The impact and management of rising osteoarthritis burden</em> (Prof Haxby Abbott, Centre for Musculoskeletal Outcomes Research, University of Otago).
+                </p>
+                <p>
+                  To get started, select the desired options in the <span class="hidden-xs hidden-sm hidden-md">options panel to the left</span><span class="hidden-lg">"Options", "Interventions", and "Preference Weights" drop-down tabs above</span> and then click the "Evidence Table" or "Plot" tabs <span class="hidden-xs hidden-sm hidden-md">above </span>to see the results.
+                </p>
+                <p>
+                  For further help on using this tool, click the "Instructions" tab above.
+                <h3>Contact</h3>
+                <p>
+                  For enquiries, contact Dr Ross Wilson, Centre for Musculoskeletal Outcomes Research, University of Otago (<a href="mailto:ross.wilson@otago.ac.nz?Subject=CMOR%20Evidence%20Table">ross.wilson@otago.ac.nz</a>)
+                </p>
+              </div>
+            </div>
+            <div class="tab-pane" data-value="Instructions" id="tab-9829-4">
+              <div style="width:100%; height:auto;">
+                <h3 style="background-color:yellow; text-align:center;"><strong>***PRELIMINARY RESULTS: NOT FOR CITATION***</strong></h3>
+                <h3>How it works</h3>
                 <p>
                   In this application, interventions for the clinical management of knee osteoarthritis are characterised according to eight attributes: recommendation (appropriateness for the stage of the disease), quality of evidence, cost, duration of effect, accessibility, risk of mild/moderate harm, risk of serious harm, and effectiveness. Each attribute describes between 3 and 5 levels of performance, in increasing order of desirability (for the details of the levels described by each attribute, click the help icon <a><i class="fa fa-info-circle"></i></a> next to the attribute heading in the Preference Weights panel).
                 </p>
                 <h4>Evidence:</h4>
                 <p>
-                  In our study, the performance of each intervention according to these eight attributes was informed by the Royal Australian College of General Practitioners' Clinical Practice Guidelines for osteoarthritis, supplemented where necessary by additional sources including (in decreasing order of preference) systematic reviews and meta-analyses, other published data, and research team judgement. This performance scoring can differ at different stages of the disease course (for example, total joint replacement has little evidence and is generally not recommended/appropriate for early-stage disease, but is strongly recommended for patients with severe late-stage disease); to incorporate this in the ranking model, evidence tables can be constructed for early, mid, or late-stage disease using the 'Disease Stage' option. In future iterations of this evidence table, we will incorporate the option to select different sources of evidence to inform the table and resulting preference weights.
+                  In our study, the performance of each intervention according to these eight attributes was informed by the Royal Australian College of General Practitioners' <em>Guideline for the management of knee and hip osteoarthritis</em> (2017), supplemented where necessary by additional sources including (in decreasing order of preference) systematic reviews and meta-analyses, other published data, and research team judgement. This performance scoring can differ at different stages of the disease course (for example, total joint replacement has little evidence and is generally not recommended/appropriate for early-stage disease, but is strongly recommended for patients with severe late-stage disease); to incorporate this in the ranking model, evidence tables can be constructed for early, mid, or late-stage disease using the 'Disease Stage' option. In future iterations of this evidence table, we will incorporate the option to select different sources of evidence to inform the table and resulting preference weights.
                 </p>
                 <h4>Interventions</h4>
                 <p>
@@ -546,26 +573,27 @@
                 </p>
                 <h4>Preference Weights</h4>
                 <p>
-                  To avoid potential biases in stakeholder evaluations of the interventions due to prior beliefs or pre-conceived ideas about different treatments, preference weights, or the relative values assigned to each intervention, were derived indirectly by obtaining preference weights for the eight attributes, which can then be summed to derive an aggregate preference score for each intervention. The preference weights presented here were derived from a study of the preferences of key New Zealand stakeholder groups (consumers/OA patients, M&amacr;ori health advocates, health care providers, health policy makers, and content area experts). To investigate the effect on preference rankings using any other set of preference weights, move the sliders/numeric inputs in the Preference Weights panel.
+                  To avoid potential biases in stakeholder evaluations of the interventions due to prior beliefs or pre-conceived ideas about different treatments, preference weights, or the relative values assigned to each intervention, were derived indirectly by obtaining preference weights for the eight attributes, which can then be summed to derive an aggregate preference score for each intervention. The preference weights presented here were derived from a study of the preferences of key New Zealand stakeholder groups (consumers with OA, M&amacr;ori health advocates, health care providers, health policy makers, and content area experts). To investigate the effect on preference rankings using any other set of preference weights, move the sliders/numeric inputs in the Preference Weights panel.
                 </p>
                 <h4>Outputs</h4>
                 <p>
-                  The Evidence Table can be sorted by intervention name, attribute, or preference score by clicking on the column headers, and searched for specific interventions or attribute levels using the search box
+                  Outputs can be shown by clicking the "Evidence Table" or "Plot" tabs above.
+                </p>
+                <p>The evidence table reports the performance of each selected intervention on the eight attributes, according to the specified evidence source and timing of interventions, and the resulting aggregate preference score using the specified preference weights. Interventions are (by default) ranked by total preference score. The table can be sorted by intervention name, attribute, or preference score by clicking on the column headers, and searched for specific interventions or attribute levels using the search box
                 </p>
                 <p>
-                  You can also click on the bar for an intervention in the Plot to provide a summary of the attribute levels and associated preference weights for that intervention. Click elsewhere on the plot to remove the summary.
-                </p>
-                <h3>Contact</h3>
-                <p>
-                  For enquiries, contact Dr Ross Wilson, Centre for Musculoskeletal Outcomes Research, University of Otago (<a href="mailto:ross.wilson@otago.ac.nz?Subject=CMOR%20Evidence%20Table">ross.wilson@otago.ac.nz</a>)
+                  The plot shows the preference score for each selected intervention, and the contribution of each attribute level to the aggregate preference score. You can click on the bar for an intervention to provide a summary of the attribute levels and associated preference weights for that intervention. Click elsewhere on the plot to remove the summary.
                 </p>
               </div>
             </div>
             <div class="tab-pane" data-value="Evidence Table" id="tab-9829-1">
+              <h3 style="background-color:yellow; text-align:center;"><strong>***PRELIMINARY RESULTS: NOT FOR CITATION***</strong></h3>
               <div id="selectedEvidenceTable" style="width:100%; height:auto; " class="datatables html-widget html-widget-output"></div>
             </div>
             <div class="tab-pane" data-value="Plot" id="tab-9829-2">
-              <div id="preferencePlot" class="shiny-plot-output" style="width: 100% ; height: 400px" data-click-id="plot_click" data-click-clip="FALSE"></div>
+              <h3 style="background-color:yellow; text-align:center;"><strong>***PRELIMINARY RESULTS: NOT FOR CITATION***</strong></h3>
+              <div id="preferencePlot" class="shiny-plot-output" style="width: 100%;" data-click-id="plot_click" data-click-clip="FALSE"></div><hr>
+              <div id="plotDescription" class="shiny-text-output" style="font-size: smaller;"></div>
             </div>
           </div>
         </div>
@@ -580,11 +608,16 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title">Disease Stage</h4>
+            <h4 class="modal-title">Timing of Interventions</h4>
           </div>
           <div class="modal-body">
-            <p>Select the disease stage for which to show evidence.</p><br>
-            <p>Some interventions have stronger expert recommendation or quality of evidence at different stages of the disease course</p>
+            <p>Some interventions are considered more appropriate or have higher quality evidence at different stages of the disease course. In this study, we considered the appropriateness of each intervention for early/mild, mid/moderate, and late/severe osteoarthritis, corresponding approximately to their recommendation as first-line (core long-term management), second-line (optional adjunctive management), or third-line (surgical management for end-stage osteoarthritis) treatment options.</p><br>
+            <strong><em>Options:</em></strong>
+            <ul>
+              <li><strong>Overall: </strong>the evidence table is based on the overall recommendation and data from the Clinical Practice Guidelines</li>
+              <li><strong>Early/Mid/Late: </strong>the recommendation attribute is adjusted based on whether interventions were considered as core, optional adjunctive, or end-stage surgical management treatment options</li>
+            </ul>
+            <p>Further details of the adjustments for timing of interventions will be provided in upcoming publications.</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -600,9 +633,9 @@
             <h4 class="modal-title">Source of Evidence</h4>
           </div>
           <div class="modal-body">
-            <p>Different sources of evidence (e.g clinical practice guidelines, systematic reviews) can be selected (at this stage, only the RACGP guidlines are available).</p><br>
-            <p><strong>RACGP:</strong><br>
-              Royal Australian College of General Practitioners clinical guidelines</p>
+            <p>Different sources of evidence (e.g clinical practice guidelines, systematic reviews) can be selected (at this stage, only the RACGP guidelines are available).</p><br>
+            <p><strong>RACGP Guideline:</strong><br>
+              Royal Australian College of General Practitioners' <em>Guideline for the management of knee and hip osteoarthritis</em> (2017)</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
