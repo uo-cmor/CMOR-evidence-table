@@ -357,9 +357,8 @@ server <- function(input, output, session) {
 		updateSliderInput(session, "wgt_eff", value = attributeWeights[[8]])
 	})
 	
-	observe({
-		input$normaliseWeights
-		wgt <- isolate(preferenceWeights())
+	observeEvent(input$normaliseWeights, {
+		wgt <- preferenceWeights()
 		
 		updateSliderInput(session, "wgt_rec", value = wgt[[1]])
 		updateSliderInput(session, "wgt_qua", value = wgt[[2]])
