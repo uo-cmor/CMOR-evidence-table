@@ -332,7 +332,16 @@ server <- function(input, output, session) {
 			scale_x_discrete(NULL) +
 			guides(fill = guide_legend(reverse = TRUE))
 	},
-	height = function() max(200, 12 * dim(preferenceTables())[[1]]))
+	height = function() max(280, 12 * dim(preferenceTables())[[1]]))
+	
+	output$plotDescription <- renderText({
+		req(plotdata())
+		
+		"The length of each bar represents the total preference score for the intervention (i.e. the sum of the preference 
+		 weights for each of the intervention's attribute levels). The contribution of each attribute to the total is shown
+		 by the coloured sections of each bar.\nClick on a bar to see a summary of the intervention attributes and 
+		 corresponding preference weights."
+	})
 
 	# Update input widgets
 	observe({
@@ -348,9 +357,8 @@ server <- function(input, output, session) {
 		updateSliderInput(session, "wgt_eff", value = attributeWeights[[8]])
 	})
 	
-	observe({
-		input$normaliseWeights
-		wgt <- isolate(preferenceWeights())
+	observeEvent(input$normaliseWeights, {
+		wgt <- preferenceWeights()
 		
 		updateSliderInput(session, "wgt_rec", value = wgt[[1]])
 		updateSliderInput(session, "wgt_qua", value = wgt[[2]])
