@@ -4,6 +4,9 @@
   clear: both;
   display: table;
 }
+.container-fluid {
+  padding: 25px;
+}
 .form-group {
   margin-bottom: 0;
 }
@@ -15,7 +18,18 @@ a[data-toggle=modal]:hover {
   outline: none;
   text-decoration: none;
 }
-
+/*-------- Navigaton panel ------  */
+.dropdown {
+  float: right;
+  height: 42px;
+}
+#btn-weights,
+#btn-interventions,
+#btn-options,
+#btn-instructions {
+  padding: 10px 15px;
+  display: block;
+}
 /*-------- Options panel ----------*/
 .well {
   margin: 0;
@@ -73,9 +87,6 @@ a[data-toggle=modal]:hover {
 
 /*-------- Media queries ----------*/
 @media only screen and (min-width: 1200px) {
-  /* .options, .weights, .interventions {
-    display: block !important;
-  } */
   .radio {
     width: 100%;
   }
