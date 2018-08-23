@@ -36,6 +36,22 @@ a[data-toggle=modal]:hover {
   float: left;
   margin-top: 10px !important;
 }
+.buttons-panel {
+  border-radius: 5px;
+  background-color: transparent;
+  border: 1px solid #e3e3e3;
+  color: #5b5b5b;
+  margin-top: 10px;
+  padding: 5px;
+  width: 100%;
+  text-align: left;
+}
+.buttons-panel:hover {
+  background-color: #e3e3e3;
+}
+.hide{
+  display: none;
+}
 /*-------- Plot area --------------*/
 #button-expand {
   float: right;
@@ -59,9 +75,6 @@ a[data-toggle=modal]:hover {
 @media only screen and (min-width: 1200px) {
   /* .options, .weights, .interventions {
     display: block !important;
-  } */
-  /* #options-tab, #weights-tab, #interventions-tab {
-    display: none;
   } */
   .radio {
     width: 100%;

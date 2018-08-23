@@ -37,44 +37,24 @@
 <body>
   <div class="container-fluid">
     <h1>CMOR Evidence Table and Preference Ranking for OA Interventions</h1>
-    <!-- Navigation panel -->
-    <div class="row">
-      <div class="col-lg-3 side-panel">
-        <button type="button" id="panel-button"><span class="fas fa-angle-double-left"></span></button>
-      </div>
-      <div class="col-lg-9 main">
-        <ul class="nav nav-tabs" data-tabsetid="9829">
-          <li class="active">
-            <a href="#tab-9829-2" data-toggle="tab" data-value="Plot">Plot</a>
-          </li>
-          <li>
-            <a href="#tab-9829-4" data-toggle="tab" data-value="Instructions">Instructions</a>
-          </li>
-          <li>
-            <a href="#tab-9829-1" data-toggle="tab" data-value="Evidence Table">Evidence Table</a>
-          </li>
-          <li>
-            <a id="options-tab" class="hidden-lg" href="#">Options <span class="fas fa-angle-down"></span></a>
-          </li>
-          <li>
-            <a id="interventions-tab" class="hidden-lg" href="#">Interventions <span class="fas fa-angle-down"></span></a>
-          </li>
-          <li>
-            <a id="weights-tab" class="hidden-lg" href="#">Weights <span class="fas fa-angle-down"></span></a>
-          </li>
-        </ul>
-      </div> <!--col-lg-9-->
-    </div> <!--row-->
 
     <!-- Main -->
     <div class="row">
 
       <!-- Side/top panel -->
-      <div class="col-lg-3 side-panel">
+      <div id="side-panel" class="col-lg-1">
         <form class="well">
 
+          <!--Instructions Section-->
+          <button type="button" class="buttons-panel visible-lg-block">
+            Instructions <span class="fas fa-question-circle"></span>
+          </button>
+
           <!-- Options section -->
-          <div class="row visible-lg-block" id="options">
+          <button type="button" class="buttons-panel visible-lg-block">
+            Options <span class="fas fa-angle-down"></span>
+          </button>
+          <div class="row hide" id="options">
             <div class="col-xs-6 col-sm-7 col-md-6">
               <strong>Timing of Interventions:</strong>
               <a data-toggle="modal" data-target="#helpDiseaseStage" href="#"><i class="fa fa-info-circle"></i></a>
@@ -126,7 +106,10 @@
           </div> <!--.row--> <!-- End of options section-->
 
           <!-- Interventions section -->
-          <div class="row visible-lg-block" id="interventions">
+          <button type="button" class="buttons-panel visible-lg-block">
+            Interventions <span class="fas fa-angle-down"></span>
+          </button>
+          <div class="row hide" id="interventions">
 
             <div class="row">
               <div class="col-xs-12">
@@ -346,7 +329,10 @@
           </div> <!--.row--> <!-- End of interventions section-->
 
           <!-- Weights section -->
-          <div class="row visible-lg-block" id="weights">
+          <button type="button" class="buttons-panel visible-lg-block">
+            Weights <span class="fas fa-angle-down"></span>
+          </button>
+          <div class="row hide" id="weights">
             <div class="row">
               <div class="col-xs-6">
                 <strong>Preference Weights:</strong>
@@ -518,9 +504,33 @@
           </div> <!--.weights--> <!-- End of weights section-->
 
         </form> <!--.well-->
-      </div> <!--.col-lg-3-->
+      </div> <!--.col-lg-1-->
 
-      <div class="col-lg-9 main">
+      <div class="col-lg-11 main">
+        <!-- Navigation panel -->
+        <div class="navtab">
+          <ul class="nav nav-tabs" data-tabsetid="9829">
+            <li class="active">
+              <a href="#tab-9829-2" data-toggle="tab" data-value="Plot">Plot</a>
+            </li>
+            <li>
+              <a href="#tab-9829-4" data-toggle="tab" data-value="Instructions">Instructions</a>
+            </li>
+            <li>
+              <a href="#tab-9829-1" data-toggle="tab" data-value="Evidence Table">Evidence Table</a>
+            </li>
+            <li>
+              <a id="options-tab" class="hidden-lg" href="#">Options <span class="fas fa-angle-down"></span></a>
+            </li>
+            <li>
+              <a id="interventions-tab" class="hidden-lg" href="#">Interventions <span class="fas fa-angle-down"></span></a>
+            </li>
+            <li>
+              <a id="weights-tab" class="hidden-lg" href="#">Weights <span class="fas fa-angle-down"></span></a>
+            </li>
+          </ul>
+        </div>
+        <!-- Plot/Table area -->
         <div class="tabbable">
           <div class="tab-content" data-tabsetid="9829">
 
@@ -610,7 +620,7 @@
 
           </div>
         </div>
-      </div> <!--.col-lg-9-->
+      </div> <!--.col-lg-11-->
     </div> <!--.row--> <!-- End of Main -->
 
   </div> <!--.container-fluid-->
