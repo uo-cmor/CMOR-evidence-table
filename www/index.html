@@ -36,7 +36,7 @@
 
 <body>
   <div class="container-fluid">
-    <h2>CMOR Evidence Table and Preference Ranking for OA Interventions</h2>
+    <h1>CMOR Evidence Table and Preference Ranking for OA Interventions</h1>
     <!-- Navigation panel -->
     <div class="row">
       <div class="col-lg-3 side-panel">
@@ -44,17 +44,14 @@
       </div>
       <div class="col-lg-9 main">
         <ul class="nav nav-tabs" data-tabsetid="9829">
-        	<li class="active">
-            <a href="#tab-9829-3" data-toggle="tab" data-value="About">About</a>
+          <li class="active">
+            <a href="#tab-9829-2" data-toggle="tab" data-value="Plot">Plot</a>
           </li>
           <li>
             <a href="#tab-9829-4" data-toggle="tab" data-value="Instructions">Instructions</a>
           </li>
           <li>
             <a href="#tab-9829-1" data-toggle="tab" data-value="Evidence Table">Evidence Table</a>
-          </li>
-          <li>
-            <a href="#tab-9829-2" data-toggle="tab" data-value="Plot">Plot</a>
           </li>
           <li>
             <a id="options-tab" class="hidden-lg" href="#">Options <span class="fas fa-angle-down"></span></a>
@@ -525,38 +522,61 @@
 
       <div class="col-lg-9 main">
         <div class="tabbable">
-          <!-- Previous place of navbar -->
           <div class="tab-content" data-tabsetid="9829">
-            <div class="tab-pane active" data-value="About" id="tab-9829-3">
-              <div style="width:100%; height:auto;">
-                <h3 style="background-color:yellow; text-align:center;"><strong>***PRELIMINARY RESULTS: NOT FOR CITATION***</strong></h3>
-                <h3>Introduction</h3>
-                <p>
-                  Knee osteoarthritis is a major public health issue associated with chronic pain and disability, substantial public and private healthcare expenditure, and economic impacts through reduced workplace productivity and early retirement. Although there is no cure for osteoarthritis, effective interventions to manage the condition are available, and health service models that provide effective, accessible, acceptable, and equitable care are recognised as crucial to maximise health and economic outcomes for people with osteoarthritis.
-                </p>
-                <p>
-                  Clinical practice guidelines consistently recommend self-management (including education), exercise/physical activity, and weight loss (if appropriate) as core strategies for the management of osteoarthritis. However, it is widely recognised that that recommended management is inconsistently provided to those living with OA, particularly in primary care settings.
-                </p>
-                <p>Engaging relevant stakeholders – including consumers of osteoarthritis care, healthcare providers, and health policy makers – can help to formulate solutions which are more likely to be effective, acceptable, and feasible within the context of a given health system, maximising their potential for effective uptake and impact. For example, solutions developed with meaningful consumer input may improve intervention adherence, alignment of expectations and outcomes, and strenthen consumer autonomy – the centrepieces of person-centred care; healthcare providers could have greater capacity to choose interventions that are feasible within their local context and supported by and aligned with high-quality evidence.
-                </p>
-                <p>
-                  The objective of this study was to inform the recommendation of interventions for knee osteoarthritis by (a) revealing the preferences of key stakeholders and decision-makers in osteoarthritis care for the attributes of interventions (such as cost, clinical effectiveness, risk of harm, and accessibility to patients); (b) assessing the performance of interventions in relation to these key attributes; and (c) prioritising interventions on the basis of their alignment with preferences.
-                </p>
-                <h3>This tool</h3>
-                <p>
-                  This application provides access to the evidence tables and preference weights estimated in the project.
-                </p>
-                <p>
-                  To get started, select the desired options in the <span class="hidden-xs hidden-sm hidden-md">options panel to the left</span><span class="hidden-lg">"Options", "Interventions", and "Preference Weights" drop-down tabs above</span> and then click the "Evidence Table" or "Plot" tabs <span class="hidden-xs hidden-sm hidden-md">above </span>to see the results.
-                </p>
-                <p>
-                  For further help on using this tool, click the "Instructions" tab above.
-                <h3>Contact</h3>
-                <p>
-                  For enquiries, contact Dr Ross Wilson, Centre for Musculoskeletal Outcomes Research, University of Otago (<a href="mailto:ross.wilson@otago.ac.nz?Subject=CMOR%20Evidence%20Table">ross.wilson@otago.ac.nz</a>)
-                </p>
-              </div>
-            </div>
+
+            <div class="tab-pane active" data-value="Plot" id="tab-9829-2">
+              <div class="row">
+                <p style="background-color:yellow; text-align:center;"><strong>***PRELIMINARY RESULTS: NOT FOR CITATION***</strong></p>
+                <div id="plot-area">
+                  <div id="preferencePlot" class="shiny-plot-output" data-click-id="plot_click" data-click-clip="FALSE" style="height:285px; overflow:hidden;"></div>
+                  <button id="button-expand" type="button"><span id="expand-text">Expand </span><span class="fas fa-angle-down"></span></button>
+                </div> <br>
+                <div id="plotDescription" class="shiny-text-output" style="font-size: smaller;"></div>
+              </div> <!--.row-->
+              <hr>
+              <div class="row">
+                <div class="col-lg-8">
+
+                  <h3>Introduction</h3>
+                  <p>Knee osteoarthritis is a major public health issue associated with chronic pain and disability, substantial public
+                    and private healthcare expenditure, and economic impacts through reduced workplace productivity and early retirement.
+                    Although there is no cure for osteoarthritis, effective interventions to manage the condition are available, and health
+                    service models that provide effective, accessible, acceptable, and equitable care are recognised as crucial to maximise
+                    health and economic outcomes for people with osteoarthritis.</p>
+                  <p>Clinical practice guidelines consistently recommend self-management (including education), exercise/physical activity,
+                    and weight loss (if appropriate) as core strategies for the management of osteoarthritis. However, it is widely recognised
+                    that that recommended management is inconsistently provided to those living with OA, particularly in primary care settings.</p>
+                  <p>Engaging relevant stakeholders – including consumers of osteoarthritis care, healthcare providers, and health policy makers –
+                    can help to formulate solutions which are more likely to be effective, acceptable, and feasible within the context of a given
+                    health system, maximising their potential for effective uptake and impact. For example, solutions developed with meaningful consumer
+                    input may improve intervention adherence, alignment of expectations and outcomes, and strenthen consumer autonomy – the centrepieces
+                    of person-centred care; healthcare providers could have greater capacity to choose interventions that are feasible within their local
+                    context and supported by and aligned with high-quality evidence.</p>
+                  <p>The objective of this study was to inform the recommendation of interventions for knee osteoarthritis by (a) revealing the preferences
+                    of key stakeholders and decision-makers in osteoarthritis care for the attributes of interventions (such as cost, clinical effectiveness,
+                    risk of harm, and accessibility to patients); (b) assessing the performance of interventions in relation to these key attributes; and (c)
+                    prioritising interventions on the basis of their alignment with preferences.</p>
+
+                  <h3>This tool</h3>
+                  <p>This application provides access to the evidence tables and preference weights estimated in the project.</p>
+                  <p>To get started, select the desired options in the <span class="hidden-xs hidden-sm hidden-md">options panel to the left</span>
+                    <span class="hidden-lg">"Options", "Interventions", and "Preference Weights" drop-down tabs above</span> and then click the "Evidence Table"
+                    or "Plot" tabs <span class="hidden-xs hidden-sm hidden-md">above </span>to see the results.</p>
+                  <p>For further help on using this tool, click the "Instructions" tab above.
+
+                  <h3>Contact</h3>
+                  <p>For enquiries, contact Dr Ross Wilson, Centre for Musculoskeletal Outcomes Research, University of Otago
+                    (<a href="mailto:ross.wilson@otago.ac.nz?Subject=CMOR%20Evidence%20Table">ross.wilson@otago.ac.nz</a>)</p>
+                </div> <!--.col-lg-6-->
+
+              </div> <!--.row-->
+            </div> <!--.tab-pane-->
+
+            <div class="tab-pane" data-value="Evidence Table" id="tab-9829-1">
+              <p style="background-color:yellow; text-align:center;"><strong>***PRELIMINARY RESULTS: NOT FOR CITATION***</strong></p>
+              <div id="selectedEvidenceTable" style="width:100%; height:auto; " class="datatables html-widget html-widget-output"></div>
+            </div> <!--tab-pane-->
+
             <div class="tab-pane" data-value="Instructions" id="tab-9829-4">
               <div style="width:100%; height:auto;">
                 <h3 style="background-color:yellow; text-align:center;"><strong>***PRELIMINARY RESULTS: NOT FOR CITATION***</strong></h3>
@@ -586,16 +606,8 @@
                   The plot shows the preference score for each selected intervention, and the contribution of each attribute level to the aggregate preference score. You can click on the bar for an intervention to provide a summary of the attribute levels and associated preference weights for that intervention. Click elsewhere on the plot to remove the summary.
                 </p>
               </div>
-            </div>
-            <div class="tab-pane" data-value="Evidence Table" id="tab-9829-1">
-              <h3 style="background-color:yellow; text-align:center;"><strong>***PRELIMINARY RESULTS: NOT FOR CITATION***</strong></h3>
-              <div id="selectedEvidenceTable" style="width:100%; height:auto; " class="datatables html-widget html-widget-output"></div>
-            </div>
-            <div class="tab-pane" data-value="Plot" id="tab-9829-2">
-              <h3 style="background-color:yellow; text-align:center;"><strong>***PRELIMINARY RESULTS: NOT FOR CITATION***</strong></h3>
-              <div id="preferencePlot" class="shiny-plot-output" style="width: 100%;" data-click-id="plot_click" data-click-clip="FALSE"></div><hr>
-              <div id="plotDescription" class="shiny-text-output" style="font-size: smaller;"></div>
-            </div>
+            </div> <!--.tab-pane-->
+
           </div>
         </div>
       </div> <!--.col-lg-9-->
