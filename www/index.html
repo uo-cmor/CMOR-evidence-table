@@ -46,7 +46,7 @@
         <form class="well">
 
           <!--Instructions Section-->
-          <button type="button" class="buttons-panel visible-lg-block">
+          <button type="button" class="buttons-panel visible-lg-block" data-toggle="modal" data-target="#instructions">
             Instructions <span class="fas fa-question-circle"></span>
           </button>
 
@@ -514,9 +514,6 @@
               <a href="#tab-9829-2" data-toggle="tab" data-value="Plot">Plot</a>
             </li>
             <li>
-              <a href="#tab-9829-4" data-toggle="tab" data-value="Instructions">Instructions</a>
-            </li>
-            <li>
               <a href="#tab-9829-1" data-toggle="tab" data-value="Evidence Table">Evidence Table</a>
             </li>
             <li>
@@ -586,38 +583,6 @@
               <p style="background-color:yellow; text-align:center;"><strong>***PRELIMINARY RESULTS: NOT FOR CITATION***</strong></p>
               <div id="selectedEvidenceTable" style="width:100%; height:auto; " class="datatables html-widget html-widget-output"></div>
             </div> <!--tab-pane-->
-
-            <div class="tab-pane" data-value="Instructions" id="tab-9829-4">
-              <div style="width:100%; height:auto;">
-                <h3 style="background-color:yellow; text-align:center;"><strong>***PRELIMINARY RESULTS: NOT FOR CITATION***</strong></h3>
-                <h3>How it works</h3>
-                <p>
-                  In this application, interventions for the clinical management of knee osteoarthritis are characterised according to eight attributes: recommendation (appropriateness for the stage of the disease), quality of evidence, cost, duration of effect, accessibility, risk of mild/moderate harm, risk of serious harm, and effectiveness. Each attribute describes between 3 and 5 levels of performance, in increasing order of desirability (for the details of the levels described by each attribute, click the help icon <a><i class="fa fa-info-circle"></i></a> next to the attribute heading in the Preference Weights panel).
-                </p>
-                <h4>Evidence:</h4>
-                <p>
-                  In our study, the performance of each intervention according to these eight attributes was informed by the Royal Australian College of General Practitioners' <em>Guideline for the management of knee and hip osteoarthritis</em> (2017), supplemented where necessary by additional sources including (in decreasing order of preference) systematic reviews and meta-analyses, other published data, and research team judgement. This performance scoring can differ at different stages of the disease course (for example, total joint replacement has little evidence and is generally not recommended/appropriate for early-stage disease, but is strongly recommended for patients with severe late-stage disease); to incorporate this in the ranking model, evidence tables can be constructed for early, mid, or late-stage disease using the 'Disease Stage' option. In future iterations of this evidence table, we will incorporate the option to select different sources of evidence to inform the table and resulting preference weights.
-                </p>
-                <h4>Interventions</h4>
-                <p>
-                  A total of 74 interventions are included in the current version of the evidence table. These can be filtered by category and, if required, by the selection of specific interventions in the Interventions option panel.
-                </p>
-                <h4>Preference Weights</h4>
-                <p>
-                  To avoid potential biases in stakeholder evaluations of the interventions due to prior beliefs or pre-conceived ideas about different treatments, preference weights, or the relative values assigned to each intervention, were derived indirectly by obtaining preference weights for the eight attributes, which can then be summed to derive an aggregate preference score for each intervention. The preference weights presented here were derived from a study of the preferences of key New Zealand stakeholder groups (consumers with OA, M&amacr;ori health advocates, health care providers, health policy makers, and content area experts). To investigate the effect on preference rankings using any other set of preference weights, move the sliders/numeric inputs in the Preference Weights panel.
-                </p>
-                <h4>Outputs</h4>
-                <p>
-                  Outputs can be shown by clicking the "Evidence Table" or "Plot" tabs above.
-                </p>
-                <p>The evidence table reports the performance of each selected intervention on the eight attributes, according to the specified evidence source and timing of interventions, and the resulting aggregate preference score using the specified preference weights. Interventions are (by default) ranked by total preference score. The table can be sorted by intervention name, attribute, or preference score by clicking on the column headers, and searched for specific interventions or attribute levels using the search box
-                </p>
-                <p>
-                  The plot shows the preference score for each selected intervention, and the contribution of each attribute level to the aggregate preference score. You can click on the bar for an intervention to provide a summary of the attribute levels and associated preference weights for that intervention. Click elsewhere on the plot to remove the summary.
-                </p>
-              </div>
-            </div> <!--.tab-pane-->
-
           </div>
         </div>
       </div> <!--.col-lg-11-->
@@ -626,6 +591,57 @@
   </div> <!--.container-fluid-->
 
   <!-- Modal Popups Content -->
+    <!-- Instructions -->
+    <div id="instructions" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">How it works</h4>
+          </div>
+          <div class="modal-body">
+            <p>In this application, interventions for the clinical management of knee osteoarthritis are characterised according
+              to eight attributes: recommendation (appropriateness for the stage of the disease), quality of evidence, cost, duration
+              of effect, accessibility, risk of mild/moderate harm, risk of serious harm, and effectiveness. Each attribute describes
+              between 3 and 5 levels of performance, in increasing order of desirability (for the details of the levels described by each
+              attribute, click the help icon <a><i class="fa fa-info-circle"></i></a> next to the attribute heading in the Preference Weights
+              panel).</p><br>
+              <strong><em>Evidence:</em></strong>
+              <p>In our study, the performance of each intervention according to these eight attributes was informed by the Royal
+                Australian College of General Practitioners' <em>Guideline for the management of knee and hip osteoarthritis</em>
+                (2017), supplemented where necessary by additional sources including (in decreasing order of preference) systematic
+                reviews and meta-analyses, other published data, and research team judgement. This performance scoring can differ at
+                different stages of the disease course (for example, total joint replacement has little evidence and is generally not
+                recommended/appropriate for early-stage disease, but is strongly recommended for patients with severe late-stage disease);
+                to incorporate this in the ranking model, evidence tables can be constructed for early, mid, or late-stage disease
+                using the 'Disease Stage' option. In future iterations of this evidence table, we will incorporate the option to select
+                different sources of evidence to inform the table and resulting preference weights.</p><br>
+              <strong><em>Interventions:</em></strong>
+              <p>A total of 74 interventions are included in the current version of the evidence table. These can be filtered
+                by category and, if required, by the selection of specific interventions in the Interventions option panel.</p><br>
+              <strong><em>Preference Weights:</em></strong>
+              <p>To avoid potential biases in stakeholder evaluations of the interventions due to prior beliefs or pre-conceived
+                ideas about different treatments, preference weights, or the relative values assigned to each intervention, were derived
+                indirectly by obtaining preference weights for the eight attributes, which can then be summed to derive an aggregate
+                preference score for each intervention. The preference weights presented here were derived from a study of the preferences
+                of key New Zealand stakeholder groups (consumers with OA, M&amacr;ori health advocates, health care providers, health policy
+                makers, and content area experts). To investigate the effect on preference rankings using any other set of preference
+                weights, move the sliders/numeric inputs in the Preference Weights panel.</p><br>
+              <strong><em>Outputs:</em></strong>
+              <p>Outputs can be shown by clicking the "Evidence Table" or "Plot" tabs above.</p><br>
+              <p>The evidence table reports the performance of each selected intervention on the eight attributes, according to the
+                specified evidence source and timing of interventions, and the resulting aggregate preference score using the specified
+                preference weights. Interventions are (by default) ranked by total preference score. The table can be sorted by intervention
+                name, attribute, or preference score by clicking on the column headers, and searched for specific interventions or attribute
+                levels using the search box.</p>
+              <p>The plot shows the preference score for each selected intervention, and the contribution of each attribute level to the
+                aggregate preference score. You can click on the bar for an intervention to provide a summary of the attribute levels and
+                associated preference weights for that intervention. Click elsewhere on the plot to remove the summary.</p>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Got it!</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- Disease Stage -->
     <div id="helpDiseaseStage" class="modal fade" role="dialog">
       <div class="modal-dialog">
@@ -727,7 +743,6 @@
         </div>
       </div>
     </div>
-
     <!-- Quality of Evidence -->
     <div id="helpQua" class="modal fade" role="dialog">
       <div class="modal-dialog">
