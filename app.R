@@ -325,12 +325,21 @@ server <- function(input, output, session) {
 			geom_col(aes(group = attribute), fill = NA, size = 1, colour = "black",
 							 data = filter(plotdata, Intervention %in% labdata$name), show.legend = FALSE) +
 			geom_label(aes(x, y, label = label), data = labdata, show.legend = FALSE,
-								 hjust = "left", vjust = "inward") +
+								 hjust = "inward", vjust = "inward") +
 			coord_flip() +
-			scale_fill_brewer("Attribute", type = "qual", palette = "Paired") +
-			scale_y_continuous(NULL, limits = c(0, 100), expand = c(0, 0)) +
+			scale_fill_brewer(NULL, type = "qual", palette = "Paired") +
+			scale_y_continuous(NULL, limits = c(0, 100), expand = c(0, 0), sec.axis = dup_axis()) +
 			scale_x_discrete(NULL) +
-			guides(fill = guide_legend(reverse = TRUE))
+			guides(fill = guide_legend(reverse = TRUE, label.position = "bottom", 
+																 byrow = ifelse(session$clientData$output_preferencePlot_width >= 768, FALSE, TRUE),
+																 nrow = ifelse(session$clientData$output_preferencePlot_width >= 1000, 1, 
+																 							 ifelse(session$clientData$output_preferencePlot_width >= 768, 2, 4)),
+																 keywidth = unit(ifelse(session$clientData$output_preferencePlot_width >= 1050, 3, 1), 
+																 								"lines"))) +
+			theme(legend.position = "bottom",
+						legend.justification = c(0, 0),
+						legend.background = element_rect(fill = NA, linetype = 0),
+						legend.key = element_rect(fill = NA, linetype = 0))
 	},
 	height = function() max(280, 12 * dim(preferenceTables())[[1]]))
 	
