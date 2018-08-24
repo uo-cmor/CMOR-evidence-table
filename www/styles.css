@@ -1,8 +1,11 @@
 /*-------- General ----------------*/
 .clearfix::after {
-    content: "";
-    clear: both;
-    display: table;
+  content: "";
+  clear: both;
+  display: table;
+}
+.container-fluid {
+  padding: 25px;
 }
 .form-group {
   margin-bottom: 0;
@@ -11,51 +14,58 @@
   margin-top: 10px;
 }
 a[data-toggle=modal]:focus,
-a[data-toggle=modal]:hover {
+a[data-toggle=modal]:hover,
+.dropdown-toggle:hover,
+ .dropdown-toggle:focus {
   outline: none;
   text-decoration: none;
 }
-/*-------- Options panel ----------*/
-.well {
-  margin: 0;
-  padding: 0;
-  border: none;
-  background-color: transparent;
+/*-------- Navigaton panel ------  */
+.navtab {
+  padding-right: 0;
 }
-.options, .weights, .interventions {
+.option-buttons-outer {
+  padding-left: 0;
+  height: 42px;
+}
+.option-buttons-inner {
+  height: 41px;
+  border-bottom: 1px solid #ddd;
+}
+.dropdown {
+  float: right;
+}
+#btn-weights,
+#btn-interventions,
+#btn-options,
+#btn-instructions {
+  padding: 10px 15px;
+  display: block;
+}
+/*-------- Option panels ----------*/
+#options,
+#weights,
+#interventions {
   background-color: #f5f5f5;
   border: 1px solid #e3e3e3;
-  border-radius: 4px;
-  /* margin: 0 0 1px; */
   margin: 0;
   padding: 20px;
 }
-.radio {
-  width: 90px;
-  float: left;
-  margin-top: 10px !important;
+/*-------- Plot area --------------*/
+#button-expand {
+  float: right;
+  position: relative;
+  bottom: 21px;
+  right: 30px;
+  border-radius: 5px;
+  background-color: transparent !important;
+  border: 1px solid #e3e3e3;
+  color: #5b5b5b;
 }
-
+#button-expand:hover {
+  background-color: #e3e3e3 !important;
+}
 /*-------- Table area -------------*/
 .tabbable {
   padding-top: 15px;
-}
-
-/*-------- Media queries ----------*/
-@media only screen and (min-width: 1200px) {
-  .options, .weights, .interventions {
-    display: block !important;
-  }
-  #options-tab, #weights-tab, #interventions-tab {
-    display: none;
-  }
-  .radio {
-    width: 100%;
-  }
-  #break-checkbox {
-    margin-top: -5px;
-  }
-  .radio:not(.first) {
-    margin-top: -5px !important;
-  }
 }
