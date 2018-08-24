@@ -14,14 +14,26 @@
   margin-top: 10px;
 }
 a[data-toggle=modal]:focus,
-a[data-toggle=modal]:hover {
+a[data-toggle=modal]:hover,
+.dropdown-toggle:hover,
+ .dropdown-toggle:focus {
   outline: none;
   text-decoration: none;
 }
 /*-------- Navigaton panel ------  */
+.navtab {
+  padding-right: 0;
+}
+.option-buttons-outer {
+  padding-left: 0;
+  height: 42px;
+}
+.option-buttons-inner {
+  height: 41px;
+  border-bottom: 1px solid #ddd;
+}
 .dropdown {
   float: right;
-  height: 42px;
 }
 #btn-weights,
 #btn-interventions,
@@ -30,41 +42,14 @@ a[data-toggle=modal]:hover {
   padding: 10px 15px;
   display: block;
 }
-/*-------- Options panel ----------*/
-.well {
-  margin: 0;
-  padding: 0;
-  border: none;
-  background-color: transparent;
-}
-#options, #weights, #interventions {
+/*-------- Option panels ----------*/
+#options,
+#weights,
+#interventions {
   background-color: #f5f5f5;
   border: 1px solid #e3e3e3;
-  border-radius: 4px;
-  /* margin: 0 0 1px; */
   margin: 0;
   padding: 20px;
-}
-.radio {
-  width: 90px;
-  float: left;
-  margin-top: 10px !important;
-}
-.buttons-panel {
-  border-radius: 5px;
-  background-color: transparent;
-  border: 1px solid #e3e3e3;
-  color: #5b5b5b;
-  margin-top: 10px;
-  padding: 5px;
-  width: 100%;
-  text-align: left;
-}
-.buttons-panel:hover {
-  background-color: #e3e3e3;
-}
-.hide{
-  display: none;
 }
 /*-------- Plot area --------------*/
 #button-expand {
@@ -83,17 +68,4 @@ a[data-toggle=modal]:hover {
 /*-------- Table area -------------*/
 .tabbable {
   padding-top: 15px;
-}
-
-/*-------- Media queries ----------*/
-@media only screen and (min-width: 1200px) {
-  .radio {
-    width: 100%;
-  }
-  #break-checkbox {
-    margin-top: -5px;
-  }
-  .radio:not(.first) {
-    margin-top: -5px !important;
-  }
 }
