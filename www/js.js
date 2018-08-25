@@ -32,17 +32,13 @@ function turnArrowsDown() {
 var button_expand = document.querySelector("#button-expand");
 var pref_plot = document.querySelector("#preferencePlot");
 var expand_text = document.querySelector("#expand-text");
+var navbar = document.querySelector(".navbar");
 
 button_expand.addEventListener("click", function(){
-  if (pref_plot.style.height === "auto") {
-    pref_plot.style.height = "285px";
-    expand_text.textContent = "Expand ";
-    arrow_icon[3].className = "fas fa-angle-down";
-  } else {
-    pref_plot.style.height = "auto";
-    expand_text.textContent = "Collapse ";
-    arrow_icon[3].className = "fas fa-angle-down fa-flip-vertical";
-  }
+  pref_plot.style.height = "auto";
+  expand_text.textContent = "Collapse ";
+  this.style.display = "none";
+  navbar.style.display = "block";
 });
 
 //Connect slider with numeric inputs

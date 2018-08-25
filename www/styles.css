@@ -21,6 +21,9 @@ a[data-toggle=modal]:hover,
   text-decoration: none;
 }
 /*-------- Navigaton panel ------  */
+.navbar {
+  margin-bottom: 0;
+}
 .navtab {
   padding-right: 0;
 }
@@ -61,6 +64,6 @@ a[data-toggle=modal]:hover,
   background-color: #e3e3e3 !important;
 }
 /*-------- Table area -------------*/
-.tabbable {
+#tab-9829-1{
   padding-top: 15px;
 }
