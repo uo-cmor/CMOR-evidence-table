@@ -30,6 +30,7 @@
 	<script src="shared/bootstrap/js/bootstrap.min.js"></script>
 	<script src="shared/bootstrap/shim/html5shiv.min.js"></script>
 	<script src="shared/bootstrap/shim/respond.min.js"></script>  <title>CMOR Evidence Table</title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 </head>
@@ -40,7 +41,7 @@
     <h1>CMOR Evidence Table and Preference Ranking for OA Interventions</h1>
 
     <!-- Navigation panel -->
-    <div class="row navbar" style="display:none;">
+    <div class="row navbar">
 
       <div class="col-xs-6 navtab">
         <ul class="nav nav-tabs" data-tabsetid="9829">
@@ -48,7 +49,7 @@
             <a href="#tab-9829-2" data-toggle="tab" data-value="Plot">Plot</a>
           </li>
           <li>
-            <a href="#tab-9829-1" data-toggle="tab" data-value="Evidence Table">Evidence Table</a>
+            <a href="#tab-9829-1" data-toggle="tab" data-value="Evidence Table">Table</a>
           </li>
         </ul>
       </div> <!--.col-xs-3-->
@@ -520,7 +521,7 @@
               <div id="plot-area">
                 <div id="preferencePlot" class="shiny-plot-output" data-click-id="plot_click" data-click-clip="FALSE" style="height:285px; overflow:hidden;"></div>
               </div> <br>
-              <button id="button-expand" type="button"><span id="expand-text">Expand </span><span class="fas fa-angle-down"></span></button>
+              <button id="button-expand" type="button"><span>Expand </span><span class="fas fa-angle-down"></span></button>
             </div> <!--.row-->
           </div> <!--.tab-pane-->
 

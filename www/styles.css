@@ -6,6 +6,7 @@
 }
 .container-fluid {
   padding: 25px;
+  font-family: 'Open Sans', sans-serif;
 }
 .form-group {
   margin-bottom: 0;
@@ -29,7 +30,39 @@ a[data-toggle=modal]:hover,
 }
 .nav-tabs {
   float: left;
+  border-bottom: none;
 }
+.nav-tabs>li.active>a,
+.nav-tabs>li.active>a:focus,
+.nav-tabs>li.active>a:hover {
+  color: white;
+  background-color: #337ab7;
+  border: 1.2px solid #337ab7;
+  border-bottom-color: #337ab7;
+}
+.nav-tabs>li>a {
+    margin-right: 0;
+    background-color: white;
+    border: 1.2px solid #337ab7;
+    color: #337ab7;
+    width: 50px;
+    padding: 5px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 10px;
+}
+.nav-tabs>li>a:hover {
+  background-color: white;
+  border: 1.2px solid #337ab7;
+}
+.nav-tabs>li>a[data-value="Plot"] {
+  border-radius: 10px 0 0 10px;
+  text-align: right;
+}
+.nav-tabs>li>a[data-value="Evidence Table"] {
+  border-radius: 0 10px 10px 0;
+}
+
 .option-buttons-outer {
   padding-left: 0;
 }
@@ -56,9 +89,10 @@ a[data-toggle=modal]:hover,
 #button-expand {
   float: right;
   border-radius: 5px;
+  padding: 3px 6px;
   background-color: transparent !important;
   border: 1px solid #e3e3e3;
-  color: #5b5b5b;
+  color: #a9a9a9;
 }
 #button-expand:hover {
   background-color: #e3e3e3 !important;

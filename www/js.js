@@ -1,7 +1,7 @@
-// Define variables
+//---------- Define variables --------------------//
 var arrow_icon = document.querySelectorAll(".fa-angle-down");
 
-//Assign behavior to option buttons
+//---------- Assign behavior to option buttons ---//
 var dropdown = document.querySelector(".option-buttons-inner");
 
 document.body.addEventListener("click", function(evt){
@@ -28,26 +28,23 @@ function turnArrowsDown() {
     icon.className = "fas fa-angle-down";
   });
 }
-//Expand plot
+//---------- Expand plot ---------------------------//
 var button_expand = document.querySelector("#button-expand");
 var pref_plot = document.querySelector("#preferencePlot");
-var expand_text = document.querySelector("#expand-text");
 var navbar = document.querySelector(".navbar");
 
 button_expand.addEventListener("click", function(){
   pref_plot.style.height = "auto";
-  expand_text.textContent = "Collapse ";
   this.style.display = "none";
   navbar.style.display = "block";
 });
 
-//Connect slider with numeric inputs
+//---------- Connect slider with numeric inputs ----//
 function updateWeights(input, output) {
   document.getElementById(input).onchange = function() {
     document.getElementById(output).value = this.value;
   }
-}
-
+};
 updateWeights("wgt_rec", "wgt_rec_val");
 updateWeights("wgt_qua", "wgt_qua_val");
 updateWeights("wgt_cos", "wgt_cos_val");
