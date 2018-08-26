@@ -14,6 +14,20 @@
 .control-label {
   margin-top: 10px;
 }
+.small-width, .navbar {
+  max-width: 1000px;
+  margin: auto;
+}
+h1 {
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  padding: 40px 0 50px;
+}
+h3 {
+  font-size: 18px;
+  font-weight: bold;
+}
 a[data-toggle=modal]:focus,
 a[data-toggle=modal]:hover,
 .dropdown-toggle:hover,
@@ -23,10 +37,9 @@ a[data-toggle=modal]:hover,
 }
 /*-------- Navigaton panel ------  */
 .navbar {
-  margin-bottom: 0;
 }
 .navtab {
-  padding-right: 0;
+  padding: 10px 15px;
 }
 .nav-tabs {
   float: left;
@@ -36,15 +49,15 @@ a[data-toggle=modal]:hover,
 .nav-tabs>li.active>a:focus,
 .nav-tabs>li.active>a:hover {
   color: white;
-  background-color: #337ab7;
-  border: 1.2px solid #337ab7;
-  border-bottom-color: #337ab7;
+  background-color: #366eae;
+  border: 1.2px solid #366eae;
+  border-bottom-color: #366eae;
 }
 .nav-tabs>li>a {
     margin-right: 0;
     background-color: white;
-    border: 1.2px solid #337ab7;
-    color: #337ab7;
+    border: 1.2px solid #366eae;
+    color: #366eae;
     width: 50px;
     padding: 5px;
     text-transform: uppercase;
@@ -53,7 +66,7 @@ a[data-toggle=modal]:hover,
 }
 .nav-tabs>li>a:hover {
   background-color: white;
-  border: 1.2px solid #337ab7;
+  border: 1.2px solid #366eae;
 }
 .nav-tabs>li>a[data-value="Plot"] {
   border-radius: 10px 0 0 10px;
@@ -73,8 +86,10 @@ a[data-toggle=modal]:hover,
 #btn-interventions,
 #btn-options,
 #btn-instructions {
-  padding: 10px 15px;
+  padding: 17px 15px 0;
   display: block;
+  color: #366eae;
+  font-size: 15px;
 }
 /*-------- Option panels ----------*/
 #options,
@@ -85,11 +100,18 @@ a[data-toggle=modal]:hover,
   margin: 0;
   padding: 20px;
 }
-/*-------- Plot area --------------*/
+/*-------- Plot/Table area --------------*/
+.tabbable {
+  padding-top: 20px;
+  padding-bottom: 10px;
+  border-top: 1px solid #e3e3e3;
+  border-bottom: 1px solid #e3e3e3;
+}
 #button-expand {
   float: right;
   border-radius: 5px;
-  padding: 3px 6px;
+  padding: 2px 6px;
+  margin: 10px 10px 0 0;
   background-color: transparent !important;
   border: 1px solid #e3e3e3;
   color: #a9a9a9;
@@ -97,7 +119,14 @@ a[data-toggle=modal]:hover,
 #button-expand:hover {
   background-color: #e3e3e3 !important;
 }
-/*-------- Table area -------------*/
-#tab-9829-1{
-  padding-top: 15px;
+/*-------- Text area -------------*/
+.text {
+  text-align: justify;
+}
+.logo {
+  padding: 72px 15px 0 40px;
+}
+.img-responsive {
+  min-height: 80px;
+  margin-bottom: 30px;
 }

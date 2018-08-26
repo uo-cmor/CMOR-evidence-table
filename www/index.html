@@ -37,11 +37,11 @@
 
 <body>
   <div class="container-fluid">
-    <p style="background-color:yellow; text-align:center;"><strong>***PRELIMINARY RESULTS: NOT FOR CITATION***</strong></p>
-    <h1>CMOR Evidence Table and Preference Ranking for OA Interventions</h1>
+    <p style="background-color:yellow; text-align:center; margin-bottom:0;"><strong>***PRELIMINARY RESULTS: NOT FOR CITATION***</strong></p>
+    <h1 class="small-width">CMOR Evidence Table and Preference Ranking for OA Interventions</h1>
 
     <!-- Navigation panel -->
-    <div class="row navbar">
+    <div class="row navbar" style="display:none;">
 
       <div class="col-xs-6 navtab">
         <ul class="nav nav-tabs" data-tabsetid="9829">
@@ -519,8 +519,8 @@
           <div class="tab-pane active" data-value="Plot" id="tab-9829-2">
             <div class="row">
               <div id="plot-area">
-                <div id="preferencePlot" class="shiny-plot-output" data-click-id="plot_click" data-click-clip="FALSE" style="height:285px; overflow:hidden;"></div>
-              </div> <br>
+                <div id="preferencePlot" class="shiny-plot-output" data-click-id="plot_click" data-click-clip="FALSE" style="height:300px; overflow:hidden;"></div>
+              </div>
               <button id="button-expand" type="button"><span>Expand </span><span class="fas fa-angle-down"></span></button>
             </div> <!--.row-->
           </div> <!--.tab-pane-->
@@ -532,26 +532,31 @@
         </div> <!--.tab-content-->
       </div> <!--.tabbable-->
 
-      <div class="row">
-        <div class="col-lg-8">
+      <div class="row small-width">
+        <div class="col-lg-7 text">
           <h3>What matters to you when choosing treatments for knee osteoarthritis?</h3>
-          <p>
-      There are many treatment options available for the management of knee osteoarthritis.
-    </p>
-    <p>
-      Some of them are highly effective, reducing pain and improving joint function and overall quality of life; others have limited or unclear effect on pain or disability. Some are widely available, easily accessible, and affordable for all people with osteoarthritis; others are expensive or involve long travel or waiting times to receive treatment. Some are very safe, with few or no side-effects and little risk of harm; others may have potentially severe complications.
-    </p>
-    <p>
-      Understanding how consumers, healthcare providers, health policy makers, and other stakeholders weigh up and trade off these different attributes of treatments is crucial to ensure good value, effective, accessible, acceptable, and equitable care can be made available to all people with osteoarthritis.
-    </p>
-    <p>
-      This tool presents the results of a study designed to elicit from key stakeholders the attributes of treatment considered most important in making decisions about osteoarthritis care and their preferences for trade-offs among these attributes; to describe the performance of osteoarthritis interventions against the attributes, informed by high-quality clinical practice guidelines and systematic reviews of peer-reviewed research; and to prioritise interventions by assessing their performance relative to stakeholder or individual preferences.
-    </p>
+          <p>There are many treatment options available for the management of knee osteoarthritis.</p>
+          <p>Some of them are highly effective, reducing pain and improving joint function and overall quality of life; others have limited or unclear effect on pain or disability. Some are widely available, easily accessible, and affordable for all people with osteoarthritis; others are expensive or involve long travel or waiting times to receive treatment. Some are very safe, with few or no side-effects and little risk of harm; others may have potentially severe complications.</p>
+          <p>Understanding how consumers, healthcare providers, health policy makers, and other stakeholders weigh up and trade off these different attributes of treatments is crucial to ensure good value, effective, accessible, acceptable, and equitable care can be made available to all people with osteoarthritis.</p>
+          <p>This tool presents the results of a study designed to elicit from key stakeholders the attributes of treatment considered most important in making decisions about osteoarthritis care and their preferences for trade-offs among these attributes; to describe the performance of osteoarthritis interventions against the attributes, informed by high-quality clinical practice guidelines and systematic reviews of peer-reviewed research; and to prioritise interventions by assessing their performance relative to stakeholder or individual preferences.</p>
           <h3>Contact</h3>
           <p>For enquiries, contact Dr Ross Wilson, Centre for Musculoskeletal Outcomes Research, University of Otago
             (<a href="mailto:ross.wilson@otago.ac.nz?Subject=CMOR%20Evidence%20Table">ross.wilson@otago.ac.nz</a>)</p>
-        </div> <!--.col-lg-6-->
-      </div> <!--.row-->
+        </div> <!--.col-lg-7-->
+        <div class="col-lg-5 logo">
+          <div class="row">
+            <div class="col-xs-6">
+              <img src="http://www.otago.ac.nz/ou-logo.png" class="img-responsive" alt="Otago University logo">
+            </div>
+            <div class="col-xs-6">
+              <img src="http://hrc.govt.nz/sites/all/themes/hrc/img/logo.png"  style="background-color:#6690E8;" class="img-responsive" alt="Health Research Council logo">
+            </div>
+            <div class="col-xs-6">
+              <img src="CMOR_logo.png" class="img-responsive" alt="CMOR logo">
+            </div>
+          </div> <!--.row-->
+        </div> <!--.col-lg-5-->
+      </div> <!--.row .small-width-->
     </div> <!--.row--><!-- End of Main -->
 
   </div> <!--.container-fluid-->
