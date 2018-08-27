@@ -36,10 +36,11 @@
 
 <body>
   <div class="container-fluid">
+    <p style="background-color:yellow; text-align:center;"><strong>***PRELIMINARY RESULTS: NOT FOR CITATION***</strong></p>
     <h1>CMOR Evidence Table and Preference Ranking for OA Interventions</h1>
 
     <!-- Navigation panel -->
-    <div class="row">
+    <div class="row navbar" style="display:none;">
 
       <div class="col-xs-6 navtab">
         <ul class="nav nav-tabs" data-tabsetid="9829">
@@ -56,7 +57,7 @@
         <div class="option-buttons-inner">
           <!-- Weights section -->
           <div class="dropdown">
-            <a id="btn-weights" class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="fas fa-balance-scale"></span> <span class="fas fa-angle-down"></span></a>
+            <a id="btn-weights" class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"><span class="fas fa-balance-scale"></span> <span class="fas fa-angle-down"></span></a>
             <div class="dropdown-menu pull-right row" id="weights">
               <form>
                 <div class="row">
@@ -234,7 +235,7 @@
 
           <!-- Interventions section -->
           <div class="dropdown">
-            <a id="btn-interventions" class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="fas fa-filter"></span> <span class="fas fa-angle-down"></span></a>
+            <a id="btn-interventions" class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"><span class="fas fa-filter"></span> <span class="fas fa-angle-down"></span></a>
             <div class="dropdown-menu pull-right row" id="interventions">
               <form>
                 <div class="col-xs-12">
@@ -445,7 +446,7 @@
 
           <!-- Options section -->
           <div class="dropdown">
-            <a id="btn-options" class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="fas fa-cog"></span> <span class="fas fa-angle-down"></span></a>
+            <a id="btn-options" class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"><span class="fas fa-cog"></span> <span class="fas fa-angle-down"></span></a>
             <div class="dropdown-menu pull-right row" id="options">
               <form>
                 <div class="col-xs-6">
@@ -489,7 +490,7 @@
                     <div class="shiny-options-group">
                       <div class="checkbox">
                         <label>
-                          <input type="checkbox" name="evidence" value="1" checked="checked"/>
+                          <input type="checkbox" name="evidence" value="1" checked="checked" disabled/>
                           <span>RACGP Guideline</span>
                         </label>
                       </div>
@@ -499,43 +500,40 @@
               </form>
             </div> <!--.dropdown-menu-->
           </div> <!--.dropdown--> <!-- End of Options section-->
+        </div> <!--.option-buttons-inner-->
 
-          <!-- Instructions -->
-          <div class="dropdown">
-            <a id="btn-instructions" href="#" data-toggle="modal" data-target="#instructions"><span class="fas fa-question-circle"></span></a>
-          </div> <!--.dropdown--> <!-- End of Instructions section -->
-        </div>
-
+        <!-- Instructions -->
+        <div class="dropdown">
+          <a id="btn-instructions" href="#" data-toggle="modal" data-target="#instructions"><span class="fas fa-question-circle"></span></a>
+        </div> <!-- End of Instructions section -->
       </div> <!--.col-xs-9-->
 
     </div> <!--.row--> <!-- End of Navigation panel -->
 
-    <div class="row">
+    <div class="row" style="width:100%">
       <!-- Plot/Table area -->
       <div class="tabbable">
         <div class="tab-content" data-tabsetid="9829">
 
           <div class="tab-pane active" data-value="Plot" id="tab-9829-2">
             <div class="row">
-              <p style="background-color:yellow; text-align:center;"><strong>***PRELIMINARY RESULTS: NOT FOR CITATION***</strong></p>
               <div id="plot-area">
                 <div id="preferencePlot" class="shiny-plot-output" data-click-id="plot_click" data-click-clip="FALSE" style="height:285px; overflow:hidden;"></div>
-                <button id="button-expand" type="button"><span id="expand-text">Expand </span><span class="fas fa-angle-down"></span></button>
               </div> <br>
+              <button id="button-expand" type="button"><span id="expand-text">Expand </span><span class="fas fa-angle-down"></span></button>
             </div> <!--.row-->
           </div> <!--.tab-pane-->
 
           <div class="tab-pane" data-value="Evidence Table" id="tab-9829-1">
-            <p style="background-color:yellow; text-align:center;"><strong>***PRELIMINARY RESULTS: NOT FOR CITATION***</strong></p>
             <div id="selectedEvidenceTable" style="width:100%; height:auto; " class="datatables html-widget html-widget-output"></div>
           </div> <!--.tab-pane-->
 
         </div> <!--.tab-content-->
       </div> <!--.tabbable-->
 
-      <hr>
       <div class="row">
-        <div class="col-lg-8">
+      	<div class="col-lg-1"></div>
+        <div class="col-lg-5">
           <h3>What matters to you when choosing treatments for knee osteoarthritis?</h3>
           <p>
       There are many treatment options available for the management of knee osteoarthritis.
@@ -549,10 +547,26 @@
     <p>
       This tool presents the results of a study designed to elicit from key stakeholders the attributes of treatment considered most important in making decisions about osteoarthritis care and their preferences for trade-offs among these attributes; to describe the performance of osteoarthritis interventions against the attributes, informed by high-quality clinical practice guidelines and systematic reviews of peer-reviewed research; and to prioritise interventions by assessing their performance relative to stakeholder or individual preferences.
     </p>
+    <p style="font-size:1.125em">
+    	To get started, click the <button type="button" disabled style="font-size:0.875em"><span>Expand </span><span class="fas fa-angle-down"></span></button> button on the plot above.
+    </p>
           <h3>Contact</h3>
           <p>For enquiries, contact Dr Ross Wilson, Centre for Musculoskeletal Outcomes Research, University of Otago
             (<a href="mailto:ross.wilson@otago.ac.nz?Subject=CMOR%20Evidence%20Table">ross.wilson@otago.ac.nz</a>)</p>
-        </div> <!--.col-lg-6-->
+        </div> <!--.col-lg-5-->
+        <div class="col-lg-1"></div>
+        <div class="col-lg-5">
+        	<br>
+        	<h4><strong>Part of the project <em>The impact and management of rising osteoarthritis burden</em></strong></h4>
+        	<div class="row">
+        		<div class="col-lg-4"><img src="http://www.otago.ac.nz/ou-logo.png"></div>
+        		<div class="col-lg-5"><img src="CMOR_logo.png" height="80px" width="250px"></div>
+        		<div class="col-lg-3"><img src="moa_logo.jpg" height="80px" width="108px"></div>
+        	</div>
+        	<br>
+        	<h4><strong>Funding:</strong></h4>
+        	<div><img src="HRC_logo.png" style="background-color:#6690E8" height="80px" width="208px"></div>
+        </div>
       </div> <!--.row-->
     </div> <!--.row--><!-- End of Main -->
 
@@ -571,7 +585,7 @@
             <p>
       In this application, interventions for the clinical management of knee osteoarthritis are characterised according to eight attributes: recommendation (appropriateness for the stage of the disease), quality of evidence, cost, duration of effect, accessibility, risk of mild/moderate harm, risk of serious harm, and effectiveness. Each attribute describes between 3 and 5 levels of performance, in increasing order of desirability (for the details of the levels described by each attribute, click the help icon <a><i class="fa fa-info-circle"></i></a> next to the attribute heading in the Preference Weights panel).
     </p><br>
-              <strong><em>Evidence:</em></strong>
+              <a><strong><em>Options <span class="fas fa-cog"></span>:</em></strong></a>
               <p hidden>
       In our study, the performance of each intervention according to these eight attributes was informed by the Royal Australian College of General Practitioners' <em>Guideline for the management of knee and hip osteoarthritis</em> (2017), supplemented where necessary by additional sources including (in decreasing order of preference) systematic reviews and meta-analyses, other published data, and research team judgement.
     </p>
@@ -581,19 +595,19 @@
     <p>
       In future iterations of the evidence table, we will also incorporate the option to select different sources of evidence to inform the table and resulting preference scores. (At this stage, only the Royal Australian College of General Practitioners' <em>Guideline for the management of knee and hip osteoarthritis</em> (2017) is available.)
     </p><br>
-              <strong><em>Interventions:</em></strong>
+              <a><strong><em>Filter <span class="fas fa-filter"></span>: </em></strong></a>
               <p>
       A total of 74 interventions are included in the current version of the evidence table. These can be filtered by category and, if required, by the selection of specific interventions in the Interventions option panel.
     </p><br>
-              <strong><em>Preference Weights:</em></strong>
+              <a><strong><em>Preference Weights <span class="fas fa-balance-scale"></span>:</em></strong></a>
               <p>
       Interventions are ranked by summing up their total "preference weights", or values associated with the performance of the intervention on each of the attributes, using weights calculated from the derived preferences of key stakeholders in our study. These can be changed if desired, using the sliders/numeric inputs in the Preference Weights panel, to investigate the resulting effects on the intervetion ranking.
     </p>
     <p hidden>
       To avoid potential biases in stakeholder evaluations of the interventions due to prior beliefs or pre-conceived ideas about different treatments, preference weights, or the relative values assigned to each intervention, were derived indirectly by obtaining preference weights for the eight attributes, which can then be summed to derive an aggregate preference score for each intervention. The preference weights presented here were derived from a study of the preferences of key New Zealand stakeholder groups (consumers with OA, M&amacr;ori health advocates, health care providers, health policy makers, and content area experts). To investigate the effect on preference rankings using any other set of preference weights, move the sliders/numeric inputs in the Preference Weights panel.
     </p><br>
-              <strong><em>Outputs:</em></strong>
-              <p>Outputs can be shown by clicking the "Evidence Table" or "Plot" tabs above.</p><br>
+              <h4><strong><em>Outputs:</em></strong></h4>
+              <p>Outputs can be shown as either a plot of the preference weightings for each intervention, or an evidence table reporting the performance of each intervention across the eight attributes.</p>
               <p>
       To switch between the preference plot and viewing the underlying evidence table, select the Plot or Evidence Table tabs.
     </p>
@@ -682,9 +696,9 @@
             <h4 class="modal-title">Preference Weights</h4>
           </div>
           <div class="modal-body">
-            <p>The attributes are aggregated, by default, using the New Zealand stakeholder preference weights elicited as part of our project 'The impact and management of rising osteoarthritis burden'.</p>
+            <p>The attributes are aggregated, by default, using the New Zealand stakeholder preference weights elicited as part of our project <em>The impact and management of rising osteoarthritis burden</em>.</p>
             <p>If you want to use alternative preference weights, these can be set using the sliders or numeric input boxes in this section.</p>
-            <p>All preference weights must sum to 100. This is done automatically for the table and plot; to see the recalculated values in the input fields, use the 'Normalize Weights' button.</p>
+            <p>All preference weights must sum to 100. This is done automatically when calculating values for the table and plot; to see the re-calculated values in the input fields, use the 'Normalize Weights' button.</p>
             <p>Weights can be reset to the NZ stakeholder weights using the 'Reset' button</p>
           </div>
           <div class="modal-footer">
@@ -711,7 +725,7 @@
               <li><strong>Conditional against: </strong>most informed people would try another treatment at this stage, <em>but not all</em></li>
               <li><strong>Strong against: </strong>all or almost all informed people would try another treatment at this stage</li>
             </ul>
-            <p>Note: <em>...but not all</em> means that a substantial number of people would still choose (or not choose) the treatment</p>
+            <p><strong>Note:</strong> <em>...but not all</em> means that a substantial number of people would still choose (or not choose) the treatment</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -728,7 +742,7 @@
             <h4 class="modal-title">Quality of the evidence – how confident you are that the treatment works</h4>
           </div>
           <div class="modal-body">
-            <p>The extent to which one can be confident that the effects of the treatment or service described are real. 'Evidence' can mean different things to different people, however, there is an accepted hierarchy of how valid each source is. For example, anecdotal claims about the effectiveness of treatment in advertisements, from peers or family members, or from individual treatment providers may not be as convincing as independent health professional advice, rigorous research, peer-reviewed Systematic Reviews, or authoritative Clinical Practice Guidelines.</p><br>
+            <p>The extent to which one can be confident that the effects of the treatment or service described are real.</p><p>'Evidence' can mean different things to different people, however, there is an accepted hierarchy of how valid each source is. For example, anecdotal claims about the effectiveness of treatment in advertisements, from peers or family members, or from individual treatment providers may not be as convincing as independent health professional advice, rigorous research, peer-reviewed Systematic Reviews, or authoritative Clinical Practice Guidelines.</p><br>
             <strong><em>Levels (best to worst):</em></strong>
             <ul>
               <li><strong>High: </strong>further research is very unlikely to change our confidence in the likely effect of the intervention</li>
@@ -752,7 +766,7 @@
             <h4 class="modal-title">Cost of Treatment</h4>
           </div>
           <div class="modal-body">
-            <p>Total financial costs relevant to the use or provision of health care for OA - e.g. costs to the health system, out-of-pocket costs to the consumer and, the societal costs of providing health care for OA. Societal costs include tax revenue and lost wages due to time away from work, reduced employment or early retirement.</p><br>
+            <p>Total financial costs relevant to the use or provision of health care for OA - e.g. costs to the health system, out-of-pocket costs to the consumer, and the societal costs of providing health care for OA. Societal costs include lost wages and tax revenue due to time away from work, reduced employment, or early retirement.</p><br>
             <strong><em>Levels (best to worst):</em></strong>
             <ul>
               <li><strong>Low: </strong>$0-$100 per month OR less than $1500 total</li>
@@ -775,7 +789,7 @@
             <h4 class="modal-title">Duration – how long the treatment effect lasts</h4>
           </div>
           <div class="modal-body">
-            <p>The length of time the benefits of the treatment last. E.g., the beneficial effects of surgery, if
+            <p>The length of time the benefits of the treatment last - e.g. the beneficial effects of surgery, if
       				appropriate, may last for 10-15 years after initial healing has occurred, with little ongoing care until
       				10-15 years have elapsed. In contrast, drug therapy may require frequent dosing every 4 hours to maintain its effect on pain.</p><br>
             <strong><em>Levels (best to worst):</em></strong>
@@ -800,7 +814,7 @@
             <h4 class="modal-title">Accessibility</h4>
           </div>
           <div class="modal-body">
-            <p>The extent to which the treatment or service can be accessed by people with OA. For example, the distance to nearest provider, wait time and, the ability for cultural and linguistic groups or people from diverse sociodemographic backgrounds to equally access health care for OA (fairness).</p><br>
+            <p>The extent to which the treatment or service can be accessed by people with OA. For example, the distance to nearest provider, wait time, and the ability for people from diverse cultural and linguistic groups or sociodemographic backgrounds to equally access health care for OA (fairness).</p><br>
             <strong><em>Levels (best to worst):</em></strong>
             <ul>
               <li><strong>Accessible: </strong>the treatment can be accessed by the person living with OA in a week or so, regardless of their travel needs</li>
@@ -869,9 +883,9 @@
             <h4 class="modal-title">Effectiveness</h4>
           </div>
           <div class="modal-body">
-            <p>The ability for the treatment or service to achieve the desired result - e.g. the change in pain and function, caused by the intervention.</p>
+            <p>The ability for the treatment or service to achieve the desired result - e.g. the change in pain and function caused by the intervention.</p>
             <p>Effectiveness is different to quality of the evidence because it describes the impact, or how ‘big’ the change caused by the treatment is, not how likely it is to happen, or how confident you are that it’ll happen – this is the 'quality of the evidence'. For example, a highly effective treatment with a very low quality of evidence means that the likelihood, or chance of it actually working is very small but, if it did work, it would have a high/large impact on pain and/or function.</p>
-            <p>Effectiveness is measured by the standardised mean difference (SMD) in pain levels, defined as the mean reduction in pain levels following treatment, divided by the standard deviation of baseline pain levels.</p><br>
+            <p>Effectiveness is measured by the standardised mean difference (SMD) in pain levels after treatment, defined as the mean reduction in pain levels following treatment divided by the standard deviation of baseline (pre-treatment) pain levels.</p><br>
             <strong><em>Levels (best to worst):</em></strong>
             <ul>
               <li><strong>High: </strong>SMD > 0.5</li>

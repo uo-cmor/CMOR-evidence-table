@@ -21,18 +21,19 @@ a[data-toggle=modal]:hover,
   text-decoration: none;
 }
 /*-------- Navigaton panel ------  */
+.navbar {
+  margin-bottom: 0;
+}
 .navtab {
   padding-right: 0;
 }
+.nav-tabs {
+  float: left;
+}
 .option-buttons-outer {
   padding-left: 0;
-  height: 42px;
 }
-.option-buttons-inner {
-  height: 41px;
-  border-bottom: 1px solid #ddd;
-}
-.dropdown {
+.dropdown, .option-buttons-inner {
   float: right;
 }
 #btn-weights,
@@ -54,9 +55,6 @@ a[data-toggle=modal]:hover,
 /*-------- Plot area --------------*/
 #button-expand {
   float: right;
-  position: relative;
-  bottom: 21px;
-  right: 30px;
   border-radius: 5px;
   background-color: transparent !important;
   border: 1px solid #e3e3e3;
@@ -66,6 +64,6 @@ a[data-toggle=modal]:hover,
   background-color: #e3e3e3 !important;
 }
 /*-------- Table area -------------*/
-.tabbable {
+#tab-9829-1{
   padding-top: 15px;
 }
