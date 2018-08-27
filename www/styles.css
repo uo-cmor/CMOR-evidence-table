@@ -120,6 +120,12 @@ a[data-toggle=modal]:hover,
   background-color: #e3e3e3 !important;
 }
 /*-------- Text area -------------*/
+#button-expand-text {
+  border-radius: 5px;
+  background-color: transparent !important;
+  border: 1px solid #e3e3e3;
+  color: #a9a9a9;
+}
 .text {
   text-align: justify;
 }
