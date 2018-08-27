@@ -15,7 +15,7 @@
   margin-top: 10px;
 }
 .small-width, .navbar {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: auto;
 }
 h1 {
@@ -35,7 +35,7 @@ a[data-toggle=modal]:hover,
   outline: none;
   text-decoration: none;
 }
-/*-------- Navigaton panel ------  */
+/*-------- Navigation panel ------  */
 .navbar {
 }
 .navtab {
@@ -127,6 +127,8 @@ a[data-toggle=modal]:hover,
   padding: 72px 15px 0 40px;
 }
 .img-responsive {
-  min-height: 80px;
+	float: left;
+  height: auto;
+  max-width: 100%;
   margin-bottom: 30px;
 }
