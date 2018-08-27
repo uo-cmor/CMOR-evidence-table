@@ -30,16 +30,18 @@
 	<script src="shared/bootstrap/js/bootstrap.min.js"></script>
 	<script src="shared/bootstrap/shim/html5shiv.min.js"></script>
 	<script src="shared/bootstrap/shim/respond.min.js"></script>  <title>CMOR Evidence Table</title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 </head>
 
 <body>
   <div class="container-fluid">
-    <h1>CMOR Evidence Table and Preference Ranking for OA Interventions</h1>
+    <p style="background-color:yellow; text-align:center; margin-bottom:0;"><strong>***PRELIMINARY RESULTS: NOT FOR CITATION***</strong></p>
+    <h1 class="small-width">CMOR Evidence Table and Preference Ranking for OA Interventions</h1>
 
     <!-- Navigation panel -->
-    <div class="row">
+    <div class="row navbar" style="display:none;">
 
       <div class="col-xs-6 navtab">
         <ul class="nav nav-tabs" data-tabsetid="9829">
@@ -47,7 +49,7 @@
             <a href="#tab-9829-2" data-toggle="tab" data-value="Plot">Plot</a>
           </li>
           <li>
-            <a href="#tab-9829-1" data-toggle="tab" data-value="Evidence Table">Evidence Table</a>
+            <a href="#tab-9829-1" data-toggle="tab" data-value="Evidence Table">Table</a>
           </li>
         </ul>
       </div> <!--.col-xs-3-->
@@ -56,7 +58,7 @@
         <div class="option-buttons-inner">
           <!-- Weights section -->
           <div class="dropdown">
-            <a id="btn-weights" class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="fas fa-balance-scale"></span> <span class="fas fa-angle-down"></span></a>
+            <a id="btn-weights" class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"><span class="fas fa-balance-scale"></span> <span class="fas fa-angle-down"></span></a>
             <div class="dropdown-menu pull-right row" id="weights">
               <form>
                 <div class="row">
@@ -234,7 +236,7 @@
 
           <!-- Interventions section -->
           <div class="dropdown">
-            <a id="btn-interventions" class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="fas fa-filter"></span> <span class="fas fa-angle-down"></span></a>
+            <a id="btn-interventions" class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"><span class="fas fa-filter"></span> <span class="fas fa-angle-down"></span></a>
             <div class="dropdown-menu pull-right row" id="interventions">
               <form>
                 <div class="col-xs-12">
@@ -445,7 +447,7 @@
 
           <!-- Options section -->
           <div class="dropdown">
-            <a id="btn-options" class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="fas fa-cog"></span> <span class="fas fa-angle-down"></span></a>
+            <a id="btn-options" class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"><span class="fas fa-cog"></span> <span class="fas fa-angle-down"></span></a>
             <div class="dropdown-menu pull-right row" id="options">
               <form>
                 <div class="col-xs-6">
@@ -499,13 +501,12 @@
               </form>
             </div> <!--.dropdown-menu-->
           </div> <!--.dropdown--> <!-- End of Options section-->
+        </div> <!--.option-buttons-inner-->
 
-          <!-- Instructions -->
-          <div class="dropdown">
-            <a id="btn-instructions" href="#" data-toggle="modal" data-target="#instructions"><span class="fas fa-question-circle"></span></a>
-          </div> <!--.dropdown--> <!-- End of Instructions section -->
-        </div>
-
+        <!-- Instructions -->
+        <div class="dropdown">
+          <a id="btn-instructions" href="#" data-toggle="modal" data-target="#instructions"><span class="fas fa-question-circle"></span></a>
+        </div> <!-- End of Instructions section -->
       </div> <!--.col-xs-9-->
 
     </div> <!--.row--> <!-- End of Navigation panel -->
@@ -517,25 +518,22 @@
 
           <div class="tab-pane active" data-value="Plot" id="tab-9829-2">
             <div class="row">
-              <p style="background-color:yellow; text-align:center;"><strong>***PRELIMINARY RESULTS: NOT FOR CITATION***</strong></p>
               <div id="plot-area">
-                <div id="preferencePlot" class="shiny-plot-output" data-click-id="plot_click" data-click-clip="FALSE" style="height:285px; overflow:hidden;"></div>
-                <button id="button-expand" type="button"><span id="expand-text">Expand </span><span class="fas fa-angle-down"></span></button>
-              </div> <br>
+                <div id="preferencePlot" class="shiny-plot-output" data-click-id="plot_click" data-click-clip="FALSE" style="height:300px; overflow:hidden;"></div>
+              </div>
+              <button id="button-expand" type="button"><span>Expand </span><span class="fas fa-angle-down"></span></button>
             </div> <!--.row-->
           </div> <!--.tab-pane-->
 
           <div class="tab-pane" data-value="Evidence Table" id="tab-9829-1">
-            <p style="background-color:yellow; text-align:center;"><strong>***PRELIMINARY RESULTS: NOT FOR CITATION***</strong></p>
             <div id="selectedEvidenceTable" style="width:100%; height:auto; " class="datatables html-widget html-widget-output"></div>
           </div> <!--.tab-pane-->
 
         </div> <!--.tab-content-->
       </div> <!--.tabbable-->
 
-      <hr>
-      <div class="row">
-        <div class="col-lg-8">
+      <div class="row small-width">
+        <div class="col-lg-7 text">
           <h3>What matters to you when choosing treatments for knee osteoarthritis?</h3>
           <p>
       There are many treatment options available for the management of knee osteoarthritis.
@@ -555,8 +553,21 @@
           <h3>Contact</h3>
           <p>For enquiries, contact Dr Ross Wilson, Centre for Musculoskeletal Outcomes Research, University of Otago
             (<a href="mailto:ross.wilson@otago.ac.nz?Subject=CMOR%20Evidence%20Table">ross.wilson@otago.ac.nz</a>)</p>
-        </div> <!--.col-lg-6-->
-      </div> <!--.row-->
+        </div> <!--.col-lg-7-->
+        <div class="col-lg-5 logo">
+          <div class="row">
+            <div class="col-xs-6">
+              <img src="http://www.otago.ac.nz/ou-logo.png" class="img-responsive" alt="Otago University logo">
+            </div>
+            <div class="col-xs-6">
+              <img src="http://hrc.govt.nz/sites/all/themes/hrc/img/logo.png"  style="background-color:#6690E8;" class="img-responsive" alt="Health Research Council logo">
+            </div>
+            <div class="col-xs-6">
+              <img src="CMOR_logo.png" class="img-responsive" alt="CMOR logo">
+            </div>
+          </div> <!--.row-->
+        </div> <!--.col-lg-5-->
+      </div> <!--.row .small-width-->
     </div> <!--.row--><!-- End of Main -->
 
   </div> <!--.container-fluid-->
