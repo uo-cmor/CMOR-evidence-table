@@ -30,14 +30,15 @@
 	<script src="shared/bootstrap/js/bootstrap.min.js"></script>
 	<script src="shared/bootstrap/shim/html5shiv.min.js"></script>
 	<script src="shared/bootstrap/shim/respond.min.js"></script>  <title>CMOR Evidence Table</title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 </head>
 
 <body>
   <div class="container-fluid">
-    <p style="background-color:yellow; text-align:center;"><strong>***PRELIMINARY RESULTS: NOT FOR CITATION***</strong></p>
-    <h1>CMOR Evidence Table and Preference Ranking for OA Interventions</h1>
+    <p style="background-color:yellow; text-align:center; margin-bottom:0;"><strong>***PRELIMINARY RESULTS: NOT FOR CITATION***</strong></p>
+    <h1 class="small-width">CMOR Evidence Table and Preference Ranking for OA Interventions</h1>
 
     <!-- Navigation panel -->
     <div class="row navbar" style="display:none;">
@@ -48,7 +49,7 @@
             <a href="#tab-9829-2" data-toggle="tab" data-value="Plot">Plot</a>
           </li>
           <li>
-            <a href="#tab-9829-1" data-toggle="tab" data-value="Evidence Table">Evidence Table</a>
+            <a href="#tab-9829-1" data-toggle="tab" data-value="Evidence Table">Table</a>
           </li>
         </ul>
       </div> <!--.col-xs-3-->
@@ -518,9 +519,9 @@
           <div class="tab-pane active" data-value="Plot" id="tab-9829-2">
             <div class="row">
               <div id="plot-area">
-                <div id="preferencePlot" class="shiny-plot-output" data-click-id="plot_click" data-click-clip="FALSE" style="height:285px; overflow:hidden;"></div>
-              </div> <br>
-              <button id="button-expand" type="button"><span id="expand-text">Expand </span><span class="fas fa-angle-down"></span></button>
+                <div id="preferencePlot" class="shiny-plot-output" data-click-id="plot_click" data-click-clip="FALSE" style="height:300px; overflow:hidden;"></div>
+              </div>
+              <button id="button-expand" type="button"><span>Expand </span><span class="fas fa-angle-down"></span></button>
             </div> <!--.row-->
           </div> <!--.tab-pane-->
 
@@ -531,9 +532,8 @@
         </div> <!--.tab-content-->
       </div> <!--.tabbable-->
 
-      <div class="row">
-      	<div class="col-lg-1"></div>
-        <div class="col-lg-5">
+      <div class="row small-width">
+        <div class="col-lg-7 text">
           <h3>What matters to you when choosing treatments for knee osteoarthritis?</h3>
           <p>
       There are many treatment options available for the management of knee osteoarthritis.
@@ -553,21 +553,27 @@
           <h3>Contact</h3>
           <p>For enquiries, contact Dr Ross Wilson, Centre for Musculoskeletal Outcomes Research, University of Otago
             (<a href="mailto:ross.wilson@otago.ac.nz?Subject=CMOR%20Evidence%20Table">ross.wilson@otago.ac.nz</a>)</p>
+        </div> <!--.col-lg-7-->
+        <div class="col-lg-5 logo">
+          <div class="row">
+            <div class="col-xs-6">
+              <img src="http://www.otago.ac.nz/ou-logo.png" class="img-responsive" alt="University of Otago">
+            </div>
+            <div class="col-xs-6">
+              <img src="HRC_logo.png"  style="background-color:#6690E8;" class="img-responsive" alt="Health Research Council of New Zealand">
+              <!-- <img src="HRC_logo.png" style="background-color:#6690E8" height="80px" width="208px"> -->
+            </div>
+            <div class="col-xs-6">
+              <img src="CMOR_logo.png" class="img-responsive" alt="Centre for Musculoskeletal Outcomes Research">
+              <!-- <img src="CMOR_logo.png" height="80px" width="250px"> -->
+            </div>
+            <div class="col-xs-6">
+              <img src="moa_logo.png" class="img-responsive" alt="Management of Osteoarthritis programme">
+              <!-- <img src="moa_logo.jpg" height="80px" width="108px"> -->
+            </div>
+          </div> <!--.row-->
         </div> <!--.col-lg-5-->
-        <div class="col-lg-1"></div>
-        <div class="col-lg-5">
-        	<br>
-        	<h4><strong>Part of the project <em>The impact and management of rising osteoarthritis burden</em></strong></h4>
-        	<div class="row">
-        		<div class="col-lg-4"><img src="http://www.otago.ac.nz/ou-logo.png"></div>
-        		<div class="col-lg-5"><img src="CMOR_logo.png" height="80px" width="250px"></div>
-        		<div class="col-lg-3"><img src="moa_logo.jpg" height="80px" width="108px"></div>
-        	</div>
-        	<br>
-        	<h4><strong>Funding:</strong></h4>
-        	<div><img src="HRC_logo.png" style="background-color:#6690E8" height="80px" width="208px"></div>
-        </div>
-      </div> <!--.row-->
+      </div> <!--.row .small-width-->
     </div> <!--.row--><!-- End of Main -->
 
   </div> <!--.container-fluid-->
