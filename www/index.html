@@ -30,7 +30,7 @@
 	<script src="shared/bootstrap/js/bootstrap.min.js"></script>
 	<script src="shared/bootstrap/shim/html5shiv.min.js"></script>
 	<script src="shared/bootstrap/shim/respond.min.js"></script>  <title>CMOR Evidence Table</title>
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Indie+Flower|Montez|Satisfy" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 </head>
@@ -38,7 +38,22 @@
 <body>
   <!-- Create an overlay page -->
   <div id="overlay" onclick="off()" style="display:none;">
-
+      <div class="row small-width overlay-inner">
+        <div class="col-xs-6 target">
+          <div class="overlay-text" id="text-toggle">Toggle between Plot and Table views</div>
+          <div class="arrow" id="arrow-toggle"></div>
+        </div> <!--.col-xs-6-->
+        <div class="col-xs-6 target">
+          <div class="overlay-text" id="text-info">More info</div>
+          <div class="arrow" id="arrow-info"></div>
+          <div class="overlay-text" id="text-options">Select timing of interventions</div>
+          <div class="arrow" id="arrow-options"></div>
+          <div class="overlay-text" id="text-interv">Select intervention types</div>
+          <div class="arrow" id="arrow-interv"></div>
+          <div class="overlay-text" id="text-weights">Set preference weights</div>
+          <div class="arrow" id="arrow-weights"></div>
+        </div> <!--.col-xs-6-->
+      </div>
   </div>
   <div class="container-fluid">
     <p style="background-color:yellow; text-align:center; margin-bottom:0;"><strong>***PRELIMINARY RESULTS: NOT FOR CITATION***</strong></p>
