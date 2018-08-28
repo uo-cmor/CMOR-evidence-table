@@ -39,6 +39,14 @@ button_expand.addEventListener("click", function(){
   navbar.style.display = "block";
 });
 
+//---------- Add behavior to overlay page-----------//
+function on() {
+    document.getElementById("overlay").style.display = "block";
+}
+function off() {
+    document.getElementById("overlay").style.display = "none";
+}
+
 //---------- Connect slider with numeric inputs ----//
 function updateWeights(input, output) {
   document.getElementById(input).onchange = function() {
