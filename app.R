@@ -304,6 +304,7 @@ server <- function(input, output, session) {
 		datatable(printTable,
 							autoHideNavigation = TRUE,
 							escape = c(TRUE, sapply(names(printTable), function(x) is.null(printTableDetails[[x]]))),
+							class = "display compact",
 							options = list(
 								pageLength = 25,
 								columnDefs = c(
