@@ -117,7 +117,7 @@ a[data-toggle=modal]:hover,
 #button-expand {
   float: right;
   border-radius: 0 0 5px 5px;
-  padding: 0px 6px 2px 6px;
+  padding: 0 6px 2px 6px;
   margin: -1px 6px 0 0;
   background-color: transparent !important;
   border: 1px solid #e3e3e3;
@@ -129,10 +129,13 @@ a[data-toggle=modal]:hover,
 }
 /*-------- Text area -------------*/
 #button-expand-text {
-  border-radius: 5px;
-  background-color: transparent !important;
+  border-radius: 0 0 5px 5px;
+  padding: 0 6px 2px 6px;
+  margin: -1px 6px 0 0;
+  background-color: white;
   border: 1px solid #e3e3e3;
   color: #a9a9a9;
+  font-size: 0.75em;
 }
 .text {
   text-align: justify;
