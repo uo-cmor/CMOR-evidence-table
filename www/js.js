@@ -32,11 +32,13 @@ function turnArrowsDown() {
 var button_expand = document.querySelector("#button-expand");
 var pref_plot = document.querySelector("#preferencePlot");
 var navbar = document.querySelector(".navbar");
+var getstarted = document.querySelector("#getstarted");
 
 button_expand.addEventListener("click", function(){
   pref_plot.style.height = "auto";
   this.style.display = "none";
   navbar.style.display = "block";
+  getstarted.style.display = "none";
 });
 
 //---------- Add behavior to overlay page-----------//
@@ -52,7 +54,7 @@ function updateWeights(input, output) {
   document.getElementById(input).onchange = function() {
     document.getElementById(output).value = this.value;
   }
-};
+}
 updateWeights("wgt_rec", "wgt_rec_val");
 updateWeights("wgt_qua", "wgt_qua_val");
 updateWeights("wgt_cos", "wgt_cos_val");

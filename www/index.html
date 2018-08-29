@@ -30,7 +30,7 @@
 	<script src="shared/bootstrap/js/bootstrap.min.js"></script>
 	<script src="shared/bootstrap/shim/html5shiv.min.js"></script>
 	<script src="shared/bootstrap/shim/respond.min.js"></script>  <title>CMOR Evidence Table</title>
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Indie+Flower|Montez|Satisfy" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,700|Indie+Flower|Montez|Satisfy" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 </head>
@@ -74,6 +74,11 @@
       </div> <!--.col-xs-3-->
 
       <div class="col-xs-6 option-buttons-outer">
+        <!-- Instructions -->
+        <div class="dropdown">
+          <a id="btn-instructions" href="#" data-toggle="modal" data-target="#instructions"><span class="fas fa-question-circle fa-lg"></span></a>
+        </div> <!-- End of Instructions section -->
+        
         <div class="option-buttons-inner">
           <!-- Weights section -->
           <div class="dropdown">
@@ -522,10 +527,6 @@
           </div> <!--.dropdown--> <!-- End of Options section-->
         </div> <!--.option-buttons-inner-->
 
-        <!-- Instructions -->
-        <div class="dropdown">
-          <a id="btn-instructions" href="#" data-toggle="modal" data-target="#instructions"><span class="fas fa-question-circle"></span></a>
-        </div> <!-- End of Instructions section -->
       </div> <!--.col-xs-9-->
 
     </div> <!--.row--> <!-- End of Navigation panel -->
@@ -545,55 +546,66 @@
           </div> <!--.tab-pane-->
 
           <div class="tab-pane" data-value="Evidence Table" id="tab-9829-1">
-            <div id="selectedEvidenceTable" style="width:100%; height:auto; " class="datatables html-widget html-widget-output"></div>
+            <div id="selectedEvidenceTable" style="max-width: 1500px; height:auto; font-size: small; margin:auto;" class="datatables html-widget html-widget-output"></div>
           </div> <!--.tab-pane-->
 
         </div> <!--.tab-content-->
       </div> <!--.tabbable-->
 
       <div class="row small-width">
-        <div class="col-lg-7 text">
-          <h3>What matters to you when choosing treatments for knee osteoarthritis?</h3>
+      	<div class="col-lg-12">
+	        <h3>What matters to you when choosing treatments for knee osteoarthritis?</h3>
+      	</div>
+        <div class="col-lg-6 text">
           <p>
-      There are many treatment options available for the management of knee osteoarthritis.
-    </p>
-    <p>
-      Some of them are highly effective, reducing pain and improving joint function and overall quality of life; others have limited or unclear effect on pain or disability. Some are widely available, easily accessible, and affordable for all people with osteoarthritis; others are expensive or involve long travel or waiting times to receive treatment. Some are very safe, with few or no side-effects and little risk of harm; others may have potentially severe complications.
-    </p>
-    <p>
-      Understanding how consumers, healthcare providers, health policy makers, and other stakeholders weigh up and trade off these different attributes of treatments is crucial to ensure good value, effective, accessible, acceptable, and equitable care can be made available to all people with osteoarthritis.
-    </p>
-    <p>
-      This tool presents the results of a study designed to elicit from key stakeholders the attributes of treatment considered most important in making decisions about osteoarthritis care and their preferences for trade-offs among these attributes; to describe the performance of osteoarthritis interventions against the attributes, informed by high-quality clinical practice guidelines and systematic reviews of peer-reviewed research; and to prioritise interventions by assessing their performance relative to stakeholder or individual preferences.
-    </p>
-    <p style="font-size:1.125em">
-    	To get started, click the <button type="button" id="button-expand-text" disabled style="font-size:0.875em"><span>Expand </span><span class="fas fa-angle-down"></span></button> button on the plot above.
-    </p>
-          <h3>Contact</h3>
+			      There are many treatment options available for the management of knee osteoarthritis.
+			    </p>
+			    <p>
+			      Some of them are highly effective, reducing pain and improving joint function and overall quality of life; others have limited or unclear effect on pain or disability. Some are widely available, easily accessible, and affordable for all people with osteoarthritis; others are expensive or involve long travel or waiting times to receive treatment. Some are very safe, with few or no side-effects and little risk of harm; others may have potentially severe complications.
+			    </p>
+			    <p>
+			      Understanding how consumers, healthcare providers, health policy makers, and other stakeholders weigh up and trade off these different attributes of treatments is crucial to ensure good value, effective, accessible, acceptable, and equitable care can be made available to all people with osteoarthritis.
+			    </p>
+			    </div> <!--.col-lg-6-->
+			    <div class="col-lg-6 text">
+			    <p>
+			      This application presents the results of a study designed to elicit from key stakeholders the attributes of treatment considered most important in making decisions about osteoarthritis care and their preferences for trade-offs among these attributes; to describe the performance of osteoarthritis interventions against the attributes, informed by high-quality clinical practice guidelines and systematic reviews of peer-reviewed research; and to prioritise interventions by assessing their performance relative to stakeholder or individual preferences.
+			    </p>
+			    <p>
+			    	The application is interactive &ndash; you can filter the interventions to be included in the analysis, alter the preference weights used to evaluated trade-offs between attributes, or select evidence specific to early-, mid-, or late-stage disease using the drop-down options menus, and switch between viewing the preference ranking plot and the underlying evidence table.
+			    </p>
+        </div> <!--.col-lg-6-->
+        <div id="getstarted" class="col-lg-12 text" style="margin-top: 20px">
+          <p style="font-size:1.125em; text-align: center; background-color: #f1f4f8; padding: 5px 0">
+			    	To get started, click the <button type="button" id="button-expand-text" disabled style="font-size:0.875em"><span>Expand </span><span class="fas fa-angle-down"></span></button> button on the plot above.
+			    </p>
+        </div> <!--.col-lg-12-->
+        <div class="col-lg-12 text" style="margin-top: 20px">
+          <h5>Contact</h5>
           <p>For enquiries, contact Dr Ross Wilson, Centre for Musculoskeletal Outcomes Research, University of Otago
             (<a href="mailto:ross.wilson@otago.ac.nz?Subject=CMOR%20Evidence%20Table">ross.wilson@otago.ac.nz</a>)</p>
-        </div> <!--.col-lg-7-->
-        <div class="col-lg-5 logo">
-        	<h5><strong>Part of the project <em>The impact and management of rising osteoarthritis burden</em></strong></h5><br>
-        	<div>
-        		<img src="http://www.otago.ac.nz/ou-logo.png" class="img-responsive" alt="University of Otago" height="80px" width="160px" style="margin-right: 30px">
-        	</div>
-        	<div>
-        		<img src="CMOR_logo.png" class="img-responsive" alt="Centre for Musculoskeletal Outcomes Research" height="80px" width="250px">
-        	</div>
-        	<div class="clearfix"></div>
-        	<div>
-        		<img src="moa_logo.jpg" class="img-responsive" alt="Management of Osteoarthritis programme" height="80px" width="108px" style="padding: 5px; border: 1px solid #ccc">
-        	</div>
-        	<div class="clearfix"></div>
-        	<h5><strong>Funding:</strong></h5>
-        	<div>
-        		<img src="HRC_logo.png" class="img-responsive" style="background-color:#6690E8;" alt="Health Research Council of New Zealand" height="80px" width="208px">
-        	</div>
-        	<div class="clearfix"></div>
-
-
-        </div> <!--.col-lg-5-->
+        </div> <!--.col-lg-12-->
+      </div> <!--.row .small-width-->
+			<hr>
+			<div class="row small-width">
+	      <div class="col-xs-12 col-md-9">
+	      	<h5>Part of the project <em>The impact and management of rising osteoarthritis burden</em></h5><br>
+	      	<div>
+	      		<img src="http://www.otago.ac.nz/ou-logo.png" class="img-responsive" alt="University of Otago" height="80px" width="160px" style="margin-right: 30px">
+	      	</div>
+	      	<div>
+	      		<img src="CMOR_logo.png" class="img-responsive" alt="Centre for Musculoskeletal Outcomes Research" height="80px" width="250px" style="margin-right: 30px">
+	      	</div>
+	      	<div>
+	      		<img src="moa_logo.jpg" class="img-responsive" alt="Management of Osteoarthritis programme" height="80px" width="108px" style="padding: 5px; border: 1px solid #ccc">
+	      	</div>
+	      </div>
+	      <div class="col-xs-12 col-md-3 funding">	
+	      	<h5>Funding:</h5><br>
+	      	<div>
+	      		<img src="HRC_logo.png" class="img-responsive" style="background-color:#6690E8;" alt="Health Research Council of New Zealand" height="80px" width="208px">
+	      	</div>
+	      </div> <!--.logo-->
       </div> <!--.row .small-width-->
     </div> <!--.row--><!-- End of Main -->
 
