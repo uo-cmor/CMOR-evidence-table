@@ -44,11 +44,11 @@ button_expand.addEventListener("click", function(){
 //---------- Add behavior to overlay page-----------//
 function on() {
     document.getElementById("overlay").style.display = "block";
-    document.body.style.overflow = "hidden";
+//    document.body.style.overflow = "hidden";
 }
 function off() {
     document.getElementById("overlay").style.display = "none";
-    document.body.style.overflow = "auto";
+//    document.body.style.overflow = "auto";
 }
 
 //---------- Connect slider with numeric inputs ----//
