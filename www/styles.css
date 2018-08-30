@@ -299,6 +299,7 @@ ellipse {
     width: 200px;
     top: -16px;
   }
+}
 @media screen and (max-width: 570px){
   #overlay {display: none !important;}
 }
