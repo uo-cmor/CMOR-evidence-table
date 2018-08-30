@@ -185,6 +185,7 @@ a[data-toggle=modal]:hover,
   /* font-family: 'Satisfy', cursive; */
   /* font-family: 'Montez', cursive; */
   font-size: 20px;
+  line-height: 1;
   font-weight: bold;
   color: #ce151e; /*gray*/
 }
@@ -200,129 +201,104 @@ a[data-toggle=modal]:hover,
   margin-left: 30px;
 }
 #arrow-info {
-  background: url(arrow-straight.svg) no-repeat;
-	top: -10px;
-	right: 230px;
-  -webkit-transform: scale(0.35,0.35) rotate(90deg);
-  -ms-transform: scale(0.35,0.35) rotate(90deg);
-    transform: scale(0.35,0.35) rotate(90deg);
+    background: url(arrow-straight.svg) no-repeat;
+    top: -41px;
+    right: 13px;
+    -webkit-transform: scale(0.35,0.3) rotate(177deg);
+    -ms-transform: scale(0.35,0.3) rotate(177deg);
+    transform: scale(0.35,0.3) rotate(177deg);
 }
 #text-info {
-  top: 39px;
-	right: 285px;
+    top: -16px;
+    right: 17px;
 }
-#arrow-options{
+#arrow-options {
   background: url(arrow-straight.svg) no-repeat;
-	top: -37px;
-	right: 168px;
-  -webkit-transform: scale(0.3,0.35) rotate(135deg);
-  -ms-transform: scale(0.3,0.35) rotate(135deg);
-    transform: scale(0.3,0.35) rotate(135deg);
+  top: -46px;
+  right: 162px;
+  -webkit-transform: scale(0.3,0.35) rotate(123deg);
+  -ms-transform: scale(0.3,0.35) rotate(123deg);
+  transform: scale(0.3,0.35) rotate(123deg);
 }
 #text-options {
-  top: -1px;
+  top: -6px;
 	right: 212px;
+  text-align: right;
+  width: 180px;
 }
-#arrow-interv {
+svg{
+  position: absolute;
+  top: 24px;
+  right: -162px;
+}
+ellipse {
+  -webkit-transform: scale(0.9,0.9) rotate(66deg);
+  -ms-transform: scale(0.9,0.9) rotate(66deg);
+    transform: scale(0.9,0.9) rotateX(66deg);
+}
+#arrow-bar {
   background: url(arrow-straight.svg) no-repeat;
-	top: -40px;
-	right: 74px;
-  -webkit-transform: scale(0.3,0.35) rotate(212deg) rotateY(180deg);
-  -ms-transform: scale(0.3,0.35) rotate(212deg) rotateY(180deg);
-    transform: scale(0.3,0.35) rotate(212deg) rotateY(180deg);
+  top: 169px;
+  right: -157px;
+  -webkit-transform: scale(0.4,0.35) rotate(-89deg);
+  -ms-transform: scale(0.4,0.35) rotate(-89deg);
+  transform: scale(0.4,0.35) rotate(-89deg);
 }
-#text-interv {
-  top: -13px;
-	right: -48px;
+#text-bar {
+  width: 180px;
+  top: 206px;
+  right: -346px;
 }
-#arrow-weights {
-  background: url(arrow-straight.svg) no-repeat;
-	top: -15px;
-	right: -21px;
-  -webkit-transform: scale(0.3,0.35) rotate(244deg);
-  -ms-transform: scale(0.3,0.35) rotate(244deg);
-    transform: scale(0.3,0.35) rotate(244deg);
-}
-#text-weights {
-  top: 13px;
-	right: -127px;
-}
-
 /*-------- Media Queries -------------*/
+@media screen and (max-width: 2000px) {
+  #arrow-bar {right: 3px;}
+  #text-bar {right: -182px;}
+}
 @media screen and (max-width: 1450px) {
-  #arrow-toggle {
-    left: 120px;
-  }
-  #arrow-weights {
-    top: 9px;
-  	right: -22px;
-    -webkit-transform: scale(0.3,0.35) rotate(244deg);
-    -ms-transform: scale(0.3,0.35) rotate(244deg);
-        transform: scale(0.3,0.35) rotate(-56deg) rotateY(180deg);
-  }
-  #text-weights {
-    top: 83px;
-  	right: -43px;
-  }
+  #arrow-toggle {left: 115px;}
+  #arrow-bar {right: 95px;}
+  #text-bar {right: -90px;}
 }
-@media screen and (max-width: 1300px) {
-  #arrow-options {
-    top: 20px;
-    right: 158px;
-    -webkit-transform: scale(0.3,0.35) rotate(135deg);
-    -ms-transform: scale(0.3,0.35) rotate(135deg);
-    transform: scale(0.3,0.35) rotate(49deg) rotateY(180deg);
+@media screen and (max-width: 1250px) {
+  #arrow-bar {right: 140px;}
+  #text-bar {right: -40px;}
 }
-  #text-options {
-      top: 83px;
-      right: 201px;
-  }
-  #arrow-interv {
-    top: -37px;
-    right: 97px;
-    -webkit-transform: scale(0.3,0.35) rotate(212deg) rotateY(180deg);
-    -ms-transform: scale(0.3,0.35) rotate(212deg) rotateY(180deg);
-    transform: scale(0.3,0.35) rotate(133deg) rotateY(0deg);
-  }
-  #text-interv {
-    top: -9px;
-    right: 36px;
-  }
-  #arrow-weights {
-    top: 24px;
-    right: 23px;
-    -webkit-transform: scale(0.3,0.35) rotate(244deg);
-    -ms-transform: scale(0.3,0.35) rotate(244deg);
-    transform: scale(0.3,0.35) rotate(-8deg) rotateY(180deg);
-  }
-  #text-weights {
-    top: 92px;
-    right: -8px;
-    width: 100px;
-  }
-  #text-options {
-    top: 83px;
-    right: 201px;
+@media screen and (max-width: 1100px) {
+  #arrow-bar {right: 167px;}
+  #text-bar {right: -15px;}
 }
-  #arrow-options {
-      top: 20px;
-      right: 158px;
-      -webkit-transform: scale(0.3,0.35) rotate(135deg);
-      -ms-transform: scale(0.3,0.35) rotate(135deg);
-        transform: scale(0.3,0.35) rotate(49deg) rotateY(180deg);
+@media screen and (max-width: 1050px) {
+  #arrow-toggle {left: 134px;}
+  #arrow-info {
+    -webkit-transform: scale(0.35,0.3) rotate(200deg);
+    -ms-transform: scale(0.35,0.3) rotate(200deg);
+    transform: scale(0.35,0.3) rotate(200deg);
   }
-}
-@media screen and (max-width: 1220px) {
-  #arrow-toggle {left: 140px;}
-  #arrow-info {right: 249px;}
-  #text-info {right: 301px;}
-  #arrow-options {right: 183px;}
-  #arrow-weights {right: 38px;}
-  #text-weights {right: 19px;}
-  #arrow-interv {right: 119px;}
+  svg {right: -148px;}
+  #arrow-bar {right: 170px;}
+  #text-bar {
+    right: 11px;
+    width: 160px;
+  }
 }
 @media screen and (max-width: 985px){
-  .overlay-inner {
-    margin-top: 170px;
+  .overlay-inner {margin-top: 170px;}
+  #arrow-info {right: 26px;}
+  svg{right: -140px;}
+  #arrow-bar {
+    right: 89px;
+    top: 126px;
+    -webkit-transform: scale(0.4,0.35) rotate(-46deg) rotateY(169deg);
+    -ms-transform: scale(0.4,0.35) rotate(-46deg) rotateY(169deg);
+    transform: scale(0.4,0.35) rotate(-46deg) rotateY(169deg);
   }
+  #text-bar {right: -5px;}
+}
+@media screen and (max-width: 755px){
+  #text-toggle {
+    width: 200px;
+    top: -16px;
+  }
+@media screen and (max-width: 570px){
+  #overlay {display: none !important;}
 }
