@@ -26,6 +26,7 @@ p {
 h1 {
   font-size: 21px;
   text-align: center;
+  margin-top: 0;
   padding: 20px 0 30px;
   color: white;
 }
@@ -56,6 +57,19 @@ a[data-toggle=modal]:hover,
   outline: none;
   text-decoration: none;
 }
+/*---------Top navigation---------*/
+.topnav {
+	display: block;
+	width: 100%;
+	padding: 10px 0;
+	background-color: #f9c000;
+}
+
+/*------------ Header ------------*/
+header {
+	background-color: #11418c;
+}
+
 /*-------- Navigation panel ------  */
 .navbar {
 	border-bottom: 1.2px solid #e3e3e3;
