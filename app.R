@@ -329,7 +329,8 @@ server <- function(input, output, session) {
 								 hjust = "inward", vjust = "inward") +
 			coord_flip() +
 			scale_fill_brewer(NULL, type = "qual", palette = "Paired") +
-			scale_y_continuous(NULL, limits = c(0, 100), expand = c(0, 0), sec.axis = dup_axis()) +
+			scale_y_continuous(NULL, limits = c(0, 100), expand = c(0, 0), sec.axis = dup_axis(), 
+												 breaks = seq(0, 90, 10), minor_breaks = NULL) +
 			scale_x_discrete(NULL) +
 			guides(fill = guide_legend(reverse = TRUE, label.position = "bottom", 
 																 byrow = ifelse(session$clientData$output_preferencePlot_width >= 768, FALSE, TRUE),
@@ -340,18 +341,10 @@ server <- function(input, output, session) {
 			theme(legend.position = "bottom",
 						legend.justification = c(0, 0),
 						legend.background = element_rect(fill = NA, linetype = 0),
-						legend.key = element_rect(fill = NA, linetype = 0))
+						legend.key = element_rect(fill = NA, linetype = 0),
+						plot.margin = margin(0, 0, 0, 5, "pt"))
 	},
 	height = function() max(280, 12 * dim(preferenceTables())[[1]]))
-	
-	output$plotDescription <- renderText({
-		req(plotdata())
-		
-		"The length of each bar represents the total preference score for the intervention (i.e. the sum of the preference 
-		 weights for each of the intervention's attribute levels). The contribution of each attribute to the total is shown
-		 by the coloured sections of each bar.\nClick on a bar to see a summary of the intervention attributes and 
-		 corresponding preference weights."
-	})
 
 	# Update input widgets
 	observe({
@@ -380,21 +373,13 @@ server <- function(input, output, session) {
 		updateSliderInput(session, "wgt_eff", value = wgt[[8]])
 	})
 	
-	# observe({ updateNumericInput(session, "wgt_rec_val", value = input$wgt_rec) })
 	observe({ updateSliderInput(session, "wgt_rec", value = input$wgt_rec_val) })
-	#observe({ updateNumericInput(session, "wgt_qua_val", value = input$wgt_qua) })
 	observe({ updateSliderInput(session, "wgt_qua", value = input$wgt_qua_val) })
-	#observe({ updateNumericInput(session, "wgt_cos_val", value = input$wgt_cos) })
 	observe({ updateSliderInput(session, "wgt_cos", value = input$wgt_cos_val) })
-	#observe({ updateNumericInput(session, "wgt_dur_val", value = input$wgt_dur) })
 	observe({ updateSliderInput(session, "wgt_dur", value = input$wgt_dur_val) })
-	#observe({ updateNumericInput(session, "wgt_acc_val", value = input$wgt_acc) })
 	observe({ updateSliderInput(session, "wgt_acc", value = input$wgt_acc_val) })
-	#observe({ updateNumericInput(session, "wgt_rmi_val", value = input$wgt_rmi) })
 	observe({ updateSliderInput(session, "wgt_rmi", value = input$wgt_rmi_val) })
-	#observe({ updateNumericInput(session, "wgt_rse_val", value = input$wgt_rse) })
 	observe({ updateSliderInput(session, "wgt_rse", value = input$wgt_rse_val) })
-	#observe({ updateNumericInput(session, "wgt_eff_val", value = input$wgt_eff) })
 	observe({ updateSliderInput(session, "wgt_eff", value = input$wgt_eff_val) })
 
 	observeEvent(input$interventionTypes, { 
@@ -413,211 +398,6 @@ server <- function(input, output, session) {
 	
 	observeEvent(input$noInterventions, {
 		updateCheckboxGroupInput(session, "interventionTypes", selected = "")
-	})
-	
-	# Help dialog boxes
-	observeEvent(input$helpDiseaseStage, {
-		showModal(modalDialog(
-			title = "Disease Stage:",
-			"Select the disease stage for which to show evidence.", br(), br(),
-			"Some interventions have stronger expert recommendation or quality of evidence at different stages of
-			 the disease course",
-			easyClose = TRUE, footer = NULL))
-	})
-	
-	observeEvent(input$helpEvidence, {
-		showModal(modalDialog(
-			title = "Source of Evidence",
-			"Different sources of evidence (e.g clinical practice guidelines, systematic reviews) can be selected.", 
-			br(), br(),
-			tags$dl(
-				tags$dt("RACGP:"), tags$dd("Royal Australian College of General Practitioners clinical guidelines")
-			),
-			easyClose = TRUE, footer = NULL))
-	})
-	
-	observeEvent(input$helpInterventions, {
-		showModal(modalDialog(
-			title = "Interventions",
-			"Interventions can be filtered by type using these check boxes,",
-			"and if desired further filtered by specific intervention in the filter selection box below.", br(), br(),
-			"If no filter is applied, all interventions (of the selected types) will be shown.",
-			easyClose = TRUE, footer = NULL))
-	})
-	
-	observeEvent(input$helpCostEffectiveness, {
-		showModal(modalDialog(
-			title = "Cost-effectiveness Results",
-			"These are not yet available",
-			easyClose = TRUE, footer = NULL))
-	})
-	
-	observeEvent(input$helpPreferenceWeights, {
-		showModal(modalDialog(
-			title = "Preference Weights",
-			"The attributes are aggregated, by default, using the New Zealand stakeholder preference weights elicited as 
-			   part of our project 'The impact and management of rising osteoarthritis burden'.", br(), br(),
-			"If you want to use alternative preference weights, these can be set using the sliders or numeric input boxes in
-			   this section.", br(), 
-			"All preference weights must sum to 100. This is done automatically for the table and plot; to see the 
-         recalculated values in the input fields, use the 'Normalize Weights' button", br(),
-			"Weights can be reset to the NZ stakeholder weights using the 'Reset' button",
-			easyClose = TRUE, footer = NULL
-		))
-	})
-	
-	observeEvent(input$helpRec, {
-		showModal(modalDialog(
-			title = "Recommendation for using the treatment at the given stage of OA",
-			p("Providing or using the right treatments or services at the early/mild, mid, or late/advanced stage of OA. For",
-				"example, it would not be recommended or appropriate to use powerful drug treatments such as opioids before,",
-				"say, self-management and education, physical exercise or, less-powerful drug therapies such as paracetamol."),
-			strong(em("Levels (best to worst):")),
-			tags$ul(
-				tags$li(strong("Strong for:"), "all or almost all informed people would use the treatment at this stage"),
-				tags$li(strong("Conditional for:"), 
-								"most informed people would use the treatment at this stage,", em("but not all")),
-				tags$li(strong("Neutral")),
-				tags$li(strong("Conditional against:"), 
-								"most informed people would try another treatment at this stage,", em("but not all")),
-				tags$li(strong("Strong against:"), 
-								"all or almost all informed people would try another treatment at this stage")
-			),
-			p("Note:", em("'...but not all'"), 
-				"means that a substantial number of people would still choose (or not choose) the treatment"),
-			easyClose = TRUE, footer = NULL
-		))
-	})
-	
-	observeEvent(input$helpQua, {
-		showModal(modalDialog(
-			title = "Quality of the evidence – how confident you are that the treatment works",
-			p("The extent to which one can be confident that the effects of the treatment or service described are real.",
-				"'Evidence' can mean different things to different people, however, there is an accepted hierarchy of how",
-				"valid each source is. For example, anecdotal claims about the effectiveness of treatment in advertisements,",
-				"from peers or family members, or from individual treatment providers may not be as convincing as independent",
-				"health professional advice, rigorous research, peer-reviewed Systematic Reviews, or authoritative Clinical",
-				"Practice Guidelines."),
-			p("See 'Effectiveness' to see how it contrasts from quality of the evidence"),
-			strong(em("Levels (best to worst):")),
-			tags$ul(
-				tags$li(strong("High:"), 
-								"further research is very unlikely to change our confidence in the likely effect of the intervention"),
-				tags$li(strong("Moderate:"), 
-								"further research is likely to have an important impact on our confidence in the likelihood of effect",
-								"of the intervention and may change the estimate"),
-				tags$li(strong("Low:"), 
-								"further research is very likely to have an important impact on our confidence in the likelihood of",
-								"effect of the intervention and is likely to change the estimate"),
-				tags$li(strong("Very low:"), "any estimate of the treatment effect is very uncertain")
-			),
-			easyClose = TRUE, footer = NULL
-		))
-	})
-
-	observeEvent(input$helpCos, {
-		showModal(modalDialog(
-			title = "Cost of Treatment",
-			p("Total financial costs relevant to the use or provision of health care for OA - e.g. costs to the health",
-				"system, out-of-pocket costs to the consumer and, the societal costs of providing health care for OA. Societal",
-				"costs include tax revenue and lost wages due to time away from work, reduced employment or early retirement."),
-			strong(em("Levels (best to worst):")),
-			tags$ul(
-				tags$li(strong("Low:"), "$0-$100 per month OR less than $1500 total"),
-				tags$li(strong("Medium:"), "$100-$1000 per month OR $1500-$15,000 total"),
-				tags$li(strong("High:"), "$1000 or more per month OR $15,000+ total")
-			),
-			easyClose = TRUE, footer = NULL
-		))
-	})
-	
-	observeEvent(input$helpDur, {
-		showModal(modalDialog(
-			title = "Duration – how long the treatment effect lasts",
-			p("The length of time the benefits of the treatment last; e.g. the beneficial effects of surgery, if",
-				"appropriate, may last for 10-15 years after initial healing has occurred, with little ongoing care until",
-				"10-15 years have elapsed. In contrast, drug therapy may require frequent dosing every 4 hours to maintain its",
-				"effect on pain"),
-			strong(em("Levels (best to worst):")),
-			tags$ul(
-				tags$li(strong("Long:"), "the effects of the treatment are experienced for 10 years or longer"),
-				tags$li(strong("Medium:"), "the effects of the treatment are experienced for several months to several years"),
-				tags$li(strong("Short:"), "the effects of the treatment are experienced for up to 4-6 hours")
-			),
-			easyClose = TRUE, footer = NULL
-		))
-	})
-	
-	observeEvent(input$helpAcc, {
-		showModal(modalDialog(
-			title = "Accessibility",
-			p("The extent to which the treatment or service can be accessed by people with OA. For example, the distance to",
-				"nearest provider, wait time and, the ability for culturally and linguistically groups or people from diverse",
-				"sociodemographic background to equally access health care for OA (fairness)."),
-			strong(em("Levels (best to worst):")),
-			tags$ul(
-				tags$li(strong("Accessible:"), 
-								"the treatment can be accessed by the person living with OA in a week or so, regardless of their",
-								"travel needs"),
-				tags$li(strong("Neither accessible nor inaccessible")),
-				tags$li(strong("Inaccessible:"), 
-								"There may be a waiting time of a month or more to receive the treatment; the provider may be",
-								"inconvenient to reach; or, the treatment may not be accessible at all because of health-system",
-								"related factors")
-			),
-			easyClose = TRUE, footer = NULL
-		))
-	})
-
-	observeEvent(input$helpRmi, {
-		showModal(modalDialog(
-			title = "Risk of mild or moderate side-effects",
-			p("Mild to moderate treatment side-effects associated with comfort or safety - e.g. temporary pain, discomfort,",
-				"nausea, heartburn or stomach pain."),
-			strong(em("Levels (best to worst):")),
-			tags$ul(
-				tags$li(strong("Low:"), "1 in 4 chance (25%)"),
-				tags$li(strong("Moderate:"), "2 in 4 chance (50%)"),
-				tags$li(strong("High:"), "3 in 4 chance (75%)")
-			),
-			easyClose = TRUE, footer = NULL
-		))
-	})
-	
-	observeEvent(input$helpRse, {
-		showModal(modalDialog(
-			title = "Risk of serious harm",
-			p("Severe treatment side-effects - e.g. implant failure, drug toxicity, stomach bleeding or ulcer."),
-			strong(em("Levels (best to worst):")),
-			tags$ul(
-				tags$li(strong("Low:"), "1 in 500 chance (0.2%)"),
-				tags$li(strong("Moderate:"), "1 in 200 chance (0.5%)"),
-				tags$li(strong("High:"), "1 in 50 chance (2%)")
-			),
-			easyClose = TRUE, footer = NULL
-		))
-	})
-	
-	observeEvent(input$helpEff, {
-		showModal(modalDialog(
-			title = "Effectiveness",
-			p("The ability for the treatment or service to achieve the desired result - e.g. the change in pain and function",
-				"caused by the intervention."),
-			p("Effectiveness is different to quality of the evidence because it describes the impact, or how ‘big’ the",
-				"change caused by the treatment is, not how likely it is to happen, or how confident you are that it’ll happen",
-				"– this is the 'quality of the evidence'. For example, a highly effective treatment with a very low quality of",
-				"evidence means that the likelihood, or chance of it actually working is very small but, if it did work, it",
-				"would have a high/large impact on pain and/or function."),
-			p("Effectiveness is measured by the standardised mean difference (SMD) in pain levels, defined as the mean",
-				"reduction in pain levels following treatment, divided by the standard deviation of baseline pain levels."),
-			strong(em("Levels (best to worst):")),
-			tags$ul(
-				tags$li(strong("High:"), "SMD > 0.5"),
-				tags$li(strong("Medium:"), "0.2 < SMD < 0.5"),
-				tags$li(strong("Low:"), "SMD < 0.2")
-			),
-			easyClose = TRUE, footer = NULL
-		))
 	})
 }
 

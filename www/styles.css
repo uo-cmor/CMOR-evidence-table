@@ -1,12 +1,14 @@
 /*-------- General ----------------*/
+body {
+  font-family: 'Open Sans', Helvetica, Arial, Geneva, sans-serif;
+}
 .clearfix::after {
   content: "";
   clear: both;
   display: table;
 }
 .container-fluid {
-  padding: 25px;
-  font-family: 'Open Sans', Helvetica, Arial, Geneva, sans-serif;
+  padding: 0 25px ;
 }
 .form-group {
   margin-bottom: 0;
@@ -22,10 +24,23 @@ p {
 	font-size: 14px;
 }
 h1 {
-  font-size: 28px;
-  font-weight: bold;
+  font-size: 21px;
   text-align: center;
-  padding: 40px 0 50px;
+  margin-top: 0;
+  padding: 20px 0 30px;
+  color: white;
+}
+@media only screen and (min-width: 992px) {
+	h1 {
+		font-size: 28px;
+	  padding: 30px 0 40px;
+	}
+}
+@media only screen and (min-width: 1400px) {
+	h1 {
+		font-size: 42px;
+  	padding: 40px 0 50px;
+	}
 }
 h3 {
   font-size: 21px;
@@ -42,8 +57,23 @@ a[data-toggle=modal]:hover,
   outline: none;
   text-decoration: none;
 }
+/*---------Top navigation---------*/
+.topnav {
+	display: block;
+	width: 100%;
+	padding: 10px 0;
+	background-color: #f9c000;
+}
+
+/*------------ Header ------------*/
+header {
+	background-color: #11418c;
+}
+
 /*-------- Navigation panel ------  */
 .navbar {
+	border-bottom: 1.2px solid #e3e3e3;
+	margin-bottom: 10px;
 }
 .navtab {
   padding: 10px 15px;
@@ -82,6 +112,7 @@ a[data-toggle=modal]:hover,
 .nav-tabs>li>a[data-value="Evidence Table"] {
   border-radius: 0 10px 10px 0;
 }
+
 .option-buttons-outer {
   padding-left: 0;
 }
@@ -108,16 +139,15 @@ a[data-toggle=modal]:hover,
 }
 /*-------- Plot/Table area --------------*/
 .tabbable {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  border-top: 1px solid #e3e3e3;
+  padding-top: 0;
+  padding-bottom: 30px;
   border-bottom: 1px solid #e3e3e3;
 }
 #button-expand {
   float: right;
   border-radius: 0 0 5px 5px;
   padding: 0 6px 2px 6px;
-  margin: -1px 6px 0 0;
+  margin: -1px 26px 0 0;
   background-color: transparent !important;
   border: 1px solid #e3e3e3;
   color: #a9a9a9;
@@ -146,11 +176,19 @@ a[data-toggle=modal]:hover,
   max-width: 100%;
   margin-bottom: 30px;
 }
+/*-------- Footer -------------*/
+footer {
+	color: white;
+	margin-top: 20px;
+}
+footer .row {
+	max-width: 1200px;
+  margin: auto;
+  padding: 20px 0;
+}
 @media only screen and (min-width: 992px) {
 	.funding {
-		border-style: none none none solid;
-		border-width: 1px;
-		border-color: #e3e3e3;
+		border-left: 5px solid #f9c000;
 	}
 }
 
@@ -190,15 +228,16 @@ a[data-toggle=modal]:hover,
   color: #ce151e; /*gray*/
 }
 #arrow-toggle{
-  background: url(arrow-curved.svg) no-repeat;
-	top: -20px;
-	left: 110px;
-  -webkit-transform: scale(0.3,0.35) rotate(235deg);
-  -ms-transform: scale(0.3,0.35) rotate(235deg);
-    transform: scale(0.3,0.35) rotate(235deg);
+  background: url(arrow-straight.svg) no-repeat;
+	top: -40px;
+	left: 97px;
+  -webkit-transform: scale(0.3,0.35) rotate(-113deg);
+  -ms-transform: scale(0.3,0.35) rotate(-113deg);
+  transform: scale(0.3,0.35) rotate(-113deg);
 }
 #text-toggle {
-  margin-left: 30px;
+  left: 140px;
+  top: 0;
 }
 #arrow-info {
     background: url(arrow-straight.svg) no-repeat;
@@ -255,9 +294,12 @@ ellipse {
   #text-bar {right: -182px;}
 }
 @media screen and (max-width: 1450px) {
-  #arrow-toggle {left: 115px;}
   #arrow-bar {right: 95px;}
   #text-bar {right: -90px;}
+}
+@media screen and (max-width: 1400px) {
+  #arrow-toggle {top: -74px;}
+  #text-toggle {top: -34px;}
 }
 @media screen and (max-width: 1250px) {
   #arrow-bar {right: 140px;}
@@ -281,25 +323,6 @@ ellipse {
     width: 160px;
   }
 }
-@media screen and (max-width: 985px){
-  .overlay-inner {margin-top: 170px;}
-  #arrow-info {right: 26px;}
-  svg{right: -140px;}
-  #arrow-bar {
-    right: 89px;
-    top: 126px;
-    -webkit-transform: scale(0.4,0.35) rotate(-46deg) rotateY(169deg);
-    -ms-transform: scale(0.4,0.35) rotate(-46deg) rotateY(169deg);
-    transform: scale(0.4,0.35) rotate(-46deg) rotateY(169deg);
-  }
-  #text-bar {right: -5px;}
-}
-@media screen and (max-width: 755px){
-  #text-toggle {
-    width: 200px;
-    top: -16px;
-  }
-}
-@media screen and (max-width: 570px){
+@media screen and (max-width: 992px){
   #overlay {display: none !important;}
 }
