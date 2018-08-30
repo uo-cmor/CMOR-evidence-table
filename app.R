@@ -329,7 +329,8 @@ server <- function(input, output, session) {
 								 hjust = "inward", vjust = "inward") +
 			coord_flip() +
 			scale_fill_brewer(NULL, type = "qual", palette = "Paired") +
-			scale_y_continuous(NULL, limits = c(0, 100), expand = c(0, 0), sec.axis = dup_axis()) +
+			scale_y_continuous(NULL, limits = c(0, 100), expand = c(0, 0), sec.axis = dup_axis(), 
+												 breaks = seq(0, 90, 10), minor_breaks = NULL) +
 			scale_x_discrete(NULL) +
 			guides(fill = guide_legend(reverse = TRUE, label.position = "bottom", 
 																 byrow = ifelse(session$clientData$output_preferencePlot_width >= 768, FALSE, TRUE),
@@ -340,7 +341,8 @@ server <- function(input, output, session) {
 			theme(legend.position = "bottom",
 						legend.justification = c(0, 0),
 						legend.background = element_rect(fill = NA, linetype = 0),
-						legend.key = element_rect(fill = NA, linetype = 0))
+						legend.key = element_rect(fill = NA, linetype = 0),
+						plot.margin = margin(0, 0, 0, 5, "pt"))
 	},
 	height = function() max(280, 12 * dim(preferenceTables())[[1]]))
 	
