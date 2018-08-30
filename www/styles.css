@@ -226,6 +226,14 @@ footer .row {
   font-weight: bold;
   color: #ce151e; /*gray*/
 }
+.overlay-options {
+	padding: 0 25px;
+}
+.overlay-plot {
+	position: absolute;
+	padding-left: 400px;
+	width: 100%;
+}
 #arrow-toggle{
   background: url(arrow-straight.svg) no-repeat;
 	top: -40px;
@@ -252,22 +260,22 @@ footer .row {
 }
 #arrow-options {
   background: url(arrow-curved.svg) no-repeat;
-  top: -48px;
-  right: 207px;
-  -webkit-transform: scale(0.35,0.35) rotate(113deg);
-  -ms-transform: scale(0.35,0.35) rotate(113deg);
-  transform: scale(0.35,0.35) rotate(113deg);
+  top: -43px;
+  right: 217px;
+  -webkit-transform: scale(0.35,0.35) rotate(93deg);
+  -ms-transform: scale(0.35,0.35) rotate(93deg);
+  transform: scale(0.35,0.35) rotate(93deg);
 }
 #text-options {
-  top: -6px;
-	right: 257px;
+  top: 4px;
+	right: 267px;
   text-align: right;
   width: 180px;
 }
-svg{
+#circle-options{
   position: absolute;
   top: 6px;
-  right: -169px;
+  right: 33px;
 }
 ellipse {
   -webkit-transform: scale(0.9,0.9) rotate(66deg);
@@ -275,65 +283,63 @@ ellipse {
     transform: scale(0.9,0.9) rotateX(66deg);
 }
 #arrow-score {
-  background: url(arrow-straight.svg) no-repeat;
-  top: 169px;
-  right: -157px;
-  -webkit-transform: scale(0.4,0.35) rotate(-89deg);
-  -ms-transform: scale(0.4,0.35) rotate(-89deg);
-  transform: scale(0.4,0.35) rotate(-89deg);
+  background: url(arrow-curved.svg) no-repeat;
+  top: 42px;
+  left: 79%;
+  -webkit-transform: scale(-0.35,0.35) rotate(23deg);
+  -ms-transform: scale(-0.35,0.35) rotate(23deg);
+  transform: scale(-0.35,0.35) rotate(23deg);
 }
 #text-score {
-  width: 180px;
-  top: 206px;
-  right: -346px;
+  width: 200px;
+  top: 119px;
+  right: 9%;
 }
 #arrow-bar {
   background: url(arrow-straight.svg) no-repeat;
-  top: 169px;
-  right: -157px;
-  -webkit-transform: scale(0.4,0.35) rotate(-89deg);
-  -ms-transform: scale(0.4,0.35) rotate(-89deg);
-  transform: scale(0.4,0.35) rotate(-89deg);
+  top: 144px;
+  left: 66%;
+  -webkit-transform: scale(0.35,0.3) rotate(-29deg);
+  -ms-transform: scale(0.35,0.3) rotate(-29deg);
+  transform: scale(0.35,0.3) rotate(-29deg);
 }
 #text-bar {
   width: 180px;
-  top: 206px;
-  right: -346px;
+  top: 216px;
+  left: 68%;
+}
+#text-intro {
+  width: 190px;
+  top: 326px;
+  left: 66%;
+  padding-left: 30px;
+  text-align: center;
+  font-size: 24px;
+}
+#circle-intro {
+  position: absolute;
+  top: 316px;
+  left: 66%;
 }
 /*-------- Media Queries -------------*/
-@media screen and (max-width: 2000px) {
-  #arrow-bar {right: 3px;}
-  #text-bar {right: -182px;}
-}
-@media screen and (max-width: 1450px) {
-  #arrow-bar {right: 95px;}
-  #text-bar {right: -90px;}
-}
 @media screen and (max-width: 1400px) {
-  #arrow-toggle {top: -74px;}
-  #text-toggle {top: -34px;}
+  .overlay-inner {margin-top: 136px;}
 }
-@media screen and (max-width: 1250px) {
-  #arrow-bar {right: 140px;}
-  #text-bar {right: -40px;}
+@media screen and (max-width: 1340px) {
+	#text-score {right: 1%;}
 }
-@media screen and (max-width: 1100px) {
-  #arrow-bar {right: 167px;}
-  #text-bar {right: -15px;}
-}
-@media screen and (max-width: 1050px) {
-  #arrow-toggle {left: 134px;}
+@media screen and (max-width: 1300px) {
   #arrow-info {
-    -webkit-transform: scale(0.35,0.3) rotate(200deg);
-    -ms-transform: scale(0.35,0.3) rotate(200deg);
-    transform: scale(0.35,0.3) rotate(200deg);
+  	right: 25px;
+    -webkit-transform: scale(-0.3,0.25) rotate(207deg);
+    -ms-transform: scale(-0.3,0.25) rotate(207deg);
+    transform: scale(-0.3,0.25) rotate(207deg);
   }
-  svg {right: -148px;}
-  #arrow-bar {right: 170px;}
-  #text-bar {
-    right: 11px;
-    width: 160px;
-  }
+  #text-info {right: 59px;}
+}
+@media screen and (max-width: 1040px) {
+#text-intro {left: 58%;}
+#circle-intro {left: 58%;}
 }
 @media screen and (max-width: 992px){
   #overlay {display: none !important;}
