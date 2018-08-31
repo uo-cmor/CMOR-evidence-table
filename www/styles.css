@@ -221,7 +221,7 @@ footer .row {
   font-family: 'Indie Flower', cursive;
   /* font-family: 'Satisfy', cursive; */
   /* font-family: 'Montez', cursive; */
-  font-size: 20px;
+  font-size: 23px;
   line-height: 1;
   font-weight: bold;
   color: #ce151e; /*gray*/
@@ -292,7 +292,7 @@ ellipse {
 }
 #text-score {
   width: 200px;
-  top: 119px;
+  top: 122px;
   right: 9%;
 }
 #arrow-bar {
@@ -314,7 +314,7 @@ ellipse {
   left: 66%;
   padding-left: 30px;
   text-align: center;
-  font-size: 24px;
+  font-size: 26px;
 }
 #circle-intro {
   position: absolute;
