@@ -36,9 +36,48 @@
 </head>
 
 <body>
+  <!-- Create an overlay page -->
+  <div id="overlay" onclick="off()" style="display:none;">
+    <div class="overlay-inner">
+    	<div class="overlay-options">
+    		<div class="row small-width">
+	    		<div class="col-xs-6 target">
+	          <div class="overlay-text" id="text-toggle">View Evidence Table</div>
+	          <div class="arrow" id="arrow-toggle"></div>
+	        </div> <!--.col-xs-6-->
+	        <div class="col-xs-6 target">
+	          <div class="overlay-text" id="text-info">Get more help</div>
+	          <div class="arrow" id="arrow-info"></div>
+	          <div class="overlay-text" id="text-options">Refine plot options</div>
+	          <div class="arrow" id="arrow-options"></div>
+	          <svg id="circle-options" height="140" width="300">
+	            <ellipse cx="200" cy="80" rx="100" ry="50" style="fill:transparent;stroke:black;stroke-width:4" />
+	          </svg>
+	        </div> <!--.col-xs-6-->
+				</div>
+			</div>
+			<div class="row overlay-plot">
+        <div class="col-xs-12 target">
+          <div class="overlay-text" id="text-score">Each intervention is scored from 0 to 100</div>
+          <div class="arrow" id="arrow-score"></div>
+        </div>
+        <div class="col-xs-12 target">
+          <div class="overlay-text" id="text-bar">Click on a bar for more information about the intervention</div>
+          <div class="arrow" id="arrow-bar"></div>
+        </div>
+        <div class="col-xs-12 target">
+          <div class="overlay-text" id="text-intro">Click anywhere to get started</div>
+          <svg id="circle-intro" height="160" width="230">
+            <ellipse cx="120" cy="155" rx="110" ry="145" style="fill:transparent;stroke:#ce151e;stroke-width:8" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+	<header>
     <h1>CMOR Evidence Table and Preference Ranking for OA Interventions</h1>
 	</header>
-		<p style="background-color:yellow; text-align:center; margin-bottom:0; font-size: 1.5em"><strong>***PRELIMINARY RESULTS: NOT FOR CITATION***</strong></p>
+	<p style="background-color:yellow; text-align:center; margin-bottom:0; font-size: 1.5em"><strong>***PRELIMINARY RESULTS: NOT FOR CITATION***</strong></p>
   <div class="container-fluid">
     <!-- Navigation panel -->
     <div class="row navbar" style="display:none;">
@@ -59,7 +98,7 @@
         <div class="dropdown">
           <a id="btn-instructions" href="#" data-toggle="modal" data-target="#instructions"><span class="fas fa-question-circle"></span></a>
         </div> <!-- End of Instructions section -->
-        
+
         <div class="option-buttons-inner">
           <!-- Weights section -->
           <div class="dropdown">
@@ -520,7 +559,7 @@
           <div id="plot-area">
             <div id="preferencePlot" class="shiny-plot-output" data-click-id="plot_click" data-click-clip="FALSE" style="height:300px; overflow:hidden;"></div>
           </div>
-          <button id="button-expand" type="button"><span>Expand </span><span class="fas fa-angle-down"></span></button>
+              <button id="button-expand" type="button" onclick="on()"><span>Expand </span><span class="fas fa-angle-down"></span></button>
       </div> <!--.tab-pane-->
 
       <div class="tab-pane" data-value="Evidence Table" id="tab-9829-1">
@@ -607,43 +646,40 @@
           </div>
           <div class="modal-body">
             <p>
-      In this application, interventions for the clinical management of knee osteoarthritis are characterised according to eight attributes: recommendation (appropriateness for the stage of the disease), quality of evidence, cost, duration of effect, accessibility, risk of mild/moderate harm, risk of serious harm, and effectiveness. Each attribute describes between 3 and 5 levels of performance, in increasing order of desirability (for the details of the levels described by each attribute, click the help icon <a><i class="fa fa-info-circle"></i></a> next to the attribute heading in the Preference Weights panel).
-    </p><br>
-              <a><strong><em>Options <span class="fas fa-cog"></span>:</em></strong></a>
-              <p hidden>
-      In our study, the performance of each intervention according to these eight attributes was informed by the Royal Australian College of General Practitioners' <em>Guideline for the management of knee and hip osteoarthritis</em> (2017), supplemented where necessary by additional sources including (in decreasing order of preference) systematic reviews and meta-analyses, other published data, and research team judgement.
-    </p>
-    <p>
-      The performance scoring for each intervention can differ at different stages of the disease course (for example, total joint replacement has little evidence and is generally not recommended/appropriate for early-stage disease, but is strongly recommended for patients with severe late-stage disease); to incorporate this in the ranking model, evidence tables can be constructed for early, mid, or late-stage disease using the 'Timing of interventions' option.
-    </p>
-    <p>
-      In future iterations of the evidence table, we will also incorporate the option to select different sources of evidence to inform the table and resulting preference scores. (At this stage, only the Royal Australian College of General Practitioners' <em>Guideline for the management of knee and hip osteoarthritis, 2nd edition</em> is available.)
-    </p><br>
-              <a><strong><em>Filter <span class="fas fa-filter"></span>: </em></strong></a>
-              <p>
-      A total of 74 interventions are included in the current version of the evidence table. These can be filtered by category and, if required, by the selection of specific interventions in the Interventions option panel.
-    </p><br>
-              <a><strong><em>Preference Weights <span class="fas fa-balance-scale"></span>:</em></strong></a>
-              <p>
-      Interventions are ranked by summing up their total "preference weights", or values associated with the performance of the intervention on each of the attributes, using weights calculated from the derived preferences of key stakeholders in our study. These can be changed if desired, using the sliders/numeric inputs in the Preference Weights panel, to investigate the resulting effects on the intervetion ranking.
-    </p>
-    <p hidden>
-      To avoid potential biases in stakeholder evaluations of the interventions due to prior beliefs or pre-conceived ideas about different treatments, preference weights, or the relative values assigned to each intervention, were derived indirectly by obtaining preference weights for the eight attributes, which can then be summed to derive an aggregate preference score for each intervention. The preference weights presented here were derived from a study of the preferences of key New Zealand stakeholder groups (consumers with OA, M&amacr;ori health advocates, health care providers, health policy makers, and content area experts). To investigate the effect on preference rankings using any other set of preference weights, move the sliders/numeric inputs in the Preference Weights panel.
-    </p><br>
-              <h4><strong><em>Outputs:</em></strong></h4>
-              <p>Outputs can be shown as either a plot of the preference weightings for each intervention, or an evidence table reporting the performance of each intervention across the eight attributes.</p>
-              <p>
-      To switch between the preference plot and viewing the underlying evidence table, select the Plot or Evidence Table tabs.
-    </p>
-    <p>
-      The plot shows the aggregate preference score for each selected intervention, and the contribution of each attribute level to this total. You can click on the bar for an intervention to provide a summary of the attribute levels and associated preference weights for that intervention. Click elsewhere on the plot to remove the summary.
-    </p>
-    <p>
-      The evidence table reports the performance of each selected intervention on the eight attributes, according to the specified evidence source and timing of interventions, and the resulting aggregate preference score using the specified preference weights. Interventions are (by default) ranked by total preference score. The table can be sorted by intervention name, attribute, or preference score by clicking on the column headers, and searched for specific interventions or attribute levels using the search box
-    </p>
-    <p hidden>
-      Further details of the study, including recruitment of key stakeholders, theoretical basis for the preference-elicitation study, and construction of the evidence tables, can be found <a>here</a>.
-    </p>
+            	In this application, interventions for the clinical management of knee osteoarthritis are characterised according to eight attributes: recommendation (appropriateness for the stage of the disease), quality of evidence, cost, duration of effect, accessibility, risk of mild/moderate harm, risk of serious harm, and effectiveness. Each attribute describes between 3 and 5 levels of performance, in increasing order of desirability (for the details of the levels described by each attribute, click the help icon <a><i class="fa fa-info-circle"></i></a> next to the attribute heading in the Preference Weights panel).
+            </p><br>
+            <h4><strong><em>Options:</em></strong></h4>
+            <a><strong><em>Intervention performance <span class="fas fa-cog"></span>:</em></strong></a>
+            <p>
+            	The performance scoring for each intervention can differ at different stages of the disease course (for example, total joint replacement has little evidence and is generally not recommended/appropriate for early-stage disease, but is strongly recommended for patients with severe late-stage disease); to incorporate this in the ranking model, evidence tables can be constructed for early, mid, or late-stage disease using the 'Timing of interventions' option.
+            </p>
+            <p>
+            	In future iterations of the evidence table, we will also incorporate the option to select different sources of evidence to inform the table and resulting preference scores. (At this stage, only the Royal Australian College of General Practitioners' <em>Guideline for the management of knee and hip osteoarthritis, 2nd edition</em> is available.)
+            </p>
+            <a><strong><em>Filter <span class="fas fa-filter"></span>: </em></strong></a>
+            <p>
+            	A total of 74 interventions are included in the current version of the evidence table. These can be filtered by category and, if required, by the selection of specific interventions in the Interventions option panel.
+            </p>
+            <a><strong><em>Preference Weights <span class="fas fa-balance-scale"></span>:</em></strong></a>
+            <p>
+            	Interventions are ranked by summing up their total "preference weights", or values associated with the performance of the intervention on each of the attributes, using weights calculated from the derived preferences of key stakeholders in our study. These can be changed if desired, using the sliders/numeric inputs in the Preference Weights panel, to investigate the resulting effects on the intervetion ranking.
+            </p><br>
+            <h4><strong><em>Outputs:</em></strong></h4>
+            <p>
+            	Outputs can be shown as either a plot of the preference weightings for each intervention, or an evidence table reporting the performance of each intervention across the eight attributes.
+            </p>
+            <p>
+            	To switch between the preference plot and viewing the underlying evidence table, click the toggle switch to the left.
+            </p>
+            <p>
+            	The plot shows the aggregate preference score for each selected intervention, and the contribution of each attribute level to this total. You can click on the bar for an intervention to provide a summary of the attribute levels and associated preference weights for that intervention. Click elsewhere on the plot to remove the summary.
+            </p>
+            <p>
+            	The evidence table reports the performance of each selected intervention on the eight attributes, according to the specified evidence source and timing of interventions, and the resulting aggregate preference score using the specified preference weights. Interventions are (by default) ranked by total preference score. The table can be sorted by intervention name, attribute, or preference score by clicking on the column headers, and searched for specific interventions or attribute levels using the search box.
+            </p>
+            <p hidden>
+            	Further details of the study, including recruitment of key stakeholders, theoretical basis for the preference-elicitation study, and construction of the evidence tables, can be found <a>here</a>.
+            </p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Got it!</button>
