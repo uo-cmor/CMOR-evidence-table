@@ -106,6 +106,28 @@ evidenceTablesDetails <- list(
 	Late = list(RACGP = create_evidence_details_table(clean_RACGP))
 )
 
+evidenceTablesDetails_tibble <- evidenceTablesDetails %>% 
+	map(bind_rows) %>%
+	bind_rows() %>%
+	rename_all(list(~paste0(., ".detail")))
+
+evidenceTables_tibble <- evidenceTables %>% 
+	map_depth(2, as_tibble, rownames = "Intervention") %>%
+	map(bind_rows, .id = "source") %>%
+	bind_rows(.id = "timing") %>%
+	mutate(Intervention = factor(Intervention, levels = interventionNames),
+				 `Recommendation` = factor(`Recommendation`, labels = attributeNames[["Recommendation"]]),
+				 `Quality of Evidence` = factor(`Quality of Evidence`, labels = attributeNames[["Quality of Evidence"]]),
+				 `Cost` = factor(`Cost`, labels = attributeNames[["Cost"]]),
+				 `Duration of Effect` = factor(`Duration of Effect`, labels = attributeNames[["Duration of Effect"]]),
+				 `Accessibility` = factor(`Accessibility`, labels = attributeNames[["Accessibility"]]),
+				 `Risk of Mild/Moderate Harm` = factor(`Risk of Mild/Moderate Harm`, 
+				 																			labels = attributeNames[["Risk of Mild/Moderate Harm"]]),
+				 `Risk of Serious Harm` = factor(`Risk of Serious Harm`, labels = attributeNames[["Risk of Serious Harm"]]),
+				 `Effectiveness` = factor(`Effectiveness`, labels = attributeNames[["Effectiveness"]])) %>%
+	bind_cols(evidenceTablesDetails_tibble) %>%
+	group_by(Intervention)
+
 evidenceTablesWeight <- c(RACGP = 1)
 
 save(interventionNames, interventionTypes, interventionList,
