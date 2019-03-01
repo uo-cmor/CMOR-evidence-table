@@ -1,7 +1,7 @@
 VPATH = data scripts
 
 # Variable definitions
-RAW_DATA := $(addprefix data/raw/,Performance-Matrix.xlsx Attribute-Weights.xlsx)
+RAW_DATA := $(addprefix data/raw/,Performance-Matrix-RW.xlsx Attribute-Weights.xlsx)
 
 all: data/evidenceTables.Rdata
 

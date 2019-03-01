@@ -30,7 +30,7 @@ attributeNames <- list(
 	Recommendation = c("Strong Against", "Conditional Against", "Neutral", "Conditional For", "Strong For"),
 	"Quality of Evidence" = c("Very low", "Low", "Moderate", "High"),
 	Cost = c("High", "Medium", "Low"),
-	"Duration of Effect" = c("Short", "Medium", "Long"),
+	"Duration of Effect" = c("Short", "Short-Medium", "Medium", "Long"),
 	Accessibility = c("Inaccessible", "Neither accessible or inaccessible", "Accessible"),
 	"Risk of Mild/Moderate Harm" = c("High", "Medium", "Low"),
 	"Risk of Serious Harm" = c("High", "Medium", "Low"),
@@ -43,22 +43,24 @@ attributeLevels <- plyr::llply(attributeLevels, function(x) x / max(x))
 interventionNames <- clean_RACGP$Intervention
 interventionList <- list(
 	"Alternative medicines" = list("Avocado-soybean unsaponifiables", "Boswellia serrata extract", "Curcuma/curcuminoid",
-															"Pycnogenol", "Glucosamine", "Chondroitin", 
-															"Glucosamine and chondroitin in compound form", "Vitamin D", "Omega-3 fatty acids",
-															"Collagen", "Methylsulfonylmethane"),
+																 "Pycnogenol", "Glucosamine", "Chondroitin", 
+																 "Glucosamine and chondroitin in compound form", "Vitamin D", "Omega-3 fatty acids",
+																 "Collagen", "Methylsulfonylmethane"),
 	"Electrotherapies" = list("Pulsed electromagnetic/ shortwave therapy", "Other electrotherapy (interferential)", 
-												 "Other electrotherapy (laser)", "Other electrotherapy (shock wave)", 
-												 "Transcutaneous electrical nerve stimulation (TENS)", "Therapeutic ultrasound", 
-												 "Acupuncture (laser)", "Acupuncture (traditional and electroacupuncture)"),
+												 		"Other electrotherapy (laser)", "Other electrotherapy (shockwave)", 
+												 		"Transcutaneous electrical nerve stimulation (TENS)", "Therapeutic ultrasound", 
+												 		"Acupuncture (electroacupuncture)", "Acupuncture (laser)",
+												 		"Acupuncture (traditional with manual stimulation)"),
 	"Exercise interventions" = list("ALL LAND-BASED EXERCISE (all land based, muscle-strengthening, walking, Tai Chi)",
-															 "Aquatic exercise/ hydrotherapy", "Knee exercise: Cycling only", 
-															 "Knee exercise: Land-based exercise (stationary cycling, hatha yoga)",
-															 "Knee exercise: MUSCLE STRENGTHENING ONLY for lower limb strengthening", 
-															 "Knee exercise: MUSCLE STRENGTHENING ONLY for quadriceps strengthening",
-															 "Knee exercise: Tai Chi only", "Knee exercise: Walking only", 
-															 "Knee exercise: Yoga only"),
-	"Injectable agents" = list("Viscosupplementation injection", "Platelet-rich plasma (PRP) injection", "Stem cell therapy",
-													"Dextrose prolotherapy", "Fibroblast growth factor (FGF)", "Corticosteroid injection"),
+															 		"Aquatic exercise/ hydrotherapy", "Knee exercise: Stationary cycling only", 
+															 		"Knee exercise: Land-based exercise (stationary cycling, hatha yoga)",
+															 		"Knee exercise: MUSCLE STRENGTHENING ONLY for lower limb strengthening", 
+															 		"Knee exercise: MUSCLE STRENGTHENING ONLY for quadriceps strengthening",
+															 		"Knee exercise: Tai Chi only", "Knee exercise: Walking only", 
+															 		"Knee exercise: Yoga only"),
+	"Injectable agents" = list("Viscosupplementation injection", "Platelet-rich plasma (PRP) injection", 
+														 "Stem cell therapy", "Dextrose prolotherapy", "Fibroblast growth factor (FGF)", 
+														 "Corticosteroid injection"),
 	"Mechanical aids and devices" = list(
 		"Knee braces (re-aligning patellofemoral braces)", "Knee braces (valgus unloading/re-alignment braces)",
 		"Knee braces (varus unloading/re-alignment braces)", 
@@ -70,16 +72,16 @@ interventionList <- list(
 	),
 	"Pharmacological interventions (over the counter)" = list("Paracetamol", "Topical capsaicin", "Topical NSAIDs"),
 	"Pharmacological interventions (prescription medication only)" = list(
-		"Interleukin-1 (IL-1) inhibitors", "Methotrexate", "Oral opioids", "Transdermal buprenorphine", 
-		"Transdermal Fentanyl", "Colchicine", "Anti-nerve growth factor (NGF)", "Calcitonin", "Biphosphonates", 
+		"Interleukin-1 (IL-1) inhibitors", "Methotrexate", "Oral opioids", "Transdermal opioids - buprenorphine", 
+		"Transdermal opioids - Fentanyl", "Colchicine", "Anti-nerve growth factor (NGF)", "Calcitonin", "Biphosphonates", 
 		"Doxycycline", "Oral non-steroidal anti-inflammatory drugs (NSAIDs) including COX-2 inhibitors", "Diacerein",
 		"Duloxetine", "Strontium ranelate"),
 	"Psychological interventions" = list("Cognitive behavioural therapy"),
 	"Other physical therapies" = list("Manual therapy (massage)", "Manual therapy (mobilisation and manipulation)"),
-	"Self-management and education interventions" = c("self-management education programs", "Heat therapy", 
-																										"Cold therapy"),
+	"Self-management and education interventions" = list("self-management education programs", "Heat therapy", 
+																											 "Cold therapy"),
 	"Surgical interventions" = list("Arthroscopic cartilage repair ", "Arthroscopic lavage and debridement",
-															 "Arthroscopic meniscectomy ", "Total Joint Replacement"),
+															 	  "Arthroscopic meniscectomy ", "Total Joint Replacement"),
 	"Weight management" = list("Weight management")
 )
 interventionTypes <- apply(sapply(interventionList, function(l) interventionNames %in% l), 1, function(x) names(x)[x])
@@ -103,6 +105,28 @@ evidenceTablesDetails <- list(
 	Mid = list(RACGP = create_evidence_details_table(clean_RACGP)),
 	Late = list(RACGP = create_evidence_details_table(clean_RACGP))
 )
+
+evidenceTablesDetails_tibble <- evidenceTablesDetails %>% 
+	map(bind_rows) %>%
+	bind_rows() %>%
+	rename_all(list(~paste0(., ".detail")))
+
+evidenceTables_tibble <- evidenceTables %>% 
+	map_depth(2, as_tibble, rownames = "Intervention") %>%
+	map(bind_rows, .id = "source") %>%
+	bind_rows(.id = "timing") %>%
+	mutate(Intervention = factor(Intervention, levels = interventionNames),
+				 `Recommendation` = factor(`Recommendation`, labels = attributeNames[["Recommendation"]]),
+				 `Quality of Evidence` = factor(`Quality of Evidence`, labels = attributeNames[["Quality of Evidence"]]),
+				 `Cost` = factor(`Cost`, labels = attributeNames[["Cost"]]),
+				 `Duration of Effect` = factor(`Duration of Effect`, labels = attributeNames[["Duration of Effect"]]),
+				 `Accessibility` = factor(`Accessibility`, labels = attributeNames[["Accessibility"]]),
+				 `Risk of Mild/Moderate Harm` = factor(`Risk of Mild/Moderate Harm`, 
+				 																			labels = attributeNames[["Risk of Mild/Moderate Harm"]]),
+				 `Risk of Serious Harm` = factor(`Risk of Serious Harm`, labels = attributeNames[["Risk of Serious Harm"]]),
+				 `Effectiveness` = factor(`Effectiveness`, labels = attributeNames[["Effectiveness"]])) %>%
+	bind_cols(evidenceTablesDetails_tibble) %>%
+	group_by(Intervention)
 
 evidenceTablesWeight <- c(RACGP = 1)
 

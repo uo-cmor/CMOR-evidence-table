@@ -159,7 +159,7 @@ ui <- fluidPage(
 server <- function(input, output, session) {
 	# Reactive expressions (based on input values)
 	evidence <- reactive({
-		as.integer(input$evidence)
+		input$evidence
 	})
 	selected <- reactive({
 		if (isTruthy(input$interventions)) {

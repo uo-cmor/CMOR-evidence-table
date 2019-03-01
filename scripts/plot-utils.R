@@ -23,9 +23,9 @@ nearBars <- function (df, coordinfo, xvar = NULL, yvar = NULL, panelvar1 = NULL,
 	panelvar1 <- panelvar1 %OR% coordinfo$mapping$panelvar1
 	panelvar2 <- panelvar2 %OR% coordinfo$mapping$panelvar2
 	if (is.null(xvar)) 
-		stop("nearPoints: not able to automatically infer `xvar` from coordinfo")
+		stop("nearBars: not able to automatically infer `xvar` from coordinfo")
 	if (is.null(yvar)) 
-		stop("nearPoints: not able to automatically infer `yvar` from coordinfo")
+		stop("nearBars: not able to automatically infer `yvar` from coordinfo")
 	x <- asNumber(df[[xvar]])
 	y <- asNumber(df[[yvar]])
 	coordPx <- scaleCoords(coordinfo$x, coordinfo$y, coordinfo)
