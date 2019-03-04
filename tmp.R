@@ -98,13 +98,18 @@ server <- function(input, output, session) {
 	
 	plotdata <- reactive({
 		preferenceScores <- req(preferenceScores())
+		
+		preferenceScores <- preferenceScores %>% 
+			mutate(rank = rank(-PreferenceScores)) %>%
+			filter(rank <= as.integer(input$plot_n))
+		
 		if (nrow(preferenceScores) > 0) 
 			preferenceScores <- preferenceScores %>% 
-				mutate(Intervention = fct_reorder(factor(Intervention), PreferenceScores))
+			  mutate(Intervention = fct_reorder(factor(Intervention), PreferenceScores))
 		
 		preferenceScores %>%
 			select(-PreferenceScores) %>%
-			gather("attribute", "value", -Intervention, factor_key = TRUE)
+			gather("attribute", "value", -c(Intervention, rank), factor_key = TRUE)
 	})
 
 	printTable <- reactive({
@@ -151,8 +156,13 @@ server <- function(input, output, session) {
 											transmute(Intervention, wgt = rowSums(select(., names(attributeNames)))), 
 										input$plot_click, xvar = "wgt",
 										threshold = 0, maxpoints = 1)$Intervention
+		#print(input$plot_click)
+		# print(plotdata() %>% spread(attribute, value) %>% 
+		# 				transmute(Intervention, wgt = rowSums(select(., names(attributeNames)))))
 		labels <- filteredTables() %>% filter(Intervention %in% sel)
+		#print(labels)
 		values <- plotdata() %>% filter(Intervention %in% sel) %>% spread(attribute, value)
+		#print(values)
 		if (length(sel)>0) values <- values %>% mutate_at(names(attributeNames), round, 1)
 		
 		selectedIntervention$name <- sel
@@ -204,13 +214,13 @@ server <- function(input, output, session) {
 											label = selectedIntervention$label)
 		
 		ggplot(plotdata, aes(Intervention, value)) + 
-			geom_col(aes(fill = attribute), colour = "white") + 
-			geom_col(aes(group = attribute), fill = NA, size = 1, colour = "black",
+			geom_col(aes(fill = attribute), colour = NA, width = 0.7) + 
+			geom_col(aes(group = attribute), fill = NA, width = 0.7, size = 1, colour = "black",
 							 data = filter(plotdata, Intervention %in% labdata$name), show.legend = FALSE) +
 			geom_label(aes(x, y, label = label), data = labdata, show.legend = FALSE,
 								 hjust = "inward", vjust = "inward") +
 			coord_flip() +
-			scale_fill_brewer(NULL, type = "qual", palette = "Paired") +
+			scale_fill_manual(NULL, values = c("#31cd31", "#86cdeb", "#3fe0cf", "#4581b4", "#99cc31", "#b954d2", "#ef8080", "#fa68b4")) +
 			scale_y_continuous(NULL, limits = c(0, 100), expand = c(0, 0), sec.axis = dup_axis(), 
 												 breaks = seq(0, 90, 10), minor_breaks = NULL) +
 			scale_x_discrete(NULL) +
@@ -220,14 +230,16 @@ server <- function(input, output, session) {
 																 							ifelse(session$clientData$output_preferencePlot_width >= 768, 2, 4)),
 																 keywidth = unit(ifelse(session$clientData$output_preferencePlot_width >= 1050, 3, 1), 
 																 								"lines"))) +
-			theme_void() +
+			theme_classic() +
 			theme(legend.position = "bottom",
 						legend.justification = c(0, 0),
 						legend.background = element_rect(fill = NA, linetype = 0),
 						legend.key = element_rect(fill = NA, linetype = 0),
-						plot.margin = margin(0, 0, 0, 5, "pt"))
+						plot.margin = margin(0, 0, 0, 5, "pt"),
+						plot.background = element_rect(fill = "#FDFAF1"),
+						panel.background = element_rect(fill = "#FDFAF1"))
 	},
-	height = function() max(280, 12 * dim(preferenceScores())[[1]]))
+	height = function() max(280, 90 + 30 * nrow(plotdata()) / 8))
 	
 	# Update input widgets
 	observe({

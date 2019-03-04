@@ -26,7 +26,7 @@ p {
 h1 {
   font-size: 21px;
   text-align: center;
-  margin-top: 0;
+  margin: 0;
   padding: 20px 0 30px;
   color: white;
 }
@@ -62,12 +62,12 @@ a[data-toggle=modal]:hover,
 	display: block;
 	width: 100%;
 	padding: 10px 0;
-	background-color: #f9c000;
+	background-color: #f9c013;
 }
 
 /*------------ Header ------------*/
 header {
-	background-color: #11418c;
+	background-color: #15346d;
 }
 
 /*-------- Navigation panel ------  */
@@ -86,15 +86,15 @@ header {
 .nav-tabs>li.active>a:focus,
 .nav-tabs>li.active>a:hover {
   color: white;
-  background-color: #366eae;
-  border: 1.2px solid #366eae;
-  border-bottom-color: #366eae;
+  background-color: #15346d;
+  border: 1.2px solid #15346d;
+  border-bottom-color: #15346d;
 }
 .nav-tabs>li>a {
     margin-right: 0;
     background-color: white;
-    border: 1.2px solid #366eae;
-    color: #366eae;
+    border: 1.2px solid #15346d;
+    color: #15346d;
     width: 50px;
     padding: 5px;
     text-transform: uppercase;
@@ -103,7 +103,7 @@ header {
 }
 .nav-tabs>li>a:hover {
   background-color: white;
-  border: 1.2px solid #366eae;
+  border: 1.2px solid #15346d;
 }
 .nav-tabs>li>a[data-value="Plot"] {
   border-radius: 10px 0 0 10px;
@@ -125,7 +125,7 @@ header {
 #btn-instructions {
   padding: 17px 15px 0;
   display: block;
-  color: #366eae;
+  color: #15346d;
   font-size: 15px;
 }
 /*-------- Option panels ----------*/
@@ -138,6 +138,10 @@ header {
   padding: 20px;
 }
 /*-------- Plot/Table area --------------*/
+.results-panel {
+	padding-top: 10px;
+	background-color: #fdfaf1;
+}
 .tabbable {
   padding-top: 0;
   padding-bottom: 30px;
@@ -147,9 +151,11 @@ header {
   float: right;
   border-radius: 0 0 5px 5px;
   padding: 0 6px 2px 6px;
-  margin: -1px 26px 0 0;
-  background-color: transparent !important;
-  border: 1px solid #e3e3e3;
+  margin: 30px 26px 0 0;
+  background-color: #fdfaf1;
+  border-style: none solid solid;
+  border-width: 1px;
+  border-color: #e3e3e3;
   color: #a9a9a9;
   font-size: smaller;
 }
@@ -161,7 +167,7 @@ header {
   border-radius: 0 0 5px 5px;
   padding: 0 6px 2px 6px;
   margin: -1px 6px 0 0;
-  background-color: white;
+  background-color: #fdfaf1;
   border: 1px solid #e3e3e3;
   color: #a9a9a9;
   font-size: 0.75em;
@@ -180,6 +186,7 @@ header {
 footer {
 	color: white;
 	margin-top: 20px;
+	background-color: #15346d;
 }
 footer .row {
 	max-width: 1200px;
@@ -188,7 +195,7 @@ footer .row {
 }
 @media only screen and (min-width: 992px) {
 	.funding {
-		border-left: 5px solid #f9c000;
+		border-left: 5px solid #f9c013;
 	}
 }
 
@@ -205,7 +212,7 @@ footer .row {
     cursor: pointer;
 }
 .overlay-inner{
-  margin-top: 170px;
+  margin-top: 140px;
 }
 .target{
   display: block;
@@ -224,7 +231,7 @@ footer .row {
   font-size: 23px;
   line-height: 1;
   font-weight: bold;
-  color: #ce151e; /*gray*/
+  color: #ce2227; /*gray*/
 }
 .overlay-options {
 	padding: 0 25px;

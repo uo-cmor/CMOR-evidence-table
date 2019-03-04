@@ -28,6 +28,8 @@ nearBars <- function (df, coordinfo, xvar = NULL, yvar = NULL, panelvar1 = NULL,
 		stop("nearBars: not able to automatically infer `yvar` from coordinfo")
 	x <- asNumber(df[[xvar]])
 	y <- asNumber(df[[yvar]])
+	print(x)
+	print(y)
 	coordPx <- scaleCoords(coordinfo$x, coordinfo$y, coordinfo)
 	dataPx <- scaleCoords(x, y, coordinfo)
 	dist_cat <- abs(y - coordinfo$y)

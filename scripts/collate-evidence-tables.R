@@ -130,7 +130,7 @@ evidenceTables_tibble <- evidenceTables %>%
 
 evidenceTablesWeight <- c(RACGP = 1)
 
-save(interventionNames, interventionTypes, interventionList,
+save(interventionNames, interventionTypes, interventionList, evidenceTables_tibble,
 		 evidenceTables, evidenceTablesWeight, evidenceTablesDetails,
 		 attributeNames, attributeLevels, attributeWeights,
 		 file = "data/evidenceTables.Rdata")

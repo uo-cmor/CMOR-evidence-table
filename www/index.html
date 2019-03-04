@@ -75,9 +75,14 @@
     </div>
   </div>
 	<header>
-    <h1>CMOR Evidence Table and Preference Ranking for OA Interventions</h1>
+		<div>
+  		<a href="https://www.otago.ac.nz/cmor/">
+  			<img src="OU_CMOR_logo.jpg" class="img-responsive" alt="Centre for Musculoskeletal Outcomes Research" height="80px" width="600px" style="margin-right: 30px;">
+  		</a>
+  	</div>
+    <h1>CMOR Evidence Table</h1>
 	</header>
-	<p style="background-color:yellow; text-align:center; margin-bottom:0; font-size: 1.5em"><strong>***PRELIMINARY RESULTS: NOT FOR CITATION***</strong></p>
+	<div class="results-panel">
   <div class="container-fluid">
     <!-- Navigation panel -->
     <div class="row navbar" style="display:none;">
@@ -91,7 +96,7 @@
             <a href="#tab-9829-1" data-toggle="tab" data-value="Evidence Table">Table</a>
           </li>
         </ul>
-      </div> <!--.col-xs-3-->
+      </div> <!--.col-xs-6-->
 
       <div class="col-xs-6 option-buttons-outer">
         <!-- Instructions -->
@@ -545,9 +550,18 @@
               </form>
             </div> <!--.dropdown-menu-->
           </div> <!--.dropdown--> <!-- End of Options section-->
+          
+          <!-- Number of rows -->
+          <div class="dropdown">
+          	<select id="plot_n">
+          		<option value="10">10</option>
+          		<option value="20" selected>20</option>
+          		<option value="50">50</option>
+          	</select>
+          </div>
         </div> <!--.option-buttons-inner-->
 
-      </div> <!--.col-xs-9-->
+      </div> <!--.col-xs-6-->
 
     </div> <!--.row--> <!-- End of Navigation panel -->
 	</div>
@@ -568,6 +582,7 @@
 
     </div> <!--.tab-content-->
   </div> <!--.tabbable-->
+  </div>
 	<div class="container-fluid">
     <div class="row small-width">
     	<div class="col-lg-12">
@@ -599,12 +614,12 @@
       </div> <!--.col-lg-12-->
       <div class="col-lg-12 text" style="margin-top: 20px">
         <h5>Contact</h5>
-        <p>For enquiries, contact Dr Ross Wilson, Centre for Musculoskeletal Outcomes Research, University of Otago
-          (<a href="mailto:ross.wilson@otago.ac.nz?Subject=CMOR%20Evidence%20Table">ross.wilson@otago.ac.nz</a>)</p>
+        <p>For enquiries, contact Prof Haxby Abbott, Centre for Musculoskeletal Outcomes Research, University of Otago
+          (<a href="mailto:haxby.abbott@otago.ac.nz?Subject=CMOR%20Evidence%20Table">haxby.abbott@otago.ac.nz</a>)</p>
       </div> <!--.col-lg-12-->
     </div> <!--.row .small-width-->
   </div> <!--.container-fluid-->
-  <footer style="background-color: #11418c">
+  <footer>
   	<div class="row">
       <div class="col-xs-12 col-md-9">
       	<h5>Part of the project <em>The impact and management of rising osteoarthritis burden</em></h5><br>
