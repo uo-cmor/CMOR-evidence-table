@@ -28,6 +28,7 @@ function turnArrowsDown() {
     icon.className = "fas fa-angle-down";
   });
 }
+
 //---------- Expand plot ---------------------------//
 var button_expand = document.querySelector("#button-expand");
 var pref_plot = document.querySelector("#preferencePlot");

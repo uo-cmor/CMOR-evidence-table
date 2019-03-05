@@ -24,22 +24,26 @@ p {
 	font-size: 14px;
 }
 h1 {
-  font-size: 21px;
-  text-align: center;
+	font-family: 'Minion Pro', Minion, Georgia, 'Times New Roman', serif;
+	font-style: italic;
+	font-weight: lighter;
+	color: #f9c000;
+	float: left;
+	display: block;
+  font-size: 20px;
   margin: 0;
-  padding: 20px 0 30px;
-  color: white;
+  padding: 30px 0 30px 30px;
 }
 @media only screen and (min-width: 992px) {
 	h1 {
 		font-size: 28px;
-	  padding: 30px 0 40px;
+	  padding: 26px 0 26px 30px;
 	}
 }
 @media only screen and (min-width: 1400px) {
 	h1 {
-		font-size: 42px;
-  	padding: 40px 0 50px;
+		font-size: 36px;
+  	padding: 22px 0 22px 30px;
 	}
 }
 h3 {
@@ -59,15 +63,39 @@ a[data-toggle=modal]:hover,
 }
 /*---------Top navigation---------*/
 .topnav {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.topnav li {
+	float: right;
+}
+
+.topnav li a {
 	display: block;
-	width: 100%;
-	padding: 10px 0;
-	background-color: #f9c013;
+	font-size: 16px;
+	padding: 17px 12px;
+	height: 80px;
+	color: #f9c000;
+}
+
+.topnav li.active a,
+.topnav li.active a:hover {
+	background-color: #f9c000;
+	color: #333333;
+}
+
+.topnav li a:hover {
+	text-decoration: none;
+	background-color: #11418c;
+	color: #f9c000;
 }
 
 /*------------ Header ------------*/
 header {
 	background-color: #15346d;
+	height: 80px;
 }
 
 /*-------- Navigation panel ------  */
@@ -113,6 +141,24 @@ header {
   border-radius: 0 10px 10px 0;
 }
 
+#plot-rows {
+	float:left;
+	list-style-type: none;
+	padding: 5px 15px;
+}
+
+#plot-rows li {
+	float:left;
+	display: block;
+	font-size: 0.75em;
+	font-weight: bold;
+}
+
+#plot-rows li select {
+	margin: 0 5px;
+	padding: 0;
+}
+
 .option-buttons-outer {
   padding-left: 0;
 }
@@ -128,6 +174,19 @@ header {
   color: #15346d;
   font-size: 15px;
 }
+
+.form-inline {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+}
+
+#plot_n {
+	margin: 0 5px;
+	display: block;
+	font-size: 0.875em;
+	height: 20px;
+}
 /*-------- Option panels ----------*/
 #options,
 #weights,
@@ -139,14 +198,18 @@ header {
 }
 /*-------- Plot/Table area --------------*/
 .results-panel {
-	padding-top: 10px;
+	padding-top: 20px;
 	background-color: #fdfaf1;
 }
-.tabbable {
+.inner-tabs {
   padding-top: 0;
   padding-bottom: 30px;
   border-bottom: 1px solid #e3e3e3;
 }
+.tab-inner {
+	padding: 0 50px;
+}
+
 #button-expand {
   float: right;
   border-radius: 0 0 5px 5px;
@@ -195,7 +258,7 @@ footer .row {
 }
 @media only screen and (min-width: 992px) {
 	.funding {
-		border-left: 5px solid #f9c013;
+		float: right;
 	}
 }
 
@@ -212,7 +275,7 @@ footer .row {
     cursor: pointer;
 }
 .overlay-inner{
-  margin-top: 140px;
+  margin-top: 94px;
 }
 .target{
   display: block;
@@ -243,15 +306,17 @@ footer .row {
 }
 #arrow-toggle{
   background: url(arrow-straight.svg) no-repeat;
-	top: -40px;
+	top: -50px;
 	left: 100px;
   -webkit-transform: scale(0.3,0.35) rotate(-113deg);
   -ms-transform: scale(0.3,0.35) rotate(-113deg);
+  -moz-transform: scale(0.3,0.35) rotate(-113deg);
+  -o-transform: scale(0.3,0.35) rotate(-113deg);
   transform: scale(0.3,0.35) rotate(-113deg);
 }
 #text-toggle {
   left: 140px;
-  top: 0;
+  top: -10px;
 }
 #arrow-info {
     background: url(arrow-straight.svg) no-repeat;
@@ -259,6 +324,8 @@ footer .row {
     right: -5px;
     -webkit-transform: scale(0.3,0.25) rotate(207deg);
     -ms-transform: scale(0.3,0.25) rotate(207deg);
+    -moz-transform: scale(0.3,0.25) rotate(207deg);
+    -o-transform: scale(0.3,0.25) rotate(207deg);
     transform: scale(0.3,0.25) rotate(207deg);
 }
 #text-info {
@@ -271,6 +338,8 @@ footer .row {
   right: 217px;
   -webkit-transform: scale(0.35,0.35) rotate(93deg);
   -ms-transform: scale(0.35,0.35) rotate(93deg);
+  -moz-transform: scale(0.35,0.35) rotate(93deg);
+  -o-transform: scale(0.35,0.35) rotate(93deg);
   transform: scale(0.35,0.35) rotate(93deg);
 }
 #text-options {
@@ -287,7 +356,9 @@ footer .row {
 ellipse {
   -webkit-transform: scale(0.9,0.9) rotate(66deg);
   -ms-transform: scale(0.9,0.9) rotate(66deg);
-    transform: scale(0.9,0.9) rotateX(66deg);
+  -moz-transform: scale(0.9,0.9) rotate(66deg);
+  -o-transform: scale(0.9,0.9) rotate(66deg);
+  transform: scale(0.9,0.9) rotateX(66deg);
 }
 #arrow-score {
   background: url(arrow-curved.svg) no-repeat;
@@ -295,6 +366,8 @@ ellipse {
   left: 79%;
   -webkit-transform: scale(-0.35,0.35) rotate(23deg);
   -ms-transform: scale(-0.35,0.35) rotate(23deg);
+  -moz-transform: scale(-0.35,0.35) rotate(23deg);
+  -o-transform: scale(-0.35,0.35) rotate(23deg);
   transform: scale(-0.35,0.35) rotate(23deg);
 }
 #text-score {
@@ -308,6 +381,8 @@ ellipse {
   left: 66%;
   -webkit-transform: scale(0.35,0.3) rotate(-29deg);
   -ms-transform: scale(0.35,0.3) rotate(-29deg);
+  -moz-transform: scale(0.35,0.3) rotate(-29deg);
+  -o-transform: scale(0.35,0.3) rotate(-29deg);
   transform: scale(0.35,0.3) rotate(-29deg);
 }
 #text-bar {
@@ -329,9 +404,6 @@ ellipse {
   left: 66%;
 }
 /*-------- Media Queries -------------*/
-@media screen and (max-width: 1400px) {
-  .overlay-inner {margin-top: 136px;}
-}
 @media screen and (max-width: 1340px) {
 	#text-score {right: 1%;}
 }
@@ -340,6 +412,8 @@ ellipse {
   	right: 25px;
     -webkit-transform: scale(-0.3,0.25) rotate(207deg);
     -ms-transform: scale(-0.3,0.25) rotate(207deg);
+    -moz-transform: scale(-0.3,0.25) rotate(207deg);
+    -o-transform: scale(-0.3,0.25) rotate(207deg);
     transform: scale(-0.3,0.25) rotate(207deg);
   }
   #text-info {right: 59px;}
