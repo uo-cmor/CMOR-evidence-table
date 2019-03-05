@@ -7,7 +7,7 @@ nearBars <- function (df, coordinfo, xvar = NULL, yvar = NULL, panelvar1 = NULL,
 					panelvar2 = NULL, threshold = 0, maxpoints = NULL, addDist = FALSE, 
 					allRows = FALSE) 
 {
-	if (is.null(coordinfo)) {
+	if (is.null(coordinfo$x) | is.null(coordinfo$y)) {
 		if (addDist) 
 			df$dist_ <- NA_real_
 		if (allRows) 
@@ -28,8 +28,6 @@ nearBars <- function (df, coordinfo, xvar = NULL, yvar = NULL, panelvar1 = NULL,
 		stop("nearBars: not able to automatically infer `yvar` from coordinfo")
 	x <- asNumber(df[[xvar]])
 	y <- asNumber(df[[yvar]])
-	print(x)
-	print(y)
 	coordPx <- scaleCoords(coordinfo$x, coordinfo$y, coordinfo)
 	dataPx <- scaleCoords(x, y, coordinfo)
 	dist_cat <- abs(y - coordinfo$y)
