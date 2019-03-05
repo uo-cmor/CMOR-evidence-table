@@ -38,6 +38,7 @@ server <- function(input, output, session) {
 		
 		sourceTables %>%
 			summarise(
+				Name = Name[[1]],
 				`Recommendation.score` = mean(attributeLevels[[1]][`Recommendation`]),
 				`Quality of Evidence.score` = mean(attributeLevels[[2]][`Quality of Evidence`]),
 				`Cost.score` = mean(attributeLevels[[3]][`Cost`]),
@@ -82,7 +83,7 @@ server <- function(input, output, session) {
 		
 		filteredTables %>%
 			transmute(
-				Intervention,
+				Intervention, Name,
 				`Recommendation` = `Recommendation.score` * preferenceWeights[[1]],
 				`Quality of Evidence` = `Quality of Evidence.score` * preferenceWeights[[2]],
 				`Cost` = `Cost.score` * preferenceWeights[[3]],
@@ -105,11 +106,11 @@ server <- function(input, output, session) {
 		
 		if (nrow(preferenceScores) > 0) 
 			preferenceScores <- preferenceScores %>% 
-			  mutate(Intervention = fct_reorder(factor(Intervention), PreferenceScores))
+			  mutate(Intervention = fct_reorder(factor(Intervention), PreferenceScores),
+			  			 Name = fct_reorder(factor(Name), PreferenceScores))
 		
 		preferenceScores %>%
-			select(-PreferenceScores) %>%
-			gather("attribute", "value", -c(Intervention, rank), factor_key = TRUE)
+			gather("attribute", "value", -c(Intervention, Name, rank, PreferenceScores), factor_key = TRUE)
 	})
 
 	printTable <- reactive({
@@ -118,11 +119,12 @@ server <- function(input, output, session) {
 		
 		filteredTables %>%
 			transmute(
-				Cost.sort = Cost, `Duration of Effect.sort` = `Duration of Effect`,
+				Name.sort = as.character(Name), Cost.sort = Cost, `Duration of Effect.sort` = `Duration of Effect`,
 				`Risk of Mild/Moderate Harm.sort`= `Risk of Mild/Moderate Harm`, 
-				`Risk of Serious Harm.sort` = `Risk of Serious Harm`, `Effectiveness.sort` = Effectiveness,
-				Intervention = as.character(Intervention), Recommendation, `Quality of Evidence`,
-				Cost = paste0("<span title = \"", `Cost.detail`, "\"> ", Cost, "</span>"),
+				`Risk of Serious Harm.sort` = `Risk of Serious Harm`, `Effectiveness.sort` = Effectiveness, 
+				`Preference Score.sort` = !!preferenceScores$PreferenceScores,
+				Name = paste0("<span title = \"", `Intervention.detail`, "\"> ", Name, "</span>"), Recommendation,
+				`Quality of Evidence`, Cost = paste0("<span title = \"", `Cost.detail`, "\"> ", Cost, "</span>"),
 				`Duration of Effect` = paste0("<span title = \"", `Duration of Effect.detail`, "\"> ",
 																			`Duration of Effect`, "</span>"),
 				Accessibility,
@@ -132,7 +134,8 @@ server <- function(input, output, session) {
 			  `Risk of Serious Harm` = paste0("<span title = \"", `Risk of Serious Harm.detail`, "\"> ",
 			  																`Risk of Serious Harm`, "</span>"),
 				Effectiveness = paste0("<span title = \"", `Effectiveness.detail`, "\"> ", Effectiveness, "</span>"),
-				`Preference Score` = !!preferenceScores$PreferenceScores
+				`Preference Score` = paste0("<span title = \"", `Preference Score.sort`, "\"> ",
+																		round(`Preference Score.sort`, 1), "</span>")
 			) %>%
 			arrange(desc(`Preference Score`))
 	})
@@ -153,33 +156,31 @@ server <- function(input, output, session) {
 	
 	observeEvent(input$plot_click, {
 		sel <- nearBars(plotdata() %>% spread(attribute, value) %>% 
-											transmute(Intervention, wgt = rowSums(select(., names(attributeNames)))), 
+											transmute(Name, wgt = rowSums(select(., names(attributeNames)))), 
 										input$plot_click, xvar = "wgt",
-										threshold = 0, maxpoints = 1)$Intervention
-		#print(input$plot_click)
-		# print(plotdata() %>% spread(attribute, value) %>% 
-		# 				transmute(Intervention, wgt = rowSums(select(., names(attributeNames)))))
-		labels <- filteredTables() %>% filter(Intervention %in% sel)
-		#print(labels)
-		values <- plotdata() %>% filter(Intervention %in% sel) %>% spread(attribute, value)
-		#print(values)
+										threshold = 0, maxpoints = 1)$Name
+		labels <- filteredTables() %>% filter(Name %in% sel)
+		values <- plotdata() %>% filter(Name %in% sel) %>% spread(attribute, value)
 		if (length(sel)>0) values <- values %>% mutate_at(names(attributeNames), round, 1)
+		
+		
 		
 		selectedIntervention$name <- sel
 		selectedIntervention$label <- 
 			paste0(
-				"Recommendation = ", labels$Recommendation, " (", values$Recommendation, ")",
-				"\nQuality of Evidence = ", labels$`Quality of Evidence`, " (", values$`Quality of Evidence`, ")",
-				"\nCost = ", labels$Cost, " (", values$Cost, ")",
-				"\nDuration of Effect = ", labels$`Duration of Effect`, " (", values$`Duration of Effect`, ")",
-				"\nAccessibility = ", labels$Accessibility, " (", values$Accessibility, ")",
-				"\nRisk of Mild/Moderate Harm = ", 
-				labels$`Risk of Mild/Moderate Harm`, " (", values$`Risk of Mild/Moderate Harm`, ")",
+				sel, ":\n",
+				"Effectiveness = ", labels$Effectiveness, " (", values$Effectiveness, ")",
 				"\nRisk of Serious Harm = ", labels$`Risk of Serious Harm`, " (", values$`Risk of Serious Harm`, ")",
-				"\nEffectiveness = ", labels$Effectiveness, " (", values$Effectiveness, ")"
+				"\nRisk of Mild/Moderate Harm = ", labels$`Risk of Mild/Moderate Harm`, 
+				  " (", values$`Risk of Mild/Moderate Harm`, ")", 
+				"\nAccessibility = ", labels$Accessibility, " (", values$Accessibility, ")",
+				"\nDuration of Effect = ", labels$`Duration of Effect`, " (", values$`Duration of Effect`, ")",
+				"\nCost = ", labels$Cost, " (", values$Cost, ")",
+				"\nQuality of Evidence = ", labels$`Quality of Evidence`, " (", values$`Quality of Evidence`, ")",
+				"\nRecommendation = ", labels$Recommendation, " (", values$Recommendation, ")"
 			)
-		selectedIntervention$x <- input$plot_click$y
-		selectedIntervention$y <- input$plot_click$x
+		selectedIntervention$x <- if(is.null(input$plot_click$y)) numeric(0) else input$plot_click$y
+		selectedIntervention$y <- if(is.null(input$plot_click$x)) numeric(0) else input$plot_click$x
 	}, ignoreNULL = TRUE)
 	
 	# Output values (based on reactive expressions)
@@ -212,17 +213,21 @@ server <- function(input, output, session) {
 											y = selectedIntervention$y,
 											name = selectedIntervention$name,
 											label = selectedIntervention$label)
-		
-		ggplot(plotdata, aes(Intervention, value)) + 
+
+		ggplot(plotdata, aes(Name, value)) + 
 			geom_col(aes(fill = attribute), colour = NA, width = 0.7) + 
+			geom_text(aes(y = PreferenceScores, label = format(PreferenceScores, digits = 0, nsmall = 1)),
+								data = partial(filter, ... = , attribute == "Recommendation"),
+								size = 5, hjust = -0.3) +
 			geom_col(aes(group = attribute), fill = NA, width = 0.7, size = 1, colour = "black",
-							 data = filter(plotdata, Intervention %in% labdata$name), show.legend = FALSE) +
+							 data = filter(plotdata, Name %in% labdata$name), show.legend = FALSE) +
 			geom_label(aes(x, y, label = label), data = labdata, show.legend = FALSE,
 								 hjust = "inward", vjust = "inward") +
+			geom_hline(yintercept = 100) +
 			coord_flip() +
 			scale_fill_manual(NULL, values = c("#31cd31", "#86cdeb", "#3fe0cf", "#4581b4", "#99cc31", "#b954d2", "#ef8080", "#fa68b4")) +
 			scale_y_continuous(NULL, limits = c(0, 100), expand = c(0, 0), sec.axis = dup_axis(), 
-												 breaks = seq(0, 90, 10), minor_breaks = NULL) +
+												 breaks = seq(0, 100, 10), minor_breaks = seq(10, 90, 10)) +
 			scale_x_discrete(NULL) +
 			guides(fill = guide_legend(reverse = TRUE, label.position = "bottom", 
 																 byrow = ifelse(session$clientData$output_preferencePlot_width >= 768, FALSE, TRUE),
@@ -235,9 +240,11 @@ server <- function(input, output, session) {
 						legend.justification = c(0, 0),
 						legend.background = element_rect(fill = NA, linetype = 0),
 						legend.key = element_rect(fill = NA, linetype = 0),
-						plot.margin = margin(0, 0, 0, 5, "pt"),
-						plot.background = element_rect(fill = "#FDFAF1"),
-						panel.background = element_rect(fill = "#FDFAF1"))
+						plot.margin = margin(0, 10, 0, 0, "pt"),
+						plot.background = element_rect(fill = "#fdfaf1"),
+						panel.grid.major.x = element_line(colour = "#eee6c6"),
+						panel.background = element_rect(fill = "#fdfaf1"),
+						axis.text.y = element_text(size = 16))
 	},
 	height = function() max(280, 90 + 30 * nrow(plotdata()) / 8))
 	

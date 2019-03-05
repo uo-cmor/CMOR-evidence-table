@@ -115,16 +115,56 @@ evidenceTables_tibble <- evidenceTables %>%
 	map_depth(2, as_tibble, rownames = "Intervention") %>%
 	map(bind_rows, .id = "source") %>%
 	bind_rows(.id = "timing") %>%
-	mutate(Intervention = factor(Intervention, levels = interventionNames),
-				 `Recommendation` = factor(`Recommendation`, labels = attributeNames[["Recommendation"]]),
-				 `Quality of Evidence` = factor(`Quality of Evidence`, labels = attributeNames[["Quality of Evidence"]]),
-				 `Cost` = factor(`Cost`, labels = attributeNames[["Cost"]]),
-				 `Duration of Effect` = factor(`Duration of Effect`, labels = attributeNames[["Duration of Effect"]]),
-				 `Accessibility` = factor(`Accessibility`, labels = attributeNames[["Accessibility"]]),
-				 `Risk of Mild/Moderate Harm` = factor(`Risk of Mild/Moderate Harm`, 
-				 																			labels = attributeNames[["Risk of Mild/Moderate Harm"]]),
-				 `Risk of Serious Harm` = factor(`Risk of Serious Harm`, labels = attributeNames[["Risk of Serious Harm"]]),
-				 `Effectiveness` = factor(`Effectiveness`, labels = attributeNames[["Effectiveness"]])) %>%
+	mutate(
+		Intervention = factor(Intervention, levels = interventionNames),
+		Name = recode(
+			Intervention,
+			"self-management education programs" = "Self-management and education",
+			"ALL LAND-BASED EXERCISE (all land based, muscle-strengthening, walking, Tai Chi)" = "Land-based exercise (all)",
+			"Knee exercise: MUSCLE STRENGTHENING ONLY for quadriceps strengthening" = "Quadriceps strengthening",
+			"Knee exercise: MUSCLE STRENGTHENING ONLY for lower limb strengthening" = "Lower limb strengthening",
+			"Knee exercise: Walking only" = "Walking",
+			"Knee exercise: Stationary cycling only" = "Stationary cycling",
+			"Knee exercise: Tai Chi only" = "Tai chi",
+			"Knee exercise: Yoga only" = "Yoga",
+			"Knee exercise: Land-based exercise (stationary cycling, hatha yoga)" = "Stationary cycling, hatha yoga",
+			"Aquatic exercise/ hydrotherapy" = "Aquatic exercise",
+			"Manual therapy (massage)" = "Massage",
+			"Manual therapy (mobilisation and manipulation)" = "Knee mobilisation and manipulation",
+			"Knee braces (varus unloading/re-alignment braces)" = "Knee braces (varus)",
+			"Knee braces (valgus unloading/re-alignment braces)" = "Knee braces (valgus)",
+			"Knee braces (re-aligning patellofemoral braces)" = "Knee braces (patellofemoral)",
+			"Shoe orthotics (shock absorbing insoles or arch supports)" = "Shock absorbing insoles",
+			"Shoe orthotics (lateral wedge insoles for medial tibiofemoral knee OA)" = "Lateral wedge insoles",
+			"Shoe orthotics (medial wedged insoles for lateral tibiofemoral OA and valgus deformity)" = "Medial wedged insoles",
+			"Footwear (unloading shoes)" = "Unloading shoes",
+			"Footwear (minimalist footwear)" = "Minimalist footwear",
+			"Footwear (rocker soled shoes)" = "Rocker soled shoes",
+			"Taping (patellar taping)" = "Patellar taping",
+			"Taping (kinesio taping)" = "Kinesio taping",
+			"Pulsed electromagnetic/ shortwave therapy" = "Pulsed electromagnetic/shortwave therapy",
+			"Other electrotherapy (laser)"= "Laser electrotherapy",
+			"Other electrotherapy (shockwave)" = "Shockwave electrotherapy",
+			"Other electrotherapy (interferential)" = "Interferential electrotherapy",
+			"Acupuncture (traditional with manual stimulation)" = "Traditional acupuncture",
+			"Acupuncture (electroacupuncture)" = "Electroacupuncture",
+			"Acupuncture (laser)" = "Laser acupuncture",
+			"Oral non-steroidal anti-inflammatory drugs (NSAIDs) including COX-2 inhibitors" = 
+				"Oral NSAIDs (including COX-2 inhibitors)",
+			"Transdermal opioids - buprenorphine" = "Buprenorphine (transdermal)",
+			"Transdermal opioids - Fentanyl" = "Fentanyl (transdermal)",
+			"Glucosamine and chondroitin in compound form" = "Glucosamine and chondroitin"
+		),
+		`Recommendation` = factor(`Recommendation`, labels = attributeNames[["Recommendation"]]),
+		`Quality of Evidence` = factor(`Quality of Evidence`, labels = attributeNames[["Quality of Evidence"]]),
+		`Cost` = factor(`Cost`, labels = attributeNames[["Cost"]]),
+		`Duration of Effect` = factor(`Duration of Effect`, labels = attributeNames[["Duration of Effect"]]),
+		`Accessibility` = factor(`Accessibility`, labels = attributeNames[["Accessibility"]]),
+		`Risk of Mild/Moderate Harm` = factor(`Risk of Mild/Moderate Harm`, 
+																					labels = attributeNames[["Risk of Mild/Moderate Harm"]]),
+		`Risk of Serious Harm` = factor(`Risk of Serious Harm`, labels = attributeNames[["Risk of Serious Harm"]]),
+		`Effectiveness` = factor(`Effectiveness`, labels = attributeNames[["Effectiveness"]])
+	) %>%
 	bind_cols(evidenceTablesDetails_tibble) %>%
 	group_by(Intervention)
 
