@@ -74,3 +74,28 @@ updateWeights("wgt_acc_ce", "wgt_acc_val_ce");
 updateWeights("wgt_rmi_ce", "wgt_rmi_val_ce");
 updateWeights("wgt_rse_ce", "wgt_rse_val_ce");
 updateWeights("wgt_eff_ce", "wgt_eff_val_ce");
+
+//---------- Show app even on small screen -----//
+function showApp() {
+	w3.hide('#small-screen');
+	w3.show('.outer-tabs');
+	w3.show('#source-text');
+	w3.show('.navbar');
+	w3.show('.tab-inner');
+	$('#allInterventions').click();
+}
+
+function hidePlot(x) {
+	if (x.matches) {
+		w3.show('#small-screen');
+		w3.hide('.outer-tabs');
+		w3.hide('#source-text');
+	} else {
+		w3.hide('#small-screen');
+		w3.show('.outer-tabs');
+		w3.show('#source-text');
+	}
+}
+
+var x = window.matchMedia('(max-width: 1199px)');
+x.addListener(hidePlot);
