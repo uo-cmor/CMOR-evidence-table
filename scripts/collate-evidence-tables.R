@@ -170,7 +170,73 @@ evidenceTables_tibble <- evidenceTables %>%
 
 evidenceTablesWeight <- c(RACGP = 1)
 
+costsTable <- clean_CE %>%
+	select(Intervention, cost = `Incremental Costs`) %>%
+	filter(!is.na(cost))
+
+qalysTable <- clean_CE %>%
+	select(Intervention, sf6d = `Incremental QALYs (SF-6D)`, womac = `Incremental QALYs (WOMAC)`) %>%
+	gather("outcome", "qalys", sf6d:womac) %>%
+	filter(!is.na(qalys))
+
+cePlotTable <- tibble(
+	Intervention = costsTable$Intervention,
+	Name = recode(
+		Intervention,
+		"self-management education programs" = "Self-management and education",
+		"ALL LAND-BASED EXERCISE (all land based, muscle-strengthening, walking, Tai Chi)" = "Land-based exercise (all)",
+		"Knee exercise: MUSCLE STRENGTHENING ONLY for quadriceps strengthening" = "Quadriceps strengthening",
+		"Knee exercise: MUSCLE STRENGTHENING ONLY for lower limb strengthening" = "Lower limb strengthening",
+		"Knee exercise: Walking only" = "Walking",
+		"Knee exercise: Stationary cycling only" = "Stationary cycling",
+		"Knee exercise: Tai Chi only" = "Tai chi",
+		"Knee exercise: Yoga only" = "Yoga",
+		"Knee exercise: Land-based exercise (stationary cycling, hatha yoga)" = "Stationary cycling, hatha yoga",
+		"Aquatic exercise/ hydrotherapy" = "Aquatic exercise",
+		"Manual therapy (massage)" = "Massage",
+		"Manual therapy (mobilisation and manipulation)" = "Knee mobilisation and manipulation",
+		"Knee braces (varus unloading/re-alignment braces)" = "Knee braces (varus)",
+		"Knee braces (valgus unloading/re-alignment braces)" = "Knee braces (valgus)",
+		"Knee braces (re-aligning patellofemoral braces)" = "Knee braces (patellofemoral)",
+		"Shoe orthotics (shock absorbing insoles or arch supports)" = "Shock absorbing insoles",
+		"Shoe orthotics (lateral wedge insoles for medial tibiofemoral knee OA)" = "Lateral wedge insoles",
+		"Shoe orthotics (medial wedged insoles for lateral tibiofemoral OA and valgus deformity)" = "Medial wedged insoles",
+		"Footwear (unloading shoes)" = "Unloading shoes",
+		"Footwear (minimalist footwear)" = "Minimalist footwear",
+		"Footwear (rocker soled shoes)" = "Rocker soled shoes",
+		"Taping (patellar taping)" = "Patellar taping",
+		"Taping (kinesio taping)" = "Kinesio taping",
+		"Pulsed electromagnetic/ shortwave therapy" = "Pulsed electromagnetic/shortwave therapy",
+		"Other electrotherapy (laser)"= "Laser electrotherapy",
+		"Other electrotherapy (shockwave)" = "Shockwave electrotherapy",
+		"Other electrotherapy (interferential)" = "Interferential electrotherapy",
+		"Acupuncture (traditional with manual stimulation)" = "Traditional acupuncture",
+		"Acupuncture (electroacupuncture)" = "Electroacupuncture",
+		"Acupuncture (laser)" = "Laser acupuncture",
+		"Oral non-steroidal anti-inflammatory drugs (NSAIDs) including COX-2 inhibitors" = 
+			"Oral NSAIDs (including COX-2 inhibitors)",
+		"Transdermal opioids - buprenorphine" = "Buprenorphine (transdermal)",
+		"Transdermal opioids - Fentanyl" = "Fentanyl (transdermal)",
+		"Glucosamine and chondroitin in compound form" = "Glucosamine and chondroitin"
+	),
+	hjust = recode(Name,
+								 "Cognitive behavioural therapy" = 1.2, "Aquatic exercise" = 0.2, "Massage" = 0.8, 
+								 "Assistive walking device" = 1.05, "Oral NSAIDs (including COX-2 inhibitors)" = 0,
+								 "Topical NSAIDs" = 1.1, "Duloxetine" = 0.45, "Corticosteroid injection" = 0.78, .default = 0),
+	vjust = recode(Name,
+								 "Cognitive behavioural therapy" = -0.5, "Aquatic exercise" = -0.5, "Massage" = -1.5,
+								 "Assistive walking device" = 0.55, "Oral NSAIDs (including COX-2 inhibitors)" = -0.5,
+								 "Topical NSAIDs" = 1.1, "Duloxetine" = -0.6, "Corticosteroid injection" = -0.4, .default = 0),
+	shape = if_else(Name %in% c("Massage", "Heat therapy\n(incremental cost = $45 600)"), "triangle", "diamond"),
+	colour = recode(Name,
+									"Cognitive behavioural therapy" = "#a6761d", "Aquatic exercise" = "#e7298a", "Massage" = "#666666",
+									"Heat therapy\n(incremental cost = $45 600)" = "#666666", "Assistive walking device" = "#1b9e77", 
+									"Oral NSAIDs (including COX-2 inhibitors)" = "#7570b3", "Topical NSAIDs" = "#d95f02",
+									"Duloxetine" = "#66a61e", "Corticosteroid injection" = "#e6ab02", .default = "#000000")
+)
+
 save(interventionNames, interventionTypes, interventionList, evidenceTables_tibble,
 		 evidenceTables, evidenceTablesWeight, evidenceTablesDetails,
 		 attributeNames, attributeLevels, attributeWeights,
+		 costsTable, qalysTable, cePlotTable,
 		 file = "data/evidenceTables.Rdata")

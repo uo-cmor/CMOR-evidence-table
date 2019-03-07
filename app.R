@@ -11,246 +11,137 @@ load("data/evidenceTables.Rdata")
 
 # Source scripts
 source("scripts/plot-utils.R")
-
-# Define UI
-ui <- fluidPage(
-	titlePanel("CMOR Evidence Table and Preference Ranking for OA Interventions", windowTitle = "CMOR Evidence Table"),
-	h3(style="background-color: yellow; text-align: center;", strong("***PRELIMINARY RESULTS: NOT FOR CITATION***")),
-	h3("Introduction"),
-	p("This application provides access to evidence tables for osteoarthritis interventions used in the project",
-		em("The impact and management of rising osteoarthritis burden"), "(Prof Haxby Abbott, Centre for Musculoskeletal",
-		"Outcomes Research, University of Otago)."), 
-	p("To get started, select the desired options in the",
-		span(class="hidden-xs hidden-sm hidden-md", "options panel to the left,"),
-		span(class="hidden-lg", "Options, Interventions, and Preference Weights drop-down tabs above, "),
-		"and view the 'Evidence Table' or 'Plot' tabs to see the results."),
-	h3("How it works:"),
-	p("In this application, interventions for the clinical management of knee osteoarthritis are characterised according",
-		"to eight attributes: recommendation (appropriateness for the stage of the disease), quality of evidence, cost,",
-		"duration of effect, accessibility, risk of mild/moderate harm, risk of serious harm, and effectiveness. Each",
-		"attribute describes between 3 and 5 levels of performance, in increasing order of desirability (for the details",
-		"of the levels described by each attribute, click the help icon", a(icon("info-circle")), "next to the attribute",
-		"heading in the Preference Weights panel)."),
-	p("In our study, the performance of each intervention according to these eight attributes was informed by the Royal",
-		"Australian College of General Practitioners' Clinical Practice Guidelines for osteoarthritis, supplemented where",
-		"necessary by additional sources including (in decreasing order of preference) systematic reviews and",
-		"meta-analyses, other published data, and research team judgement. This performance scoring can differ at",
-		"different stages of the disease course (for example, total joint replacement has little evidence and is",
-		"generally not recommended/appropriate for early-stage disease, but is strongly recommended for patients with",
-		"severe late-stage disease); to incorporate this in the ranking model, evidence tables can be constructed for",
-		"early, mid, or late-stage disease using the 'Disease Stage' option. In future iterations of this evidence table,",
-		"we will incorporate the option to select different sources of evidence to inform the table and resulting",
-		"preference weights."),
-	p("To avoid potential biases in stakeholder evaluations of the interventions due to prior beliefs or pre-conceived",
-		"ideas about different treatments, preference weights, or the relative values assigned to each intervention, were",
-		"derived indirectly by obtaining preference weights for the eight attributes, which can then be summed to derive",
-		"an aggregate preference score for each intervention. The preference weights presented here were derived from a",
-		"study of the preferences of key New Zealand stakeholder groups (consumers/OA patients,", HTML("M&amacr;ori"), 
-		"health advocates, health care providers, health policy makers, and content area experts). To investigate the",
-		"effect on preference rankings using any other set of preference weights, move the sliders/numeric inputs in the",
-		"Preference Weights panel."),
-	p("The Evidence Table can be sorted by intervention name, attribute, or preference score by clicking on the column",
-		"headers, and searched for specific interventions or attribute levels using the search box"),
-	p("You can also click on the bar for an intervention in the Plot to provide a summary of the attribute levels and",
-		"associated preference weights for that intervention. Click elsewhere on the plot to remove the summary."),
-	h3("Contact"),
-	p("For enquiries, contact Dr Ross Wilson, Centre for Musculoskeletal Outcomes Research, University of Otago",
-		a(href="mailto:ross.wilson@otago.ac.nz?Subject=CMOR%20Evidence%20Table", "(ross.wilson@otago.ac.nz)")),
-	sidebarLayout(
-		sidebarPanel(width = 3,
-			fluidRow(
-				column(4, 
-					strong("Disease Stage:"), actionLink("helpDiseaseStage", NULL, icon("info-circle")),
-					radioButtons("diseaseStage", NULL,
-											 choices = list("Overall", "Early", "Mid", "Late"),
-											 selected = "Overall"),
-					strong("Source of Evidence:"), actionLink("helpEvidence", NULL, icon("info-circle")),
-					checkboxGroupInput("evidence", NULL, choices = list("RACGP" = 1), selected = 1)
-				),
-				column(8,
-							 strong("Interventions:"), actionLink("helpInterventions", NULL, icon("info-circle")), br(),
-							 actionLink("allInterventions", "(select all)"), actionLink("noInterventions", "(select none)"),
-							 checkboxGroupInput("interventionTypes", NULL, 
-							 									 choices = unique(interventionTypes), selected = unique(interventionTypes)),
-							 fluidRow(
-						column(8, strong("Filter:")), column(2, actionLink("clearFilter", "(Clear)"))
-					),
-					selectInput("interventions", NULL, multiple = TRUE, 
-											choices = c("(All)" = "", interventionList))
-				)
-			),
-			hr(),
-			fluidRow(
-				column(7, strong("Preference Weights:"), actionLink("helpPreferenceWeights", NULL, icon("info-circle")),
-							 br(), actionLink("resetWeights", "(Reset)")),
-				column(5, style = "text-align:right",
-					actionLink("normaliseWeights", HTML("Normalise Weights<br>(sum to 100)"))
-				)
-			), br(),
-			fluidRow(
-				column(9, 
-					strong("Recommendation"), actionLink("helpRec", NULL, icon("info-circle")),
-					sliderInput("wgt_rec", NULL, 0, 100, attributeWeights[["Recommendation"]], 0.1)
-				),
-				column(3, br(), numericInput("wgt_rec_val", NULL, attributeWeights[["Recommendation"]], 0, 100, 0.1))
-			),
-			fluidRow(
-				column(9,
-					strong("Quality of Evidence"), actionLink("helpQua", NULL, icon("info-circle")),
-					sliderInput("wgt_qua", NULL, 0, 100, attributeWeights[["Quality of Evidence"]], 0.1)
-				),
-				column(3, br(), numericInput("wgt_qua_val", NULL, attributeWeights[["Quality of Evidence"]], 0, 100, 0.1))
-			),
-			fluidRow(
-				column(9, 
-					strong("Cost"), actionLink("helpCos", NULL, icon("info-circle")),
-					sliderInput("wgt_cos", NULL, 0, 100, attributeWeights[["Cost"]], 0.1)
-				),
-				column(3, br(), numericInput("wgt_cos_val", NULL, attributeWeights[["Cost"]], 0, 100, 0.1))
-			),
-			fluidRow(
-				column(9,
-					strong("Duration of Effect"), actionLink("helpDur", NULL, icon("info-circle")),
-					sliderInput("wgt_dur", NULL, 0, 100, attributeWeights[["Duration of Effect"]], 0.1)
-				),
-				column(3, br(), numericInput("wgt_dur_val", NULL, attributeWeights[["Duration of Effect"]], 0, 100, 0.1))
-			),
-			fluidRow(
-				column(9,
-					strong("Accessibility"), actionLink("helpAcc", NULL, icon("info-circle")),
-					sliderInput("wgt_acc", NULL, 0, 100, attributeWeights[["Accessibility"]], 0.1)
-				),
-				column(3, br(), numericInput("wgt_acc_val", NULL, attributeWeights[["Accessibility"]], 0, 100, 0.1))
-			),
-			fluidRow(
-				column(9, 
-					strong("Risk of Mild/Moderate Harm"), actionLink("helpRmi", NULL, icon("info-circle")),
-					sliderInput("wgt_rmi", NULL, 0, 100, attributeWeights[["Risk of Mild/Moderate Harm"]], 0.1)
-				),
-				column(3, 
-					br(), numericInput("wgt_rmi_val", NULL, attributeWeights[["Risk of Mild/Moderate Harm"]], 0, 100, 0.1)
-				)
-			),
-			fluidRow(
-				column(9, 
-					strong("Risk of Serious Harm"), actionLink("helpRse", NULL, icon("info-circle")),
-					sliderInput("wgt_rse", NULL, 0, 100, attributeWeights[["Risk of Serious Harm"]], 0.1)
-				),
-				column(3, br(), numericInput("wgt_rse_val", NULL, attributeWeights[["Risk of Serious Harm"]], 0, 100, 0.1))
-			),
-			fluidRow(
-				column(9,
-					strong("Effectiveness"), actionLink("helpEff", NULL, icon("info-circle")),
-					sliderInput("wgt_eff", NULL, 0, 100, attributeWeights[["Effectiveness"]], 0.1)
-				),
-				column(3, br(), numericInput("wgt_eff_val", NULL, attributeWeights[["Effectiveness"]], 0, 100, 0.1))
-			)
-		),
-		mainPanel(width = 9,
-			tabsetPanel(type="tabs",
-									tabPanel("Evidence Table", DTOutput("selectedEvidenceTable")),
-									tabPanel("Plot", plotOutput("preferencePlot", click = clickOpts("plot_click", clip = FALSE))))
-		)
-	)
-)
-
+summarise_attributes <- function(level, source) {
+	if (length(unique(level)) == 1) return(level[[1]])
+	paste(source, level, sep = ": ", collapse = "\n")
+}
 
 # Define server logic
 server <- function(input, output, session) {
 	# Reactive expressions (based on input values)
-	evidence <- reactive({
-		input$evidence
-	})
 	selected <- reactive({
 		if (isTruthy(input$interventions)) {
 			rownames(evidenceTables[[input$diseaseStage]][[1]]) %in% input$interventions
-		} else interventionTypes %in% input$interventionTypes
+		} else {
+			interventionTypes %in% input$interventionTypes
+		}
 	})
 	
-	sourceTables <- reactive({
-		abind(evidenceTables[[input$diseaseStage]][evidence()], rev.along = 0)[selected(), , , drop = FALSE]
-	})
-	sourceTablesDetails <- reactive({
-		abind(evidenceTablesDetails[[input$diseaseStage]][evidence()], rev.along = 0)[selected(), , , drop = FALSE]
+	evidenceTables_timing <- reactive({
+		evidenceTables_tibble[evidenceTables_tibble$timing == input$diseaseStage, , drop = FALSE]
 	})
 	
-	preferenceTables <- reactive({
+	sourceTables <- reactive({ 
+		evidenceTables_timing()[evidenceTables_timing()$source %in% input$evidence, , drop = FALSE]
+	})
+	
+	interventionTables <- reactive({
 		sourceTables <- req(sourceTables())
 		
-		out <- apply(sourceTables, 3,
-								 function(t) sapply(1:length(attributeNames), function(d) attributeLevels[[d]][t[, d]]))
-		dim(out) <- dim(sourceTables)
-		dimnames(out) <- dimnames(sourceTables)
-		
-		out
+		sourceTables %>%
+			summarise(
+				Name = Name[[1]],
+				`Recommendation.score` = mean(attributeLevels[[1]][`Recommendation`]),
+				`Quality of Evidence.score` = mean(attributeLevels[[2]][`Quality of Evidence`]),
+				`Cost.score` = mean(attributeLevels[[3]][`Cost`]),
+				`Duration of Effect.score` = mean(attributeLevels[[4]][`Duration of Effect`]),
+				`Accessibility.score` = mean(attributeLevels[[5]][`Accessibility`]),
+				`Risk of Mild/Moderate Harm.score` = mean(attributeLevels[[6]][`Risk of Mild/Moderate Harm`]),
+				`Risk of Serious Harm.score` = mean(attributeLevels[[7]][`Risk of Serious Harm`]),
+				`Effectiveness.score` = mean(attributeLevels[[8]][`Effectiveness`]),
+				`Recommendation` = summarise_attributes(`Recommendation`, source),
+				`Quality of Evidence` = summarise_attributes(`Quality of Evidence`, source),
+				`Cost` = summarise_attributes(`Cost`, source),
+				`Duration of Effect` = summarise_attributes(`Duration of Effect`, source),
+				`Accessibility` = summarise_attributes(`Accessibility`, source),
+				`Risk of Mild/Moderate Harm` = summarise_attributes(`Risk of Mild/Moderate Harm`, source),
+				`Risk of Serious Harm` = summarise_attributes(`Risk of Serious Harm`, source),
+				`Effectiveness` = summarise_attributes(`Effectiveness`, source),
+				Intervention.detail = Intervention.detail[[1]],
+				`Cost.detail` = summarise_attributes(`Cost.detail`, source),
+				`Duration of Effect.detail` = summarise_attributes(`Duration of Effect.detail`, source),
+				`Risk of Mild/Moderate Harm.detail` = summarise_attributes(`Risk of Mild/Moderate Harm.detail`, source),
+				`Risk of Serious Harm.detail` = summarise_attributes(`Risk of Serious Harm.detail`, source),
+				`Effectiveness.detail` = summarise_attributes(`Effectiveness.detail`, source)
+			)
 	})
+	
+	filteredTables <- reactive({
+		interventionTables <- req(interventionTables())
+		
+		interventionTables[selected(), , drop = FALSE]
+	})
+	
 	preferenceWeights <- reactive({
 		out <- setNames(c(input$wgt_rec, input$wgt_qua, input$wgt_cos, input$wgt_dur, input$wgt_acc, 
 											input$wgt_rmi, input$wgt_rse, input$wgt_eff), names(attributeNames))
 		
 		out / sum(out) * 100
 	})
-	preferenceScores <- reactive({
-		pref <- apply(preferenceTables(), 3, function(x) x %*% preferenceWeights())
-		dim(pref) <- dim(preferenceTables())[c(1, 3)]
-		
-		setNames(rowMeans(pref), interventionNames[selected()])
-	})
 	
-	printTableValues <- reactive({
-		sourceTables <- req(sourceTables())
+	preferenceScores <- reactive({
+		filteredTables <- req(filteredTables())
+		preferenceWeights <- preferenceWeights()
 		
-		out <- as.data.frame(round(apply(sourceTables, c(1, 2), weighted.mean, w = evidenceTablesWeight[evidence()]))) %>%
-			rownames_to_column("Intervention")
-		l_ply(names(attributeNames), function(nm) out[[nm]] <<- factor(out[[nm]], levels = seq_along(attributeNames[[nm]]), 
-																																	 labels = attributeNames[[nm]]))
-		
-		out <- out %>%
-			mutate("Preference Score" = preferenceScores()) %>%
-			arrange(desc(`Preference Score`)) %>%
-			mutate("Preference Score" = round(`Preference Score`, 1))
-		
-		out
-	})
-	printTableDetails <- reactive({
-		sourceTablesDetails <- req(sourceTablesDetails())
-		
-		if (dim(sourceTablesDetails)[[3]] == 1) {
-			out <- drop(sourceTablesDetails)
-		} else {
-			out <- apply(sourceTablesDetails, c(1, 2), function(x) paste0(names(x), ": ", x, collapse = "\n"))
-		}
-		
-		dim(out) <- dim(sourceTablesDetails)[1:2]
-		dimnames(out) <- dimnames(sourceTablesDetails)[1:2]
-		
-		arrange(as.data.frame(out), desc(preferenceScores()))
-	})
-	printTable <- reactive({
-		printTableValues <- req(printTableValues())
-		printTableDetails <- req(printTableDetails())
-		
-		as_tibble(setNames(lapply(names(printTableValues), 
-															function(x) {
-																if (!is.null(printTableDetails[[x]])) {
-																	paste0("<span title = \"", printTableDetails[[x]], "\"> ", 
-																				 printTableValues[[x]], "</span>")
-																	} else printTableValues[[x]] 
-																}),
-											 names(printTableValues)))
+		filteredTables %>%
+			transmute(
+				Intervention, Name,
+				`Recommendation` = `Recommendation.score` * preferenceWeights[[1]],
+				`Quality of Evidence` = `Quality of Evidence.score` * preferenceWeights[[2]],
+				`Cost` = `Cost.score` * preferenceWeights[[3]],
+				`Duration of Effect` = `Duration of Effect.score` * preferenceWeights[[4]],
+				`Accessibility` = `Accessibility.score` * preferenceWeights[[5]],
+				`Risk of Mild/Moderate Harm` = `Risk of Mild/Moderate Harm.score` * preferenceWeights[[6]],
+				`Risk of Serious Harm` = `Risk of Serious Harm.score` * preferenceWeights[[7]],
+				`Effectiveness` = `Effectiveness.score` * preferenceWeights[[8]],
+				PreferenceScores = Recommendation + `Quality of Evidence` + Cost + `Duration of Effect` + Accessibility + 
+					                   `Risk of Mild/Moderate Harm` + `Risk of Serious Harm` + Effectiveness
+			)
 	})
 	
 	plotdata <- reactive({
-		req(preferenceTables())
+		preferenceScores <- req(preferenceScores())
 		
-		apply(preferenceTables(), c(1, 2), weighted.mean, w = evidenceTablesWeight[evidence()]) %>%
-			plyr::aaply(1, function(x) x * preferenceWeights(), .drop = FALSE) %>%
-			as_tibble(rownames = "Intervention") %>%
-			gather("attribute", "value", -1) %>%
-			mutate(Intervention = fct_reorder(factor(Intervention), value, sum),
-						 attribute = factor(attribute, levels = names(attributeNames)))
+		preferenceScores <- preferenceScores %>% 
+			mutate(rank = rank(-PreferenceScores)) %>%
+			filter(rank <= as.integer(input$plot_n))
+		
+		if (nrow(preferenceScores) > 0) 
+			preferenceScores <- preferenceScores %>% 
+			  mutate(Intervention = fct_reorder(factor(Intervention), PreferenceScores),
+			  			 Name = fct_reorder(factor(Name), PreferenceScores))
+		
+		preferenceScores %>%
+			gather("attribute", "value", -c(Intervention, Name, rank, PreferenceScores), factor_key = TRUE)
 	})
-	
+
+	printTable <- reactive({
+		filteredTables <- req(filteredTables())
+		preferenceScores <- req(preferenceScores())
+		
+		filteredTables %>%
+			transmute(
+				Name.sort = as.character(Name), Cost.sort = Cost, `Duration of Effect.sort` = `Duration of Effect`,
+				`Risk of Mild/Moderate Harm.sort`= `Risk of Mild/Moderate Harm`, 
+				`Risk of Serious Harm.sort` = `Risk of Serious Harm`, `Effectiveness.sort` = Effectiveness, 
+				`Preference Score.sort` = !!preferenceScores$PreferenceScores,
+				Name = paste0("<span title = \"", `Intervention.detail`, "\"> ", Name, "</span>"), Recommendation,
+				`Quality of Evidence`, Cost = paste0("<span title = \"", `Cost.detail`, "\"> ", Cost, "</span>"),
+				`Duration of Effect` = paste0("<span title = \"", `Duration of Effect.detail`, "\"> ",
+																			`Duration of Effect`, "</span>"),
+				Accessibility,
+				`Risk of Mild/Moderate Harm` = 
+					paste0("<span title = \"", `Risk of Mild/Moderate Harm.detail`, "\"> ",
+								 `Risk of Mild/Moderate Harm`, "</span>"),
+			  `Risk of Serious Harm` = paste0("<span title = \"", `Risk of Serious Harm.detail`, "\"> ",
+			  																`Risk of Serious Harm`, "</span>"),
+				Effectiveness = paste0("<span title = \"", `Effectiveness.detail`, "\"> ", Effectiveness, "</span>"),
+				`Preference Score` = paste0("<span title = \"", `Preference Score.sort`, "\"> ",
+																		round(`Preference Score.sort`, 1), "</span>")
+			) %>%
+			arrange(desc(`Preference Score`))
+	})
+
 	selectedIntervention <- reactiveValues( # For storing which point to show label for
 		name = character(0), 
 		label = character(0), 
@@ -267,50 +158,83 @@ server <- function(input, output, session) {
 	
 	observeEvent(input$plot_click, {
 		sel <- nearBars(plotdata() %>% spread(attribute, value) %>% 
-											transmute(Intervention, wgt = rowSums(select(., names(attributeNames)))), 
+											transmute(Name, wgt = rowSums(select(., names(attributeNames)))), 
 										input$plot_click, xvar = "wgt",
-										threshold = 0, maxpoints = 1)$Intervention
-		labels <- printTableValues() %>% filter(Intervention %in% sel)
-		values <- plotdata() %>% filter(Intervention %in% sel) %>% spread(attribute, value)
+										threshold = 0, maxpoints = 1)$Name
+		labels <- filteredTables() %>% filter(Name %in% sel)
+		values <- plotdata() %>% filter(Name %in% sel) %>% spread(attribute, value)
 		if (length(sel)>0) values <- values %>% mutate_at(names(attributeNames), round, 1)
 		
 		selectedIntervention$name <- sel
 		selectedIntervention$label <- 
 			paste0(
-				"Recommendation = ", labels$Recommendation, " (", values$Recommendation, ")",
-				"\nQuality of Evidence = ", labels$`Quality of Evidence`, " (", values$`Quality of Evidence`, ")",
-				"\nCost = ", labels$Cost, " (", values$Cost, ")",
-				"\nDuration of Effect = ", labels$`Duration of Effect`, " (", values$`Duration of Effect`, ")",
-				"\nAccessibility = ", labels$Accessibility, " (", values$Accessibility, ")",
-				"\nRisk of Mild/Moderate Harm = ", 
-				labels$`Risk of Mild/Moderate Harm`, " (", values$`Risk of Mild/Moderate Harm`, ")",
+				sel, ":\n",
+				"Effectiveness = ", labels$Effectiveness, " (", values$Effectiveness, ")",
 				"\nRisk of Serious Harm = ", labels$`Risk of Serious Harm`, " (", values$`Risk of Serious Harm`, ")",
-				"\nEffectiveness = ", labels$Effectiveness, " (", values$Effectiveness, ")"
+				"\nRisk of Mild/Moderate Harm = ", labels$`Risk of Mild/Moderate Harm`, 
+				  " (", values$`Risk of Mild/Moderate Harm`, ")", 
+				"\nAccessibility = ", labels$Accessibility, " (", values$Accessibility, ")",
+				"\nDuration of Effect = ", labels$`Duration of Effect`, " (", values$`Duration of Effect`, ")",
+				"\nCost = ", labels$Cost, " (", values$Cost, ")",
+				"\nQuality of Evidence = ", labels$`Quality of Evidence`, " (", values$`Quality of Evidence`, ")",
+				"\nRecommendation = ", labels$Recommendation, " (", values$Recommendation, ")"
 			)
-		selectedIntervention$x <- input$plot_click$y
-		selectedIntervention$y <- input$plot_click$x
+		selectedIntervention$x <- if(is.null(input$plot_click$y)) numeric(0) else input$plot_click$y
+		selectedIntervention$y <- if(is.null(input$plot_click$x)) numeric(0) else input$plot_click$x
 	}, ignoreNULL = TRUE)
-
-	# Output values (based on reactive expressions)
-	output$selectedEvidenceTable <- renderDT({
-		printTableValues <- req(printTableValues())
-		printTableDetails <- req(printTableDetails())
-		printTable <- bind_cols(req(printTable()), printTableValues)
+	
+	costs <- reactive({
+		costsTable[costsTable$Intervention %in% input$interventionsCE, , drop = FALSE]
+	})
+	
+	qalys <- reactive({
+		qalysTable[qalysTable$Intervention %in% input$interventionsCE, , drop = FALSE] %>%
+			filter(outcome == input$hrqol)
+	})
+	
+	ceTable <- reactive({
+		full_join(costs(), qalys(), by = "Intervention") %>%
+			left_join(cePlotTable, by = "Intervention")
+	})
+	
+	ceData <- reactive({
+		ceTable() %>%
+			mutate(wtp = input$wtp,
+						 inb = qalys * input$wtp - cost)
+	})
+	
+	cePlotData <- reactive({
+		ceData <- req(ceData())
+		prefData <- req(printTable())
 		
-		indices_disp <- 1:(ncol(printTable) / 2)
-			# which(sapply(names(printTable), function(x) !is.null(printTableDetails[[x]])))
-		indices_sort <- (ncol(printTable) / 2 + 1):ncol(printTable)
+		ceData %>%
+			left_join(prefData, by = c("Name" = "Name.sort")) %>%
+			mutate(pref_score = (`Preference Score.sort` - min(`Preference Score.sort`)) / (max(`Preference Score.sort`) - min(`Preference Score.sort`)),
+						 inb_score = (inb - min(inb)) / (max(inb) - min(inb)),
+						 weighted_score = pref_score * (100 - input$ce_wgt) + inb_score * input$ce_wgt)
+	})
+	
+	# Output values (based on reactive expressions)
+	output$showplot <- reactive({ any(selected()) })
+	outputOptions(output, "showplot", suspendWhenHidden = FALSE)
+	
+	output$selectedEvidenceTable <- renderDT({
+		printTable <- req(printTable())
+		
+		sort_cols <- str_detect(names(printTable), ".*\\.sort$")
+		sort_indices <- which(sort_cols)
+		vars_sort <- names(printTable)[sort_indices]
+		vars_details <- str_remove(vars_sort, "\\.sort$")
+		details_indices <- match(vars_details, names(printTable))
 		
 		datatable(printTable,
 							autoHideNavigation = TRUE,
-							escape = c(TRUE, sapply(names(printTable), function(x) is.null(printTableDetails[[x]]))),
+							escape = FALSE,
 							class = "display compact",
 							options = list(
 								pageLength = 25,
-								columnDefs = c(
-									unname(lapply(indices_disp, function(x) list(targets = x, orderData = x + ncol(printTable) / 2))),
-									unname(lapply(indices_sort, function(x) list(targets = x, visible = FALSE, searchable = FALSE)))
-								)
+								columnDefs = c(map(sort_indices, ~list(targets = ., visible = FALSE, searchable = FALSE)),
+															 map2(details_indices, sort_indices, ~list(targets = .x, orderData = .y)))
 							))
 	})
 	
@@ -321,31 +245,90 @@ server <- function(input, output, session) {
 											name = selectedIntervention$name,
 											label = selectedIntervention$label)
 
-		ggplot(plotdata, aes(Intervention, value)) + 
-			geom_col(aes(fill = attribute), colour = "white") + 
-			geom_col(aes(group = attribute), fill = NA, size = 1, colour = "black",
-							 data = filter(plotdata, Intervention %in% labdata$name), show.legend = FALSE) +
+		ggplot(plotdata, aes(Name, value)) + 
+			geom_col(aes(fill = attribute), colour = NA, width = 0.7) + 
+			geom_text(aes(y = PreferenceScores, label = format(PreferenceScores, digits = 0, nsmall = 1)),
+								data = partial(filter, ... = , attribute == "Recommendation"),
+								size = 5, hjust = -0.3) +
+			geom_col(aes(group = attribute), fill = NA, width = 0.7, size = 1, colour = "black",
+							 data = filter(plotdata, Name %in% labdata$name), show.legend = FALSE) +
 			geom_label(aes(x, y, label = label), data = labdata, show.legend = FALSE,
 								 hjust = "inward", vjust = "inward") +
+			geom_hline(yintercept = 100) +
 			coord_flip() +
-			scale_fill_brewer(NULL, type = "qual", palette = "Paired") +
+			scale_fill_manual(NULL, values = c("#31cd31", "#86cdeb", "#3fe0cf", "#4581b4", "#99cc31", "#b954d2", "#ef8080", "#fa68b4")) +
 			scale_y_continuous(NULL, limits = c(0, 100), expand = c(0, 0), sec.axis = dup_axis(), 
-												 breaks = seq(0, 90, 10), minor_breaks = NULL) +
+												 breaks = seq(0, 100, 10), minor_breaks = seq(10, 90, 10)) +
 			scale_x_discrete(NULL) +
 			guides(fill = guide_legend(reverse = TRUE, label.position = "bottom", 
 																 byrow = ifelse(session$clientData$output_preferencePlot_width >= 768, FALSE, TRUE),
 																 nrow = ifelse(session$clientData$output_preferencePlot_width >= 1000, 1, 
-																 							 ifelse(session$clientData$output_preferencePlot_width >= 768, 2, 4)),
+																 							ifelse(session$clientData$output_preferencePlot_width >= 768, 2, 4)),
 																 keywidth = unit(ifelse(session$clientData$output_preferencePlot_width >= 1050, 3, 1), 
 																 								"lines"))) +
+			theme_classic() +
 			theme(legend.position = "bottom",
 						legend.justification = c(0, 0),
 						legend.background = element_rect(fill = NA, linetype = 0),
 						legend.key = element_rect(fill = NA, linetype = 0),
-						plot.margin = margin(0, 0, 0, 5, "pt"))
-	},
-	height = function() max(280, 12 * dim(preferenceTables())[[1]]))
+						plot.margin = margin(0, 10, 0, 0, "pt"),
+						plot.background = element_rect(fill = "#fdfaf1"),
+						panel.grid.major.x = element_line(colour = "#eee6c6"),
+						panel.background = element_rect(fill = "#fdfaf1"),
+						axis.text.y = element_text(size = 16))
+	}, height = function() max(280, 90 + 30 * nrow(plotdata()) / 8))
+	
+	output$selectedCETable <- renderTable({
+		dat <- req(cePlotData())
 
+		dat %>%
+			arrange(desc(weighted_score)) %>%
+			transmute(Intervention = Name,
+								"Preference Score\n(0-100)" = format(`Preference Score.sort`, digits = 0, nsmall = 1),
+								"Incremental Net Benefit\n(NZ $)" = format(inb, digits = 0, nsmall = 0, scientific = FALSE))
+	},
+	striped = TRUE, hover = TRUE, bordered = TRUE, align = "lcc")
+	
+	output$cePlot <- renderPlot({
+		plotdata <- req(cePlotData())
+		
+		plotdata <- plotdata %>% 
+			mutate(
+				name = recode(Name,
+											"Cognitive behavioural therapy" = "CBT",
+											# "Aquatic exercise" = "Aquatic\nexercise",
+											Massage = "Massage\n(incremental cost = $4 100)",
+											"Heat therapy" = "Heat therapy\n(incremental cost = $45 600)",
+											"Assistive walking device" = "Walking cane",
+											"Oral NSAIDs (including COX-2 inhibitors)" = "Oral NSAIDs",
+											# "Topical NSAIDs" = "Topical\nNSAIDs",
+											"Corticosteroid injection" = "Corticosteroids"),
+				cost = case_when(Intervention == "Manual therapy (massage)" & "Heat therapy" %in% ceTable()$Intervention ~ 3100,
+												 Intervention == "Manual therapy (massage)" ~ 1900,
+												 Intervention == "Heat therapy" ~ 3200, TRUE ~ cost),
+				qalys = case_when(Intervention == "Heat therapy" & input$hrqol == "sf6d" ~ 0.018, TRUE ~ qalys)
+		  )
+		
+		ggplot(plotdata, aes(qalys, cost, colour = colour)) +
+			geom_point(aes(shape = shape), size = 6) +
+			geom_label(aes(label = name, size = weighted_score), hjust = "inward", vjust = "inward", lineheight = 0.9, fill = NA, label.size = 0) +
+			scale_x_continuous("Lifetime incremental QALYs (per-capita)", breaks = scales::pretty_breaks()) +
+			scale_y_continuous("Lifetime incremental costs (per-capita, 2013 NZD)", breaks = scales::pretty_breaks()) +
+			scale_shape_identity() + scale_colour_identity() +
+			scale_size_continuous(range = c(8, 16), guide = FALSE) +
+			geom_hline(yintercept = 0, size = 1, colour = "grey50") +
+			geom_vline(xintercept = 0, size = 1, colour = "grey50") +
+			geom_abline(slope = 52373, size = 2, alpha = 0.1, colour = "#377eb8") +
+			geom_abline(slope = 52373 * 2, size = 2, alpha = 0.1, colour = "#377eb8") +
+			geom_abline(slope = 52373 * 3, size = 2, alpha = 0.1, colour = "#377eb8") +
+			geom_abline(slope = input$wtp, size = 2, alpha = 0.2, colour = "red") +
+			theme_minimal(base_size = 20) +
+			theme(text = element_text(colour = "grey50"),
+						axis.text = element_text(colour = "grey50"),
+						plot.margin = margin(0, 10, 0, 0, "pt"),
+						plot.background = element_rect(fill = "#fdfaf1", linetype = 0))
+	}, height = 600)
+	
 	# Update input widgets
 	observe({
 		input$resetWeights
@@ -381,7 +364,7 @@ server <- function(input, output, session) {
 	observe({ updateSliderInput(session, "wgt_rmi", value = input$wgt_rmi_val) })
 	observe({ updateSliderInput(session, "wgt_rse", value = input$wgt_rse_val) })
 	observe({ updateSliderInput(session, "wgt_eff", value = input$wgt_eff_val) })
-
+	
 	observeEvent(input$interventionTypes, { 
 		updateSelectInput(session, "interventions", 
 											choices = if (isTruthy(input$interventionTypes)) {

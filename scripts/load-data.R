@@ -3,15 +3,19 @@ library(readxl)
 
 raw_RACGP <- read_xlsx("data/raw/Performance-Matrix-RW.xlsx", skip = 1)
 raw_weights <- read_xlsx("data/raw/Attribute-Weights.xlsx", skip = 1)
+raw_CE <- read_xlsx("data/raw/Cost-Effectiveness.xlsx")
+
+clean_intervention_names <- function(raw_names) {
+	str_remove_all(raw_names, 
+								 paste0("( . knee( ((\\(same as hip\\))|(and/or hip \\(same for both\\))|(\\(not available in NZ\\))))*)|",
+								 			 "( \\(same ((as)|(for)) hip\\))|",
+								 			 "( . same for knee and hip.*)|( . same for hip and knee)|",
+								 			 "(\\. Should be considered as an investigational medication only)"))
+}
 
 clean_RACGP <- raw_RACGP %>%
 	filter(`1000minds variable names` %in% c(1, 10)) %>%
-	transmute(Intervention = 
-							str_remove_all(Alternative, 
-														 paste0("( . knee( ((\\(same as hip\\))|(and/or hip \\(same for both\\))|(\\(not available in NZ\\))))*)|",
-														 			  "( \\(same ((as)|(for)) hip\\))|",
-														 			  "( . same for knee and hip.*)|( . same for hip and knee)|",
-														 			  "(\\. Should be considered as an investigational medication only)")),
+	transmute(Intervention = clean_intervention_names(Alternative),
 						Rec = case_when(Rec=="\u2191\u2191" ~ 5L, Rec=="\u2191" ~ 4L, Rec=="\u2194" ~ 3L, Rec=="\u2193" ~ 2L, 
 														Rec=="\u2193\u2193" ~ 1L),
 						Rec1 = as.integer(Rec1), Rec2 = as.integer(Rec2), Rec3 = as.integer(Rec3),
@@ -39,4 +43,9 @@ clean_weights <- raw_weights %>%
 																								"Quality of the evidence" = "Quality of Evidence")),
 						level = as.integer(level), weight)
 
-save(clean_RACGP, clean_weights, file = "data/data.Rdata")
+clean_CE <- raw_CE %>%
+	transmute(Intervention = clean_intervention_names(Alternative),
+				    `RACGP recommendation` = Recommendation,
+						`Incremental QALYs (SF-6D)` = `Incremental QALYs`, `Incremental QALYs (WOMAC)`, `Incremental Costs`)
+
+save(clean_RACGP, clean_weights, clean_CE, file = "data/data.Rdata")

@@ -20,6 +20,10 @@ body {
   max-width: 1000px;
   margin: auto;
 }
+.medium-width {
+	max-width: 1400px;
+	margin: auto;
+}
 p {
 	font-size: 14px;
 }
@@ -168,7 +172,10 @@ header {
 #btn-weights,
 #btn-interventions,
 #btn-options,
-#btn-instructions {
+#btn-instructions,
+#btn-interventions-ce,
+#btn-options-ce,
+#btn-instructions-ce {
   padding: 17px 15px 0;
   display: block;
   color: #15346d;
@@ -190,7 +197,9 @@ header {
 /*-------- Option panels ----------*/
 #options,
 #weights,
-#interventions {
+#interventions,
+#options-ce,
+#interventions-ce {
   background-color: #f5f5f5;
   border: 1px solid #e3e3e3;
   margin: 0;
@@ -235,6 +244,9 @@ header {
   color: #a9a9a9;
   font-size: 0.75em;
 }
+.text-panel {
+	padding-bottom: 20px;
+}
 .text {
   text-align: justify;
   line-height: 1.6;
@@ -248,7 +260,6 @@ header {
 /*-------- Footer -------------*/
 footer {
 	color: white;
-	margin-top: 20px;
 	background-color: #15346d;
 }
 footer .row {
