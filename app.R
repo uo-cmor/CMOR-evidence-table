@@ -243,6 +243,7 @@ server <- function(input, output, session) {
 	})
 	
 	output$preferencePlot <- renderPlot({
+		
 		plotdata <- req(plotdata())
 		labdata <- tibble(x = selectedIntervention$x,
 											y = selectedIntervention$y,
@@ -291,11 +292,17 @@ server <- function(input, output, session) {
 
 		dat %>%
 			arrange(desc(weighted_score)) %>%
-			transmute(Intervention = Name,
-								"Preference Score\n(0-100)" = format(`Preference Score.sort`, digits = 0, nsmall = 1),
-								"Incremental Net Benefit\n(NZ $)" = format(inb, digits = 0, nsmall = 0, scientific = FALSE))
+			transmute(" " = as.integer(rank(-weighted_score)), 
+								Intervention = recode(Name,
+																			"Cognitive behavioural therapy" = "CBT",
+																			"Assistive walking device" = "Walking cane",
+																			"Oral NSAIDs (including COX-2 inhibitors)" = "Oral NSAIDs",
+																			"Corticosteroid injection" = "Corticosteroids"),
+								"Preference Score (0-100)" = format(`Preference Score.sort`, digits = 0, nsmall = 1),
+								"Incremental Net Benefit (NZD per capita)" = format(inb, digits = 0, nsmall = 0, scientific = FALSE),
+								"Weighted Score (0-100)" = format(weighted_score, digits = 0, nsmall = 0))
 	},
-	striped = TRUE, hover = TRUE, bordered = TRUE, align = "lcc")
+	striped = TRUE, hover = TRUE, bordered = TRUE, align = "llccc")
 	
 	output$cePlot <- renderPlot({
 		plotdata <- req(cePlotData())
@@ -311,7 +318,7 @@ server <- function(input, output, session) {
 											"Oral NSAIDs (including COX-2 inhibitors)" = "Oral NSAIDs",
 											# "Topical NSAIDs" = "Topical\nNSAIDs",
 											"Corticosteroid injection" = "Corticosteroids"),
-				cost = case_when(Intervention == "Manual therapy (massage)" & "Heat therapy" %in% ceTable()$Intervention ~ 3100,
+				cost = case_when(Intervention == "Manual therapy (massage)" & "Heat therapy" %in% ceTable()$Intervention ~ 2700,
 												 Intervention == "Manual therapy (massage)" ~ 1900,
 												 Intervention == "Heat therapy" ~ 3200, TRUE ~ cost),
 				qalys = case_when(Intervention == "Heat therapy" & input$hrqol == "sf6d" ~ 0.018, TRUE ~ qalys)
@@ -323,7 +330,7 @@ server <- function(input, output, session) {
 			scale_x_continuous("Lifetime incremental QALYs (per-capita)", breaks = scales::pretty_breaks()) +
 			scale_y_continuous("Lifetime incremental costs (per-capita, 2013 NZD)", breaks = scales::pretty_breaks()) +
 			scale_shape_identity() + scale_colour_identity() +
-			scale_size_continuous(range = c(8, 16), guide = FALSE) +
+			scale_size_continuous(range = c(8, 16), trans = scales::exp_trans(1.03), guide = FALSE) +
 			geom_hline(yintercept = 0, size = 1, colour = "grey50") +
 			geom_vline(xintercept = 0, size = 1, colour = "grey50") +
 			geom_abline(slope = 52373, size = 2, alpha = 0.1, colour = "#377eb8") +
@@ -335,7 +342,7 @@ server <- function(input, output, session) {
 						axis.text = element_text(colour = "grey50"),
 						plot.margin = margin(0, 10, 0, 0, "pt"),
 						plot.background = element_rect(fill = "#fdfaf1", linetype = 0))
-	}, height = 600)
+	}, height = 500)
 	
 	# Update input widgets
 	observe({

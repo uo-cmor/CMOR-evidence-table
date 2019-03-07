@@ -228,7 +228,7 @@ cePlotTable <- tibble(
 								 "Cognitive behavioural therapy" = -0.5, "Aquatic exercise" = -0.5, "Massage" = -1.5,
 								 "Assistive walking device" = 0.55, "Oral NSAIDs (including COX-2 inhibitors)" = -0.5,
 								 "Topical NSAIDs" = 1.1, "Duloxetine" = -0.6, "Corticosteroid injection" = -0.4, .default = 0),
-	shape = if_else(Name %in% c("Massage", "Heat therapy\n(incremental cost = $45 600)"), "triangle", "diamond"),
+	shape = if_else(Name %in% c("Massage", "Heat therapy"), "triangle", "diamond"),
 	colour = recode(Name,
 									"Cognitive behavioural therapy" = "#a6761d", "Aquatic exercise" = "#e7298a", "Massage" = "#666666",
 									"Heat therapy\n(incremental cost = $45 600)" = "#666666", "Assistive walking device" = "#1b9e77", 
