@@ -98,10 +98,11 @@
 			<div class="tab-pane active" data-value="Stakeholder Preferences" id="tab-9830-1">
 				<!-- Results panel (table/figure) -->
 				<div class="results-panel">
+				  <!-- Navigation panel -->
 				  <div class="container-fluid" style="clear:both">
-				    <!-- Navigation panel -->
 				    <div class="row navbar" style="display:none;">
 				      <div class="col-xs-6 navtab">
+				      	<!-- Data/Table toggle -->
 				        <ul class="nav nav-tabs" data-tabsetid="9829">
 				          <li class="active">
 				            <a href="#tab-9829-2" data-toggle="tab" data-value="Plot" onclick="document.getElementById('plot-rows').style.display='block'">Plot</a>
@@ -109,7 +110,8 @@
 				          <li>
 				            <a href="#tab-9829-1" data-toggle="tab" data-value="Evidence Table" onclick="document.getElementById('plot-rows').style.display='none'">Table</a>
 				          </li>
-				        </ul>
+				        </ul> <!--Data/Table toggle-->
+				        <!-- Select number of interventions to show in plot -->
 				        <ul id="plot-rows">
 				        	<li>Show top </li>
 				        	<li>
@@ -124,17 +126,17 @@
 				        	<li> interventions</li>
 				        </ul>
 				      </div> <!--.col-xs-6-->
-				
 				      <div class="col-xs-6 option-buttons-outer">
 				        <!-- Instructions -->
 				        <div class="dropdown">
 				          <a id="btn-instructions" href="#" data-toggle="modal" data-target="#instructions"><span class="fas fa-question-circle"></span></a>
 				        </div> <!-- End of Instructions section -->
-				
 				        <div class="option-buttons-inner">
 				          <!-- Weights section -->
 				          <div class="dropdown">
-				            <a id="btn-weights" class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"><span class="fas fa-balance-scale"></span> <span class="fas fa-angle-down"></span></a>
+				            <a id="btn-weights" class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+				            	<span class="fas fa-balance-scale"></span> <span class="fas fa-angle-down"></span>
+				            </a>
 				            <div class="dropdown-menu pull-right row" id="weights">
 				              <form>
 				                <div class="row">
@@ -150,9 +152,8 @@
 				                    <a id="normaliseWeights" href="#" class="action-button">Normalise Weights<br>(sum to 100)</a>
 				                  </div>
 				                </div> <!--.row-->
-				
 				                <div class="row">
-				
+				                	
 				                  <div class="col-xs-12">
 				                    <div class="row">
 				                      <div class="col-xs-8">
@@ -160,18 +161,18 @@
 				                          <label class="control-label" for="wgt_rec">Recommendation
 				                            <a data-toggle="modal" data-target="#helpRec" href="#"><i class="fa fa-info-circle"></i></a>
 				                          </label>
-				                          <input class="js-range-slider" id="wgt_rec" data-min="0" data-max="100" data-from="19.0487" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
+				                          <input class="js-range-slider" id="wgt_rec" data-min="0" data-max="100" data-from="19.0" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
 				                        </div>
 				                      </div>
 				                      <div class="col-xs-4">
 				                        <br/>
 				                        <div class="form-group shiny-input-container">
-				                          <input id="wgt_rec_val" type="number" class="form-control" value="19.0487" min="0" max="100" step="0.1"/>
+				                          <input id="wgt_rec_val" type="number" class="form-control" value="19.0" min="0" max="100" step="0.1"/>
 				                        </div>
 				                      </div>
 				                    </div> <!--.row-->
-				                  </div> <!--.col-xs-12-->
-				
+				                  </div> <!--.col-xs-12--> <!-- Recommendation -->
+				                  
 				                  <div class="col-xs-12">
 				                    <div class="row">
 				                      <div class="col-xs-8">
@@ -179,36 +180,36 @@
 				                          <label class="control-label" for="wgt_qua">Quality of Evidence
 				                            <a data-toggle="modal" data-target="#helpQua" href="#"><i class="fa fa-info-circle"></i></a>
 				                          </label>
-				                          <input class="js-range-slider" id="wgt_qua" data-min="0" data-max="100" data-from="17.6476" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
+				                          <input class="js-range-slider" id="wgt_qua" data-min="0" data-max="100" data-from="17.6" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
 				                        </div>
 				                      </div>
 				                      <div class="col-xs-4">
 				                        <br/>
 				                        <div class="form-group shiny-input-container">
-				                          <input id="wgt_qua_val" type="number" class="form-control" value="17.6476" min="0" max="100" step="0.1"/>
+				                          <input id="wgt_qua_val" type="number" class="form-control" value="17.6" min="0" max="100" step="0.1"/>
 				                        </div>
 				                      </div>
 				                    </div> <!--.row-->
-				                  </div> <!--.col-xs-12-->
-				
+				                  </div> <!--.col-xs-12--> <!-- Quality of Evidence -->
+				                  
 				                  <div class="col-xs-12">
 				                    <div class="row">
 				                      <div class="col-xs-8">
 				                        <div class="form-group shiny-input-container">
-				                          <label class="control-label" for="wgt_cos">Cost
-				                            <a data-toggle="modal" data-target="#helpCos" href="#"><i class="fa fa-info-circle"></i></a>
+				                          <label class="control-label" for="wgt_eff">Effectiveness
+				                            <a data-toggle="modal" data-target="#helpEff" href="#"><i class="fa fa-info-circle"></i></a>
 				                          </label>
-				                          <input class="js-range-slider" id="wgt_cos" data-min="0" data-max="100" data-from="6.6089" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
+				                          <input class="js-range-slider" id="wgt_eff" data-min="0" data-max="100" data-from="15.0" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
 				                        </div>
 				                      </div>
 				                      <div class="col-xs-4">
 				                        <br/>
 				                        <div class="form-group shiny-input-container">
-				                          <input id="wgt_cos_val" type="number" class="form-control" value="6.6089" min="0" max="100" step="0.1"/>
+				                          <input id="wgt_eff_val" type="number" class="form-control" value="15.0" min="0" max="100" step="0.1"/>
 				                        </div>
 				                      </div>
 				                    </div> <!--.row-->
-				                  </div> <!--.col-xs-12-->
+				                  </div> <!--.col-xs-12--> <!-- Effectiveness -->
 				
 				                  <div class="col-xs-12">
 				                    <div class="row">
@@ -217,55 +218,17 @@
 				                          <label class="control-label" for="wgt_dur">Duration of Effect
 				                            <a data-toggle="modal" data-target="#helpDur" href="#"><i class="fa fa-info-circle"></i></a>
 				                          </label>
-				                          <input class="js-range-slider" id="wgt_dur" data-min="0" data-max="100" data-from="13.1824" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
+				                          <input class="js-range-slider" id="wgt_dur" data-min="0" data-max="100" data-from="13.2" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
 				                        </div>
 				                      </div>
 				                      <div class="col-xs-4">
 				                        <br/>
 				                        <div class="form-group shiny-input-container">
-				                          <input id="wgt_dur_val" type="number" class="form-control" value="13.1824" min="0" max="100" step="0.1"/>
+				                          <input id="wgt_dur_val" type="number" class="form-control" value="13.2" min="0" max="100" step="0.1"/>
 				                        </div>
 				                      </div>
 				                    </div> <!--.row-->
-				                  </div> <!--.col-xs-12-->
-				
-				                  <div class="col-xs-12">
-				                    <div class="row">
-				                      <div class="col-xs-8">
-				                        <div class="form-group shiny-input-container">
-				                          <label class="control-label" for="wgt_acc">Accessibility
-				                            <a data-toggle="modal" data-target="#helpAcc" href="#"><i class="fa fa-info-circle"></i></a>
-				                          </label>
-				                          <input class="js-range-slider" id="wgt_acc" data-min="0" data-max="100" data-from="6.2685" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
-				                        </div>
-				                      </div>
-				                      <div class="col-xs-4">
-				                        <br/>
-				                        <div class="form-group shiny-input-container">
-				                          <input id="wgt_acc_val" type="number" class="form-control" value="6.2685" min="0" max="100" step="0.1"/>
-				                        </div>
-				                      </div>
-				                    </div> <!--.row-->
-				                  </div> <!--.col-xs-12-->
-				
-				                  <div class="col-xs-12">
-				                    <div class="row">
-				                      <div class="col-xs-8">
-				                        <div class="form-group shiny-input-container">
-				                          <label class="control-label" for="wgt_rmi">Risk of Mild/Moderate Harm
-				                            <a data-toggle="modal" data-target="#helpRmi" href="#"><i class="fa fa-info-circle"></i></a>
-				                          </label>
-				                          <input class="js-range-slider" id="wgt_rmi" data-min="0" data-max="100" data-from="9.4111" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
-				                        </div>
-				                      </div>
-				                      <div class="col-xs-4">
-				                        <br/>
-				                        <div class="form-group shiny-input-container">
-				                          <input id="wgt_rmi_val" type="number" class="form-control" value="9.4111" min="0" max="100" step="0.1"/>
-				                        </div>
-				                      </div>
-				                    </div> <!--.row-->
-				                  </div> <!--.col-xs-12-->
+				                  </div> <!--.col-xs-12--> <!-- Duration of Effect -->
 				
 				                  <div class="col-xs-12">
 				                    <div class="row">
@@ -274,42 +237,79 @@
 				                          <label class="control-label" for="wgt_rse">Risk of Serious Harm
 				                            <a data-toggle="modal" data-target="#helpRse" href="#"><i class="fa fa-info-circle"></i></a>
 				                          </label>
-				                          <input class="js-range-slider" id="wgt_rse" data-min="0" data-max="100" data-from="12.8225" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
+				                          <input class="js-range-slider" id="wgt_rse" data-min="0" data-max="100" data-from="12.8" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
 				                        </div>
 				                      </div>
 				                      <div class="col-xs-4">
 				                        <br/>
 				                        <div class="form-group shiny-input-container">
-				                          <input id="wgt_rse_val" type="number" class="form-control" value="12.8225" min="0" max="100" step="0.1"/>
+				                          <input id="wgt_rse_val" type="number" class="form-control" value="12.8" min="0" max="100" step="0.1"/>
 				                        </div>
 				                      </div>
 				                    </div> <!--.row-->
-				                  </div> <!--.col-xs-12-->
+				                  </div> <!--.col-xs-12--> <!-- Risk of Serious Harm -->
 				
 				                  <div class="col-xs-12">
 				                    <div class="row">
 				                      <div class="col-xs-8">
 				                        <div class="form-group shiny-input-container">
-				                          <label class="control-label" for="wgt_eff">Effectiveness
-				                            <a data-toggle="modal" data-target="#helpEff" href="#"><i class="fa fa-info-circle"></i></a>
+				                          <label class="control-label" for="wgt_rmi">Risk of Mild/Moderate Harm
+				                            <a data-toggle="modal" data-target="#helpRmi" href="#"><i class="fa fa-info-circle"></i></a>
 				                          </label>
-				                          <input class="js-range-slider" id="wgt_eff" data-min="0" data-max="100" data-from="15.0103" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
+				                          <input class="js-range-slider" id="wgt_rmi" data-min="0" data-max="100" data-from="9.4" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
 				                        </div>
 				                      </div>
 				                      <div class="col-xs-4">
 				                        <br/>
 				                        <div class="form-group shiny-input-container">
-				                          <input id="wgt_eff_val" type="number" class="form-control" value="15.0103" min="0" max="100" step="0.1"/>
+				                          <input id="wgt_rmi_val" type="number" class="form-control" value="9.4" min="0" max="100" step="0.1"/>
 				                        </div>
 				                      </div>
 				                    </div> <!--.row-->
-				                  </div> <!--.col-xs-12-->
+				                  </div> <!--.col-xs-12--> <!-- Risk of Mild/Moderate Harm -->
+				
+				                  <div class="col-xs-12">
+				                    <div class="row">
+				                      <div class="col-xs-8">
+				                        <div class="form-group shiny-input-container">
+				                          <label class="control-label" for="wgt_cos">Cost
+				                            <a data-toggle="modal" data-target="#helpCos" href="#"><i class="fa fa-info-circle"></i></a>
+				                          </label>
+				                          <input class="js-range-slider" id="wgt_cos" data-min="0" data-max="100" data-from="6.6" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
+				                        </div>
+				                      </div>
+				                      <div class="col-xs-4">
+				                        <br/>
+				                        <div class="form-group shiny-input-container">
+				                          <input id="wgt_cos_val" type="number" class="form-control" value="6.6" min="0" max="100" step="0.1"/>
+				                        </div>
+				                      </div>
+				                    </div> <!--.row-->
+				                  </div> <!--.col-xs-12--> <!-- Cost -->
+				
+				                  <div class="col-xs-12">
+				                    <div class="row">
+				                      <div class="col-xs-8">
+				                        <div class="form-group shiny-input-container">
+				                          <label class="control-label" for="wgt_acc">Accessibility
+				                            <a data-toggle="modal" data-target="#helpAcc" href="#"><i class="fa fa-info-circle"></i></a>
+				                          </label>
+				                          <input class="js-range-slider" id="wgt_acc" data-min="0" data-max="100" data-from="6.3" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
+				                        </div>
+				                      </div>
+				                      <div class="col-xs-4">
+				                        <br/>
+				                        <div class="form-group shiny-input-container">
+				                          <input id="wgt_acc_val" type="number" class="form-control" value="6.3" min="0" max="100" step="0.1"/>
+				                        </div>
+				                      </div>
+				                    </div> <!--.row-->
+				                  </div> <!--.col-xs-12--> <!-- Accessibility -->
 				
 				                </div> <!--.row-->
 				              </form>
 				            </div> <!--.dropdown-menu-->
 				          </div> <!--.dropdown--> <!-- End of Weights section -->
-				
 				          <!-- Interventions section -->
 				          <div class="dropdown">
 				            <a id="btn-interventions" class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"><span class="fas fa-filter"></span> <span class="fas fa-angle-down"></span></a>
@@ -520,7 +520,6 @@
 				              </form>
 				            </div> <!--.dropdown-menu-->
 				          </div> <!--.dropdown--><!-- End of Interventions section-->
-				
 				          <!-- Options section -->
 				          <div class="dropdown">
 				            <a id="btn-options" class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"><span class="fas fa-cog"></span> <span class="fas fa-angle-down"></span></a>
@@ -581,8 +580,8 @@
 				
 				      </div> <!--.col-xs-6-->
 				
-				    </div> <!--.row--> <!-- End of Navigation panel -->
-					</div>
+				    </div> <!--.row-->
+					</div> <!--.container-fluid--> <!-- End of Navigation panel -->
 				  <!-- Plot/Table area -->
 				  <div class="tabbable inner-tabs">
 				    <div class="tab-content tab-inner" data-tabsetid="9829">
@@ -638,7 +637,7 @@
 			  </div> <!--.text-panel-->
 			</div>
 			<!-- Cost-Effectiveness -->
-				<div class="tab-pane" data-value="Cost-Effectiveness" id="tab-9830-2">
+		  <div class="tab-pane" data-value="Cost-Effectiveness" id="tab-9830-2">
 				<!-- Results panel (table/figure) -->
 				<div class="results-panel">
 				  <!-- Navigation panel -->
@@ -657,7 +656,7 @@
 				            <a id="btn-weights" class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
 				            	<span class="fas fa-balance-scale"></span> <span class="fas fa-angle-down"></span>
 				            </a>
-				            <div class="dropdown-menu pull-right row" id="weights">
+				            <div class="dropdown-menu pull-right row" id="weights-ce">
 				              <form>
 				                <div class="row">
 				                  <div class="col-xs-6">
@@ -666,164 +665,165 @@
 				                      <i class="fa fa-info-circle"></i>
 				                    </a>
 				                    <br/>
-				                    <a id="resetWeights" href="#" class="action-button">(Reset)</a>
+				                    <a id="resetWeights_ce" href="#" class="action-button">(Reset)</a>
 				                  </div>
 				                  <div class="col-xs-6" style="text-align:right">
-				                    <a id="normaliseWeights" href="#" class="action-button">Normalise Weights<br>(sum to 100)</a>
+				                    <a id="normaliseWeights_ce" href="#" class="action-button">Normalise Weights<br>(sum to 100)</a>
 				                  </div>
 				                </div> <!--.row-->
 				                <div class="row">
+				                	
 				                  <div class="col-xs-12">
 				                    <div class="row">
 				                      <div class="col-xs-8">
 				                        <div class="form-group shiny-input-container">
-				                          <label class="control-label" for="wgt_rec">Recommendation
+				                          <label class="control-label" for="wgt_rec_ce">Recommendation
 				                            <a data-toggle="modal" data-target="#helpRec" href="#"><i class="fa fa-info-circle"></i></a>
 				                          </label>
-				                          <input class="js-range-slider" id="wgt_rec" data-min="0" data-max="100" data-from="19.0" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
+				                          <input class="js-range-slider" id="wgt_rec_ce" data-min="0" data-max="100" data-from="19.0" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
 				                        </div>
 				                      </div>
 				                      <div class="col-xs-4">
 				                        <br/>
 				                        <div class="form-group shiny-input-container">
-				                          <input id="wgt_rec_val" type="number" class="form-control" value="19.0" min="0" max="100" step="0.1"/>
+				                          <input id="wgt_rec_val_ce" type="number" class="form-control" value="19.0" min="0" max="100" step="0.1"/>
 				                        </div>
 				                      </div>
 				                    </div> <!--.row-->
-				                  </div> <!--.col-xs-12-->
+				                  </div> <!--.col-xs-12--> <!-- Recommendation -->
 				
 				                  <div class="col-xs-12">
 				                    <div class="row">
 				                      <div class="col-xs-8">
 				                        <div class="form-group shiny-input-container">
-				                          <label class="control-label" for="wgt_qua">Quality of Evidence
+				                          <label class="control-label" for="wgt_qua_ce">Quality of Evidence
 				                            <a data-toggle="modal" data-target="#helpQua" href="#"><i class="fa fa-info-circle"></i></a>
 				                          </label>
-				                          <input class="js-range-slider" id="wgt_qua" data-min="0" data-max="100" data-from="17.6" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
+				                          <input class="js-range-slider" id="wgt_qua_ce" data-min="0" data-max="100" data-from="17.6" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
 				                        </div>
 				                      </div>
 				                      <div class="col-xs-4">
 				                        <br/>
 				                        <div class="form-group shiny-input-container">
-				                          <input id="wgt_qua_val" type="number" class="form-control" value="17.6" min="0" max="100" step="0.1"/>
+				                          <input id="wgt_qua_val_ce" type="number" class="form-control" value="17.6" min="0" max="100" step="0.1"/>
 				                        </div>
 				                      </div>
 				                    </div> <!--.row-->
-				                  </div> <!--.col-xs-12-->
+				                  </div> <!--.col-xs-12--> <!-- Quality of Evidence -->
 				
 				                  <div class="col-xs-12">
 				                    <div class="row">
 				                      <div class="col-xs-8">
 				                        <div class="form-group shiny-input-container">
-				                          <label class="control-label" for="wgt_cos">Cost
-				                            <a data-toggle="modal" data-target="#helpCos" href="#"><i class="fa fa-info-circle"></i></a>
-				                          </label>
-				                          <input class="js-range-slider" id="wgt_cos" data-min="0" data-max="100" data-from="6.6" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
-				                        </div>
-				                      </div>
-				                      <div class="col-xs-4">
-				                        <br/>
-				                        <div class="form-group shiny-input-container">
-				                          <input id="wgt_cos_val" type="number" class="form-control" value="6.6" min="0" max="100" step="0.1"/>
-				                        </div>
-				                      </div>
-				                    </div> <!--.row-->
-				                  </div> <!--.col-xs-12-->
-				
-				                  <div class="col-xs-12">
-				                    <div class="row">
-				                      <div class="col-xs-8">
-				                        <div class="form-group shiny-input-container">
-				                          <label class="control-label" for="wgt_dur">Duration of Effect
-				                            <a data-toggle="modal" data-target="#helpDur" href="#"><i class="fa fa-info-circle"></i></a>
-				                          </label>
-				                          <input class="js-range-slider" id="wgt_dur" data-min="0" data-max="100" data-from="13.2" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
-				                        </div>
-				                      </div>
-				                      <div class="col-xs-4">
-				                        <br/>
-				                        <div class="form-group shiny-input-container">
-				                          <input id="wgt_dur_val" type="number" class="form-control" value="13.2" min="0" max="100" step="0.1"/>
-				                        </div>
-				                      </div>
-				                    </div> <!--.row-->
-				                  </div> <!--.col-xs-12-->
-				
-				                  <div class="col-xs-12">
-				                    <div class="row">
-				                      <div class="col-xs-8">
-				                        <div class="form-group shiny-input-container">
-				                          <label class="control-label" for="wgt_acc">Accessibility
-				                            <a data-toggle="modal" data-target="#helpAcc" href="#"><i class="fa fa-info-circle"></i></a>
-				                          </label>
-				                          <input class="js-range-slider" id="wgt_acc" data-min="0" data-max="100" data-from="6.3" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
-				                        </div>
-				                      </div>
-				                      <div class="col-xs-4">
-				                        <br/>
-				                        <div class="form-group shiny-input-container">
-				                          <input id="wgt_acc_val" type="number" class="form-control" value="6.3" min="0" max="100" step="0.1"/>
-				                        </div>
-				                      </div>
-				                    </div> <!--.row-->
-				                  </div> <!--.col-xs-12-->
-				
-				                  <div class="col-xs-12">
-				                    <div class="row">
-				                      <div class="col-xs-8">
-				                        <div class="form-group shiny-input-container">
-				                          <label class="control-label" for="wgt_rmi">Risk of Mild/Moderate Harm
-				                            <a data-toggle="modal" data-target="#helpRmi" href="#"><i class="fa fa-info-circle"></i></a>
-				                          </label>
-				                          <input class="js-range-slider" id="wgt_rmi" data-min="0" data-max="100" data-from="9.4" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
-				                        </div>
-				                      </div>
-				                      <div class="col-xs-4">
-				                        <br/>
-				                        <div class="form-group shiny-input-container">
-				                          <input id="wgt_rmi_val" type="number" class="form-control" value="9.4" min="0" max="100" step="0.1"/>
-				                        </div>
-				                      </div>
-				                    </div> <!--.row-->
-				                  </div> <!--.col-xs-12-->
-				
-				                  <div class="col-xs-12">
-				                    <div class="row">
-				                      <div class="col-xs-8">
-				                        <div class="form-group shiny-input-container">
-				                          <label class="control-label" for="wgt_rse">Risk of Serious Harm
-				                            <a data-toggle="modal" data-target="#helpRse" href="#"><i class="fa fa-info-circle"></i></a>
-				                          </label>
-				                          <input class="js-range-slider" id="wgt_rse" data-min="0" data-max="100" data-from="12.8" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
-				                        </div>
-				                      </div>
-				                      <div class="col-xs-4">
-				                        <br/>
-				                        <div class="form-group shiny-input-container">
-				                          <input id="wgt_rse_val" type="number" class="form-control" value="12.8" min="0" max="100" step="0.1"/>
-				                        </div>
-				                      </div>
-				                    </div> <!--.row-->
-				                  </div> <!--.col-xs-12-->
-				
-				                  <div class="col-xs-12">
-				                    <div class="row">
-				                      <div class="col-xs-8">
-				                        <div class="form-group shiny-input-container">
-				                          <label class="control-label" for="wgt_eff">Effectiveness
+				                          <label class="control-label" for="wgt_eff_ce">Effectiveness
 				                            <a data-toggle="modal" data-target="#helpEff" href="#"><i class="fa fa-info-circle"></i></a>
 				                          </label>
-				                          <input class="js-range-slider" id="wgt_eff" data-min="0" data-max="100" data-from="15.0" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
+				                          <input class="js-range-slider" id="wgt_eff_ce" data-min="0" data-max="100" data-from="15.0" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
 				                        </div>
 				                      </div>
 				                      <div class="col-xs-4">
 				                        <br/>
 				                        <div class="form-group shiny-input-container">
-				                          <input id="wgt_eff_val" type="number" class="form-control" value="15.0" min="0" max="100" step="0.1"/>
+				                          <input id="wgt_eff_val_ce" type="number" class="form-control" value="15.0" min="0" max="100" step="0.1"/>
 				                        </div>
 				                      </div>
 				                    </div> <!--.row-->
-				                  </div> <!--.col-xs-12-->
+				                  </div> <!--.col-xs-12--> <!-- Effectiveness -->
+				
+				                  <div class="col-xs-12">
+				                    <div class="row">
+				                      <div class="col-xs-8">
+				                        <div class="form-group shiny-input-container">
+				                          <label class="control-label" for="wgt_dur_ce">Duration of Effect
+				                            <a data-toggle="modal" data-target="#helpDur" href="#"><i class="fa fa-info-circle"></i></a>
+				                          </label>
+				                          <input class="js-range-slider" id="wgt_dur_ce" data-min="0" data-max="100" data-from="13.2" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
+				                        </div>
+				                      </div>
+				                      <div class="col-xs-4">
+				                        <br/>
+				                        <div class="form-group shiny-input-container">
+				                          <input id="wgt_dur_val_ce" type="number" class="form-control" value="13.2" min="0" max="100" step="0.1"/>
+				                        </div>
+				                      </div>
+				                    </div> <!--.row-->
+				                  </div> <!--.col-xs-12--> <!-- Duration of Effect -->
+				
+				                  <div class="col-xs-12">
+				                    <div class="row">
+				                      <div class="col-xs-8">
+				                        <div class="form-group shiny-input-container">
+				                          <label class="control-label" for="wgt_rse_ce">Risk of Serious Harm
+				                            <a data-toggle="modal" data-target="#helpRse" href="#"><i class="fa fa-info-circle"></i></a>
+				                          </label>
+				                          <input class="js-range-slider" id="wgt_rse_ce" data-min="0" data-max="100" data-from="12.8" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
+				                        </div>
+				                      </div>
+				                      <div class="col-xs-4">
+				                        <br/>
+				                        <div class="form-group shiny-input-container">
+				                          <input id="wgt_rse_val_ce" type="number" class="form-control" value="12.8" min="0" max="100" step="0.1"/>
+				                        </div>
+				                      </div>
+				                    </div> <!--.row-->
+				                  </div> <!--.col-xs-12--> <!-- Risk of Serious Harm -->
+				
+				                  <div class="col-xs-12">
+				                    <div class="row">
+				                      <div class="col-xs-8">
+				                        <div class="form-group shiny-input-container">
+				                          <label class="control-label" for="wgt_rmi_ce">Risk of Mild/Moderate Harm
+				                            <a data-toggle="modal" data-target="#helpRmi" href="#"><i class="fa fa-info-circle"></i></a>
+				                          </label>
+				                          <input class="js-range-slider" id="wgt_rmi_ce" data-min="0" data-max="100" data-from="9.4" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
+				                        </div>
+				                      </div>
+				                      <div class="col-xs-4">
+				                        <br/>
+				                        <div class="form-group shiny-input-container">
+				                          <input id="wgt_rmi_val_ce" type="number" class="form-control" value="9.4" min="0" max="100" step="0.1"/>
+				                        </div>
+				                      </div>
+				                    </div> <!--.row-->
+				                  </div> <!--.col-xs-12--> <!-- Risk of Mild/Moderate Harm -->
+				
+				                  <div class="col-xs-12">
+				                    <div class="row">
+				                      <div class="col-xs-8">
+				                        <div class="form-group shiny-input-container">
+				                          <label class="control-label" for="wgt_cos_ce">Cost
+				                            <a data-toggle="modal" data-target="#helpCos" href="#"><i class="fa fa-info-circle"></i></a>
+				                          </label>
+				                          <input class="js-range-slider" id="wgt_cos_ce" data-min="0" data-max="100" data-from="6.6" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
+				                        </div>
+				                      </div>
+				                      <div class="col-xs-4">
+				                        <br/>
+				                        <div class="form-group shiny-input-container">
+				                          <input id="wgt_cos_val_ce" type="number" class="form-control" value="6.6" min="0" max="100" step="0.1"/>
+				                        </div>
+				                      </div>
+				                    </div> <!--.row-->
+				                  </div> <!--.col-xs-12--> <!-- Cost -->
+				
+				                  <div class="col-xs-12">
+				                    <div class="row">
+				                      <div class="col-xs-8">
+				                        <div class="form-group shiny-input-container">
+				                          <label class="control-label" for="wgt_acc_ce">Accessibility
+				                            <a data-toggle="modal" data-target="#helpAcc" href="#"><i class="fa fa-info-circle"></i></a>
+				                          </label>
+				                          <input class="js-range-slider" id="wgt_acc_ce" data-min="0" data-max="100" data-from="6.3" data-step="0.1" data-grid="false" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
+				                        </div>
+				                      </div>
+				                      <div class="col-xs-4">
+				                        <br/>
+				                        <div class="form-group shiny-input-container">
+				                          <input id="wgt_acc_val_ce" type="number" class="form-control" value="6.3" min="0" max="100" step="0.1"/>
+				                        </div>
+				                      </div>
+				                    </div> <!--.row-->
+				                  </div> <!--.col-xs-12--> <!-- Accessibility -->
 				
 				                </div> <!--.row-->
 				              </form>
@@ -842,8 +842,8 @@
 				                   <i class="fa fa-info-circle"></i>
 				                  </a>
 				                  <br/>
-				                  <a id="allInterventions-ce" href="#" class="action-button">(select all)</a>
-				                  <a id="noInterventions-ce" href="#" class="action-button">(select none)</a>
+				                  <a id="allInterventions_ce" href="#" class="action-button">(select all)</a>
+				                  <a id="noInterventions_ce" href="#" class="action-button">(select none)</a>
 				                </div> <!--.col-xs-12-->
 				                <div class=" col-xs-12 control-label shiny-input-checkboxgroup shiny-input-container" id="interventionsCE">
 				                 <div class="shiny-options-group">

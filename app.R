@@ -43,26 +43,26 @@ server <- function(input, output, session) {
 				Name = Name[[1]],
 				`Recommendation.score` = mean(attributeLevels[[1]][`Recommendation`]),
 				`Quality of Evidence.score` = mean(attributeLevels[[2]][`Quality of Evidence`]),
-				`Cost.score` = mean(attributeLevels[[3]][`Cost`]),
+				`Effectiveness.score` = mean(attributeLevels[[3]][`Effectiveness`]),
 				`Duration of Effect.score` = mean(attributeLevels[[4]][`Duration of Effect`]),
-				`Accessibility.score` = mean(attributeLevels[[5]][`Accessibility`]),
+				`Risk of Serious Harm.score` = mean(attributeLevels[[5]][`Risk of Serious Harm`]),
 				`Risk of Mild/Moderate Harm.score` = mean(attributeLevels[[6]][`Risk of Mild/Moderate Harm`]),
-				`Risk of Serious Harm.score` = mean(attributeLevels[[7]][`Risk of Serious Harm`]),
-				`Effectiveness.score` = mean(attributeLevels[[8]][`Effectiveness`]),
+				`Cost.score` = mean(attributeLevels[[7]][`Cost`]),
+				`Accessibility.score` = mean(attributeLevels[[8]][`Accessibility`]),
 				`Recommendation` = summarise_attributes(`Recommendation`, source),
 				`Quality of Evidence` = summarise_attributes(`Quality of Evidence`, source),
-				`Cost` = summarise_attributes(`Cost`, source),
-				`Duration of Effect` = summarise_attributes(`Duration of Effect`, source),
-				`Accessibility` = summarise_attributes(`Accessibility`, source),
-				`Risk of Mild/Moderate Harm` = summarise_attributes(`Risk of Mild/Moderate Harm`, source),
-				`Risk of Serious Harm` = summarise_attributes(`Risk of Serious Harm`, source),
 				`Effectiveness` = summarise_attributes(`Effectiveness`, source),
+				`Duration of Effect` = summarise_attributes(`Duration of Effect`, source),
+				`Risk of Serious Harm` = summarise_attributes(`Risk of Serious Harm`, source),
+				`Risk of Mild/Moderate Harm` = summarise_attributes(`Risk of Mild/Moderate Harm`, source),
+				`Cost` = summarise_attributes(`Cost`, source),
+				`Accessibility` = summarise_attributes(`Accessibility`, source),
 				Intervention.detail = Intervention.detail[[1]],
-				`Cost.detail` = summarise_attributes(`Cost.detail`, source),
+				`Effectiveness.detail` = summarise_attributes(`Effectiveness.detail`, source),
 				`Duration of Effect.detail` = summarise_attributes(`Duration of Effect.detail`, source),
-				`Risk of Mild/Moderate Harm.detail` = summarise_attributes(`Risk of Mild/Moderate Harm.detail`, source),
 				`Risk of Serious Harm.detail` = summarise_attributes(`Risk of Serious Harm.detail`, source),
-				`Effectiveness.detail` = summarise_attributes(`Effectiveness.detail`, source)
+				`Risk of Mild/Moderate Harm.detail` = summarise_attributes(`Risk of Mild/Moderate Harm.detail`, source),
+				`Cost.detail` = summarise_attributes(`Cost.detail`, source)
 			)
 	})
 	
@@ -73,9 +73,11 @@ server <- function(input, output, session) {
 	})
 	
 	preferenceWeights <- reactive({
-		out <- setNames(c(input$wgt_rec, input$wgt_qua, input$wgt_cos, input$wgt_dur, input$wgt_acc, 
-											input$wgt_rmi, input$wgt_rse, input$wgt_eff), names(attributeNames))
+		out <- setNames(c(input$wgt_rec, input$wgt_qua, input$wgt_eff, input$wgt_dur, input$wgt_rse, input$wgt_rmi,
+											input$wgt_cos, input$wgt_acc),
+										names(attributeNames))
 		
+		out <- out[order(out)]
 		out / sum(out) * 100
 	})
 	
@@ -86,14 +88,14 @@ server <- function(input, output, session) {
 		filteredTables %>%
 			transmute(
 				Intervention, Name,
-				`Recommendation` = `Recommendation.score` * preferenceWeights[[1]],
-				`Quality of Evidence` = `Quality of Evidence.score` * preferenceWeights[[2]],
-				`Cost` = `Cost.score` * preferenceWeights[[3]],
-				`Duration of Effect` = `Duration of Effect.score` * preferenceWeights[[4]],
-				`Accessibility` = `Accessibility.score` * preferenceWeights[[5]],
-				`Risk of Mild/Moderate Harm` = `Risk of Mild/Moderate Harm.score` * preferenceWeights[[6]],
-				`Risk of Serious Harm` = `Risk of Serious Harm.score` * preferenceWeights[[7]],
-				`Effectiveness` = `Effectiveness.score` * preferenceWeights[[8]],
+				`Recommendation` = `Recommendation.score` * preferenceWeights[["Recommendation"]],
+				`Quality of Evidence` = `Quality of Evidence.score` * preferenceWeights[["Quality of Evidence"]],
+				`Effectiveness` = `Effectiveness.score` * preferenceWeights[["Effectiveness"]],
+				`Duration of Effect` = `Duration of Effect.score` * preferenceWeights[["Duration of Effect"]],
+				`Risk of Serious Harm` = `Risk of Serious Harm.score` * preferenceWeights[["Risk of Serious Harm"]],
+				`Risk of Mild/Moderate Harm` = `Risk of Mild/Moderate Harm.score` * preferenceWeights[["Risk of Mild/Moderate Harm"]],
+				`Cost` = `Cost.score` * preferenceWeights[["Cost"]],
+				`Accessibility` = `Accessibility.score` * preferenceWeights[["Accessibility"]],
 				PreferenceScores = Recommendation + `Quality of Evidence` + Cost + `Duration of Effect` + Accessibility + 
 					                   `Risk of Mild/Moderate Harm` + `Risk of Serious Harm` + Effectiveness
 			)
@@ -101,6 +103,7 @@ server <- function(input, output, session) {
 	
 	plotdata <- reactive({
 		preferenceScores <- req(preferenceScores())
+		preferenceWeights <- preferenceWeights()
 		
 		preferenceScores <- preferenceScores %>% 
 			mutate(rank = rank(-PreferenceScores)) %>%
@@ -112,6 +115,7 @@ server <- function(input, output, session) {
 			  			 Name = fct_reorder(factor(Name), PreferenceScores))
 		
 		preferenceScores %>%
+			select("Intervention", "Name", "rank", names(preferenceWeights), "PreferenceScores") %>%
 			gather("attribute", "value", -c(Intervention, Name, rank, PreferenceScores), factor_key = TRUE)
 	})
 
@@ -125,21 +129,21 @@ server <- function(input, output, session) {
 				`Risk of Mild/Moderate Harm.sort`= `Risk of Mild/Moderate Harm`, 
 				`Risk of Serious Harm.sort` = `Risk of Serious Harm`, `Effectiveness.sort` = Effectiveness, 
 				`Preference Score.sort` = !!preferenceScores$PreferenceScores,
-				Name = paste0("<span title = \"", `Intervention.detail`, "\"> ", Name, "</span>"), Recommendation,
-				`Quality of Evidence`, Cost = paste0("<span title = \"", `Cost.detail`, "\"> ", Cost, "</span>"),
+				Name = paste0("<span title = \"", `Intervention.detail`, "\"> ", Name, "</span>"), 
+				Recommendation, `Quality of Evidence`, 
+				Effectiveness = paste0("<span title = \"", `Effectiveness.detail`, "\"> ", Effectiveness, "</span>"),
 				`Duration of Effect` = paste0("<span title = \"", `Duration of Effect.detail`, "\"> ",
 																			`Duration of Effect`, "</span>"),
-				Accessibility,
+			  `Risk of Serious Harm` = paste0("<span title = \"", `Risk of Serious Harm.detail`, "\"> ",
+			  																`Risk of Serious Harm`, "</span>"),
 				`Risk of Mild/Moderate Harm` = 
 					paste0("<span title = \"", `Risk of Mild/Moderate Harm.detail`, "\"> ",
 								 `Risk of Mild/Moderate Harm`, "</span>"),
-			  `Risk of Serious Harm` = paste0("<span title = \"", `Risk of Serious Harm.detail`, "\"> ",
-			  																`Risk of Serious Harm`, "</span>"),
-				Effectiveness = paste0("<span title = \"", `Effectiveness.detail`, "\"> ", Effectiveness, "</span>"),
+				Accessibility, Cost = paste0("<span title = \"", `Cost.detail`, "\"> ", Cost, "</span>"),
 				`Preference Score` = paste0("<span title = \"", `Preference Score.sort`, "\"> ",
 																		round(`Preference Score.sort`, 1), "</span>")
 			) %>%
-			arrange(desc(`Preference Score`))
+			arrange(desc(`Preference Score.sort`))
 	})
 
 	selectedIntervention <- reactiveValues( # For storing which point to show label for
@@ -168,16 +172,16 @@ server <- function(input, output, session) {
 		selectedIntervention$name <- sel
 		selectedIntervention$label <- 
 			paste0(
-				sel, ":\n",
-				"Effectiveness = ", labels$Effectiveness, " (", values$Effectiveness, ")",
+				sel, ":",
+				"\nRecommendation = ", labels$Recommendation, " (", values$Recommendation, ")",
+				"\nQuality of Evidence = ", labels$`Quality of Evidence`, " (", values$`Quality of Evidence`, ")",
+				"\nEffectiveness = ", labels$Effectiveness, " (", values$Effectiveness, ")",
+				"\nDuration of Effect = ", labels$`Duration of Effect`, " (", values$`Duration of Effect`, ")",
 				"\nRisk of Serious Harm = ", labels$`Risk of Serious Harm`, " (", values$`Risk of Serious Harm`, ")",
 				"\nRisk of Mild/Moderate Harm = ", labels$`Risk of Mild/Moderate Harm`, 
-				  " (", values$`Risk of Mild/Moderate Harm`, ")", 
-				"\nAccessibility = ", labels$Accessibility, " (", values$Accessibility, ")",
-				"\nDuration of Effect = ", labels$`Duration of Effect`, " (", values$`Duration of Effect`, ")",
-				"\nCost = ", labels$Cost, " (", values$Cost, ")",
-				"\nQuality of Evidence = ", labels$`Quality of Evidence`, " (", values$`Quality of Evidence`, ")",
-				"\nRecommendation = ", labels$Recommendation, " (", values$Recommendation, ")"
+				  " (", values$`Risk of Mild/Moderate Harm`, ")",
+				"\nCost = ", labels$Cost, " (", values$Cost, ")", 
+				"\nAccessibility = ", labels$Accessibility, " (", values$Accessibility, ")"
 			)
 		selectedIntervention$x <- if(is.null(input$plot_click$y)) numeric(0) else input$plot_click$y
 		selectedIntervention$y <- if(is.null(input$plot_click$x)) numeric(0) else input$plot_click$x
@@ -256,7 +260,11 @@ server <- function(input, output, session) {
 								 hjust = "inward", vjust = "inward") +
 			geom_hline(yintercept = 100) +
 			coord_flip() +
-			scale_fill_manual(NULL, values = c("#31cd31", "#86cdeb", "#3fe0cf", "#4581b4", "#99cc31", "#b954d2", "#ef8080", "#fa68b4")) +
+			scale_fill_manual(NULL,
+												values = c("Recommendation" = "#fa68b4", "Quality of Evidence" = "#ef8080", 
+																	 "Effectiveness" = "#b954d2", "Duration of Effect" = "#99cc31",
+																	 "Risk of Serious Harm" = "#4581b4", "Risk of Mild/Moderate Harm" = "#3fe0cf",
+																	 "Cost" = "#86cdeb", "Accessibility" = "#31cd31")) +
 			scale_y_continuous(NULL, limits = c(0, 100), expand = c(0, 0), sec.axis = dup_axis(), 
 												 breaks = seq(0, 100, 10), minor_breaks = seq(10, 90, 10)) +
 			scale_x_discrete(NULL) +
@@ -333,27 +341,53 @@ server <- function(input, output, session) {
 	observe({
 		input$resetWeights
 		
-		updateSliderInput(session, "wgt_rec", value = attributeWeights[[1]])
-		updateSliderInput(session, "wgt_qua", value = attributeWeights[[2]])
-		updateSliderInput(session, "wgt_cos", value = attributeWeights[[3]])
-		updateSliderInput(session, "wgt_dur", value = attributeWeights[[4]])
-		updateSliderInput(session, "wgt_acc", value = attributeWeights[[5]])
-		updateSliderInput(session, "wgt_rmi", value = attributeWeights[[6]])
-		updateSliderInput(session, "wgt_rse", value = attributeWeights[[7]])
-		updateSliderInput(session, "wgt_eff", value = attributeWeights[[8]])
+		updateSliderInput(session, "wgt_rec", value = attributeWeights[["Recommendation"]])
+		updateSliderInput(session, "wgt_qua", value = attributeWeights[["Quality of Evidence"]])
+		updateSliderInput(session, "wgt_eff", value = attributeWeights[["Effectiveness"]])
+		updateSliderInput(session, "wgt_dur", value = attributeWeights[["Duration of Effect"]])
+		updateSliderInput(session, "wgt_rse", value = attributeWeights[["Risk of Serious Harm"]])
+		updateSliderInput(session, "wgt_rmi", value = attributeWeights[["Risk of Mild/Moderate Harm"]])
+		updateSliderInput(session, "wgt_cos", value = attributeWeights[["Cost"]])
+		updateSliderInput(session, "wgt_acc", value = attributeWeights[["Accessibility"]])
 	})
 	
 	observeEvent(input$normaliseWeights, {
 		wgt <- preferenceWeights()
 		
-		updateSliderInput(session, "wgt_rec", value = wgt[[1]])
-		updateSliderInput(session, "wgt_qua", value = wgt[[2]])
-		updateSliderInput(session, "wgt_cos", value = wgt[[3]])
-		updateSliderInput(session, "wgt_dur", value = wgt[[4]])
-		updateSliderInput(session, "wgt_acc", value = wgt[[5]])
-		updateSliderInput(session, "wgt_rmi", value = wgt[[6]])
-		updateSliderInput(session, "wgt_rse", value = wgt[[7]])
-		updateSliderInput(session, "wgt_eff", value = wgt[[8]])
+		updateSliderInput(session, "wgt_rec", value = wgt[["Recommendation"]])
+		updateSliderInput(session, "wgt_qua", value = wgt[["Quality of Evidence"]])
+		updateSliderInput(session, "wgt_eff", value = wgt[["Effectiveness"]])
+		updateSliderInput(session, "wgt_dur", value = wgt[["Duration of Effect"]])
+		updateSliderInput(session, "wgt_rse", value = wgt[["Risk of Serious Harm"]])
+		updateSliderInput(session, "wgt_rmi", value = wgt[["Risk of Mild/Moderate Harm"]])
+		updateSliderInput(session, "wgt_cos", value = wgt[["Cost"]])
+		updateSliderInput(session, "wgt_acc", value = wgt[["Accessibility"]])
+	})
+
+	observe({
+		input$resetWeights_ce
+		
+		updateSliderInput(session, "wgt_rec_ce", value = attributeWeights[["Recommendation"]])
+		updateSliderInput(session, "wgt_qua_ce", value = attributeWeights[["Quality of Evidence"]])
+		updateSliderInput(session, "wgt_eff_ce", value = attributeWeights[["Effectiveness"]])
+		updateSliderInput(session, "wgt_dur_ce", value = attributeWeights[["Duration of Effect"]])
+		updateSliderInput(session, "wgt_rse_ce", value = attributeWeights[["Risk of Serious Harm"]])
+		updateSliderInput(session, "wgt_rmi_ce", value = attributeWeights[["Risk of Mild/Moderate Harm"]])
+		updateSliderInput(session, "wgt_cos_ce", value = attributeWeights[["Cost"]])
+		updateSliderInput(session, "wgt_acc_ce", value = attributeWeights[["Accessibility"]])
+	})
+	
+	observeEvent(input$normaliseWeights_ce, {
+		wgt <- preferenceWeights()
+		
+		updateSliderInput(session, "wgt_rec_ce", value = wgt[["Recommendation"]])
+		updateSliderInput(session, "wgt_qua_ce", value = wgt[["Quality of Evidence"]])
+		updateSliderInput(session, "wgt_eff_ce", value = wgt[["Effectiveness"]])
+		updateSliderInput(session, "wgt_dur_ce", value = wgt[["Duration of Effect"]])
+		updateSliderInput(session, "wgt_rse_ce", value = wgt[["Risk of Serious Harm"]])
+		updateSliderInput(session, "wgt_rmi_ce", value = wgt[["Risk of Mild/Moderate Harm"]])
+		updateSliderInput(session, "wgt_cos_ce", value = wgt[["Cost"]])
+		updateSliderInput(session, "wgt_acc_ce", value = wgt[["Accessibility"]])
 	})
 	
 	observe({ updateSliderInput(session, "wgt_rec", value = input$wgt_rec_val) })
@@ -364,6 +398,33 @@ server <- function(input, output, session) {
 	observe({ updateSliderInput(session, "wgt_rmi", value = input$wgt_rmi_val) })
 	observe({ updateSliderInput(session, "wgt_rse", value = input$wgt_rse_val) })
 	observe({ updateSliderInput(session, "wgt_eff", value = input$wgt_eff_val) })
+
+	observe({ updateSliderInput(session, "wgt_rec", value = input$wgt_rec_ce) })
+	observe({ updateSliderInput(session, "wgt_qua", value = input$wgt_qua_ce) })
+	observe({ updateSliderInput(session, "wgt_cos", value = input$wgt_cos_ce) })
+	observe({ updateSliderInput(session, "wgt_dur", value = input$wgt_dur_ce) })
+	observe({ updateSliderInput(session, "wgt_acc", value = input$wgt_acc_ce) })
+	observe({ updateSliderInput(session, "wgt_rmi", value = input$wgt_rmi_ce) })
+	observe({ updateSliderInput(session, "wgt_rse", value = input$wgt_rse_ce) })
+	observe({ updateSliderInput(session, "wgt_eff", value = input$wgt_eff_ce) })
+	
+	observe({ updateSliderInput(session, "wgt_rec_ce", value = input$wgt_rec) })
+	observe({ updateSliderInput(session, "wgt_qua_ce", value = input$wgt_qua) })
+	observe({ updateSliderInput(session, "wgt_cos_ce", value = input$wgt_cos) })
+	observe({ updateSliderInput(session, "wgt_dur_ce", value = input$wgt_dur) })
+	observe({ updateSliderInput(session, "wgt_acc_ce", value = input$wgt_acc) })
+	observe({ updateSliderInput(session, "wgt_rmi_ce", value = input$wgt_rmi) })
+	observe({ updateSliderInput(session, "wgt_rse_ce", value = input$wgt_rse) })
+	observe({ updateSliderInput(session, "wgt_eff_ce", value = input$wgt_eff) })
+	
+	observe({ updateSliderInput(session, "wgt_rec_ce", value = input$wgt_rec_val_ce) })
+	observe({ updateSliderInput(session, "wgt_qua_ce", value = input$wgt_qua_val_ce) })
+	observe({ updateSliderInput(session, "wgt_cos_ce", value = input$wgt_cos_val_ce) })
+	observe({ updateSliderInput(session, "wgt_dur_ce", value = input$wgt_dur_val_ce) })
+	observe({ updateSliderInput(session, "wgt_acc_ce", value = input$wgt_acc_val_ce) })
+	observe({ updateSliderInput(session, "wgt_rmi_ce", value = input$wgt_rmi_val_ce) })
+	observe({ updateSliderInput(session, "wgt_rse_ce", value = input$wgt_rse_val_ce) })
+	observe({ updateSliderInput(session, "wgt_eff_ce", value = input$wgt_eff_val_ce) })
 	
 	observeEvent(input$interventionTypes, { 
 		updateSelectInput(session, "interventions", 
@@ -372,6 +433,7 @@ server <- function(input, output, session) {
 											} else c("None Selected!" = ""),
 											selected = "")},
 		ignoreInit = TRUE, ignoreNULL = FALSE)
+	
 	observeEvent(input$clearFilter, { updateSelectInput(session, "interventions", selected = "")},
 							 ignoreInit = TRUE)
 	
@@ -381,6 +443,14 @@ server <- function(input, output, session) {
 	
 	observeEvent(input$noInterventions, {
 		updateCheckboxGroupInput(session, "interventionTypes", selected = "")
+	})
+	
+	observeEvent(input$allInterventions_ce, {
+		updateCheckboxGroupInput(session, "interventionsCE", selected = costsTable$Intervention)
+	})
+	
+	observeEvent(input$noInterventions_ce, {
+		updateCheckboxGroupInput(session, "interventionsCE", selected = "")
 	})
 }
 

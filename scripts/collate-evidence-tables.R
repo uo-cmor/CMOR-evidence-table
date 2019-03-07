@@ -29,12 +29,12 @@ clean_RACGP <- clean_RACGP[complete.cases(clean_RACGP %>%
 attributeNames <- list(
 	Recommendation = c("Strong Against", "Conditional Against", "Neutral", "Conditional For", "Strong For"),
 	"Quality of Evidence" = c("Very low", "Low", "Moderate", "High"),
-	Cost = c("High", "Medium", "Low"),
+	"Effectiveness" = c("Low", "Medium", "High"),
 	"Duration of Effect" = c("Short", "Short-Medium", "Medium", "Long"),
-	Accessibility = c("Inaccessible", "Neither accessible or inaccessible", "Accessible"),
-	"Risk of Mild/Moderate Harm" = c("High", "Medium", "Low"),
 	"Risk of Serious Harm" = c("High", "Medium", "Low"),
-	"Effectiveness" = c("Low", "Medium", "High")
+	"Risk of Mild/Moderate Harm" = c("High", "Medium", "Low"),
+	Cost = c("High", "Medium", "Low"),
+	Accessibility = c("Inaccessible", "Neither accessible or inaccessible", "Accessible")
 )
 attributeLevels <- plyr::llply(names(attributeNames), function(x) (clean_weights %>% filter(attribute==x))$weight)
 attributeWeights <- setNames(plyr::laply(attributeLevels, max), names(attributeNames))
@@ -93,10 +93,10 @@ interventionTypes <- apply(sapply(interventionList, function(l) interventionName
 # 														 unique(interventionTypes))
 
 evidenceTables <- list(
-	Overall = list(RACGP = create_evidence_table(clean_RACGP, c("Rec", "Qua", "Cos", "Dur", "Acc", "Rmi", "Rse", "Eff"))),
-	Early = list(RACGP = create_evidence_table(clean_RACGP, c("Rec1", "Qua1", "Cos", "Dur", "Acc", "Rmi", "Rse", "Eff"))),
-	Mid = list(RACGP = create_evidence_table(clean_RACGP, c("Rec2", "Qua2", "Cos", "Dur", "Acc", "Rmi", "Rse", "Eff"))),
-	Late = list(RACGP = create_evidence_table(clean_RACGP, c("Rec3", "Qua3", "Cos", "Dur", "Acc", "Rmi", "Rse", "Eff")))
+	Overall = list(RACGP = create_evidence_table(clean_RACGP, c("Rec", "Qua", "Eff", "Dur", "Rse", "Rmi", "Cos", "Acc"))),
+	Early = list(RACGP = create_evidence_table(clean_RACGP, c("Rec1", "Qua1", "Eff", "Dur", "Rse", "Rmi", "Cos", "Acc"))),
+	Mid = list(RACGP = create_evidence_table(clean_RACGP, c("Rec2", "Qua2", "Eff", "Dur", "Rse", "Rmi", "Cos", "Acc"))),
+	Late = list(RACGP = create_evidence_table(clean_RACGP, c("Rec3", "Qua3", "Eff", "Dur", "Rse", "Rmi", "Cos", "Acc")))
 )
 
 evidenceTablesDetails <- list(
@@ -115,7 +115,8 @@ evidenceTables_tibble <- evidenceTables %>%
 	map_depth(2, as_tibble, rownames = "Intervention") %>%
 	map(bind_rows, .id = "source") %>%
 	bind_rows(.id = "timing") %>%
-	mutate(
+	transmute(
+		timing, source,
 		Intervention = factor(Intervention, levels = interventionNames),
 		Name = recode(
 			Intervention,
@@ -157,13 +158,13 @@ evidenceTables_tibble <- evidenceTables %>%
 		),
 		`Recommendation` = factor(`Recommendation`, labels = attributeNames[["Recommendation"]]),
 		`Quality of Evidence` = factor(`Quality of Evidence`, labels = attributeNames[["Quality of Evidence"]]),
-		`Cost` = factor(`Cost`, labels = attributeNames[["Cost"]]),
+		`Effectiveness` = factor(`Effectiveness`, labels = attributeNames[["Effectiveness"]]),
 		`Duration of Effect` = factor(`Duration of Effect`, labels = attributeNames[["Duration of Effect"]]),
-		`Accessibility` = factor(`Accessibility`, labels = attributeNames[["Accessibility"]]),
+		`Risk of Serious Harm` = factor(`Risk of Serious Harm`, labels = attributeNames[["Risk of Serious Harm"]]),
 		`Risk of Mild/Moderate Harm` = factor(`Risk of Mild/Moderate Harm`, 
 																					labels = attributeNames[["Risk of Mild/Moderate Harm"]]),
-		`Risk of Serious Harm` = factor(`Risk of Serious Harm`, labels = attributeNames[["Risk of Serious Harm"]]),
-		`Effectiveness` = factor(`Effectiveness`, labels = attributeNames[["Effectiveness"]])
+		`Cost` = factor(`Cost`, labels = attributeNames[["Cost"]]),
+		`Accessibility` = factor(`Accessibility`, labels = attributeNames[["Accessibility"]])
 	) %>%
 	bind_cols(evidenceTablesDetails_tibble) %>%
 	group_by(Intervention)
