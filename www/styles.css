@@ -64,23 +64,30 @@ h1 {
 	display: block;
   font-size: 20px;
   margin: 0;
-  padding: 30px 0 30px 30px;
+  padding: 20px 0 20px 5px;
   clear: left;
+}
+@media only screen and (min-width: 500px) {
+	h1 {
+		padding: 30px 0 30px 30px;
+	}
 }
 @media only screen and (min-width: 580px) {
 	h1 {
 		font-size: 28px;
+		padding: 26px 0 26px 30px;
 	}
 }
 @media only screen and (min-width: 660px) {
 	h1 {
 		font-size: 36px;
+		padding: 22px 0 22px 30px;
 	}
 }
 @media only screen and (min-width: 930px) {
 	h1 {
 		font-size: 20px;
-    padding: 30px 0 30px 0;
+    padding: 30px 0 30px 30px;
     clear: none;
 	}
 }
@@ -126,10 +133,18 @@ a[data-toggle=modal]:hover,
 
 .topnav li a {
 	display: block;
-	font-size: 16px;
-	padding: 17px 12px;
-	height: 80px;
+	font-size: 12px;
+  padding: 13px 12px;
+  height: 60px;
 	color: #f9c000;
+}
+
+@media only screen and (min-width: 500px) {
+	.topnav li a {
+	  font-size: 16px;
+	  padding: 17px 12px;
+	  height: 80px;
+	}
 }
 
 .topnav li.active a,
@@ -147,7 +162,12 @@ a[data-toggle=modal]:hover,
 /*------------ Header ------------*/
 header {
 	background-color: #15346d;
-	height: 160px;
+	height: 140px;
+}
+@media only screen and (min-width: 500px) {
+	header {
+		height: 160px;
+	}
 }
 @media only screen and (min-width: 930px) {
 	header {
