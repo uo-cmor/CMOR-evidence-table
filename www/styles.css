@@ -1,10 +1,4 @@
 /*-------- General ----------------*/
-/*
-.outer-tabs, #source-text {
-	display: none;
-}
-*/
-
 #small-screen {
   display: none;
 	max-width: 750px;
@@ -15,18 +9,6 @@
 	padding: 0 10px;
 	background-color: #ffb3b3;
 }
-/*
-@media only screen and (min-width: 1200px) {
-	#small-screen {
-		display: none;
-	}
-}
-@media only screen and (min-width: 1200px) {
-	.outer-tabs, #source-text {
-		display: block;
-	}
-}
-*/
 body {
   font-family: 'Open Sans', Helvetica, Arial, Geneva, sans-serif;
 }
@@ -112,6 +94,10 @@ h3 {
 h5 {
 	font-size: 21px;
 	font-weight: 300;
+}
+h6 {
+	font-size: 16px;
+	font-weight: bold;
 }
 a[data-toggle=modal]:focus,
 a[data-toggle=modal]:hover,
@@ -254,6 +240,9 @@ header {
   color: #15346d;
   font-size: 15px;
 }
+a {
+	color: #15346d;
+}
 
 .form-inline {
   display: flex;
@@ -331,6 +320,18 @@ header {
   max-width: 100%;
   margin-bottom: 30px;
 }
+
+.side-bar {
+	border: 1px solid #e3e3e3;
+	border-radius: 20px;
+	padding: 0 10px;
+	background-color: #bed1f3;
+}
+
+.side-bar p {
+	font-size: 12px;
+}
+
 /*-------- Footer -------------*/
 footer {
 	color: white;
@@ -340,11 +341,6 @@ footer .row {
 	max-width: 1200px;
   margin: auto;
   padding: 20px 0;
-}
-@media only screen and (min-width: 992px) {
-	.funding {
-		float: right;
-	}
 }
 
 /*-------- Overlay ------  */
