@@ -2,29 +2,30 @@ library(tidyverse)
 
 load("data/data.Rdata")
 
-create_evidence_table <- function(df, varnames) {
-	out <- as.matrix(df %>% select(varnames))
-	dimnames(out) <- list(Intervention = interventionNames,
-												Attribute = names(attributeNames))
+create_evidence_table <- function(df) {
+	out <- as.matrix(df %>% select(-Intervention))
+	dimnames(out) <- list(Intervention = df$Intervention,
+												Attribute = colnames(df)[-1])
 	
 	out
 }
 
 create_evidence_details_table <- function(df) {
-	transmute(df, 
-						Intervention = str_c("Category: ", interventionTypes),
-						Cost = str_c(`Cost value`, coalesce(str_c(" ", `Cost duration`), "")),
-						"Duration of Effect" = `Duration value`,
-						"Risk of Mild/Moderate Harm" = `Rmi value`,
-						"Risk of Serious Harm" =`Rse value`,
-						Effectiveness = str_c("SMD (95% CI): ", `Effectiveness value`))
+	df %>%
+		arrange(Intervention) %>%
+		transmute(Intervention = str_c("Category: ", !!interventionTypes),
+							Cost = str_c(Cost, coalesce(str_c(" ", Cost_frequency), "")),
+							`Duration of Effect` = Duration,
+							`Risk of Mild/Moderate Harm` = `Risk of mild to moderate side-effects`,
+							`Risk of Serious Harm` = `Risk of serious harm`,
+							Effectiveness = str_c("SMD (95% CI): ", Effectiveness))
 }
 
-clean_RACGP <- clean_RACGP[complete.cases(clean_RACGP %>% 
-																						select(c(c("Rec", "Qua", "Cos", "Dur", "Acc", "Rmi", "Rse", "Eff"),
-																										 c("Rec1", "Qua1", "Cos", "Dur", "Acc", "Rmi", "Rse", "Eff"),
-																										 c("Rec2", "Qua2", "Cos", "Dur", "Acc", "Rmi", "Rse", "Eff"),
-																										 c("Rec3", "Qua3", "Cos", "Dur", "Acc", "Rmi", "Rse", "Eff")))), ]
+# clean_RACGP <- clean_RACGP[complete.cases(clean_RACGP %>% 
+# 																						select(c(c("Rec", "Qua", "Cos", "Dur", "Acc", "Rmi", "Rse", "Eff"),
+# 																										 c("Rec1", "Qua1", "Cos", "Dur", "Acc", "Rmi", "Rse", "Eff"),
+# 																										 c("Rec2", "Qua2", "Cos", "Dur", "Acc", "Rmi", "Rse", "Eff"),
+# 																										 c("Rec3", "Qua3", "Cos", "Dur", "Acc", "Rmi", "Rse", "Eff")))), ]
 
 attributeNames <- list(
 	Recommendation = c("Strong Against", "Conditional Against", "Neutral", "Conditional For", "Strong For"),
@@ -40,49 +41,63 @@ attributeLevels <- plyr::llply(names(attributeNames), function(x) (clean_weights
 attributeWeights <- setNames(plyr::laply(attributeLevels, max), names(attributeNames))
 attributeLevels <- plyr::llply(attributeLevels, function(x) x / max(x))
 
-interventionNames <- clean_RACGP$Intervention
+interventionNames <- clean_RACGP[[1]]$Intervention
 interventionList <- list(
-	"Alternative medicines" = list("Avocado-soybean unsaponifiables", "Boswellia serrata extract", "Curcuma/curcuminoid",
-																 "Pycnogenol", "Glucosamine", "Chondroitin", 
-																 "Glucosamine and chondroitin in compound form", "Vitamin D", "Omega-3 fatty acids",
-																 "Collagen", "Methylsulfonylmethane"),
-	"Electrotherapies" = list("Pulsed electromagnetic/ shortwave therapy", "Other electrotherapy (interferential)", 
-												 		"Other electrotherapy (laser)", "Other electrotherapy (shockwave)", 
-												 		"Transcutaneous electrical nerve stimulation (TENS)", "Therapeutic ultrasound", 
-												 		"Acupuncture (electroacupuncture)", "Acupuncture (laser)",
-												 		"Acupuncture (traditional with manual stimulation)"),
-	"Exercise interventions" = list("ALL LAND-BASED EXERCISE (all land based, muscle-strengthening, walking, Tai Chi)",
-															 		"Aquatic exercise/ hydrotherapy", "Knee exercise: Stationary cycling only", 
-															 		"Knee exercise: Land-based exercise (stationary cycling, hatha yoga)",
-															 		"Knee exercise: MUSCLE STRENGTHENING ONLY for lower limb strengthening", 
-															 		"Knee exercise: MUSCLE STRENGTHENING ONLY for quadriceps strengthening",
-															 		"Knee exercise: Tai Chi only", "Knee exercise: Walking only", 
-															 		"Knee exercise: Yoga only"),
-	"Injectable agents" = list("Viscosupplementation injection", "Platelet-rich plasma (PRP) injection", 
-														 "Stem cell therapy", "Dextrose prolotherapy", "Fibroblast growth factor (FGF)", 
-														 "Corticosteroid injection"),
-	"Mechanical aids and devices" = list(
-		"Knee braces (re-aligning patellofemoral braces)", "Knee braces (valgus unloading/re-alignment braces)",
-		"Knee braces (varus unloading/re-alignment braces)", 
-		"Shoe orthotics (lateral wedge insoles for medial tibiofemoral knee OA)",
-		"Shoe orthotics (medial wedged insoles for lateral tibiofemoral OA and valgus deformity)",
-		"Shoe orthotics (shock absorbing insoles or arch supports)", "Footwear (minimalist footwear)", 
-		"Footwear (rocker soled shoes)", "Footwear (unloading shoes)", "Taping (kinesio taping)", 
-		"Taping (patellar taping)", "Assistive walking device"
+	"Alternative medicines" = list(
+		"Avocado-soybean unsaponifiables", "Boswellia serrata extract", "Curcuma/curcuminoid", "Pycnogenol", "Glucosamine",
+		"Chondroitin", "Glucosamine and chondroitin in compound form", "Vitamin D", "Omega-3 fatty acids", "Collagen",
+		"Methylsulfonylmethane"
 	),
-	"Pharmacological interventions (over the counter)" = list("Paracetamol", "Topical capsaicin", "Topical NSAIDs"),
+	"Electrotherapies" = list(
+		"Pulsed electromagnetic/shortwave therapy", "Other electrotherapy - interferential", "Other electrotherapy - laser",
+		"Other electrotherapy - shockwave", "Transcutaneous electrical nerve stimulation (TENS)", "Therapeutic ultrasound", 
+		"Acupuncture - electroacupuncture", "Acupuncture - laser", "Acupuncture - traditional with manual stimulation"
+	),
+	"Exercise interventions" = list(
+		"Exercise - all land-based, muscle-strengthening, walking, Tai Chi", "Aquatic exercise/hydrotherapy", 
+		"Exercise - stationary cycling only", "Exercise - stationary cycling & hatha yoga",
+		"Exercise - muscle strengthening only for lower limb strengthening", 
+		"Exercise - muscle strengthening only for quadriceps strengthening", "Exercise - Tai Chi only",
+		"Exercise - walking only", "Exercise - yoga only"
+	),
+	"Injectable agents" = list(
+		"Viscosupplementation injection", "Platelet-rich plasma injection", "Stem cell therapy", "Dextrose prolotherapy",
+		"Fibroblast growth factor (not avaliable in NZ)", "Corticosteroid injection"
+	),
+	"Mechanical aids and devices" = list(
+		"Knee braces - re-aligning patellofemoral braces", "Knee braces - valgus unloading/re-alignment braces",
+		"Knee braces - varus unloading/re-alignment braces", 
+		"Shoe orthotics - lateral wedge insoles for medial tibiofemoral knee OA",
+		"Shoe orthotics - medial wedged insoles for lateral tibiofemoral OA and valgus deformity",
+		"Shoe orthotics - shock absorbing insoles or arch supports", "Footwear - minimalist footwear", 
+		"Footwear - rocker soled shoes", "Footwear - unloading shoes", "Taping - kinesio", "Taping - patellar",
+		"Assistive walking device - cane"
+	),
+	"Pharmacological interventions (over the counter)" = list(
+		"Paracetamol", "Topical capsaicin", "Topical NSAIDs"
+	),
 	"Pharmacological interventions (prescription medication only)" = list(
-		"Interleukin-1 (IL-1) inhibitors", "Methotrexate", "Oral opioids", "Transdermal opioids - buprenorphine", 
-		"Transdermal opioids - Fentanyl", "Colchicine", "Anti-nerve growth factor (NGF)", "Calcitonin", "Biphosphonates", 
-		"Doxycycline", "Oral non-steroidal anti-inflammatory drugs (NSAIDs) including COX-2 inhibitors", "Diacerein",
-		"Duloxetine", "Strontium ranelate"),
-	"Psychological interventions" = list("Cognitive behavioural therapy"),
-	"Other physical therapies" = list("Manual therapy (massage)", "Manual therapy (mobilisation and manipulation)"),
-	"Self-management and education interventions" = list("self-management education programs", "Heat therapy", 
-																											 "Cold therapy"),
-	"Surgical interventions" = list("Arthroscopic cartilage repair ", "Arthroscopic lavage and debridement",
-															 	  "Arthroscopic meniscectomy ", "Total Joint Replacement"),
-	"Weight management" = list("Weight management")
+		"Interleukin-1 inhibitors", "Methotrexate", "Oral opioids", "Transdermal buprenorphine", "Transdermal Fentanyl",
+		"Colchicine", "Anti-nerve growth factor (NGF)", "Calcitonin", "Biphosphonates", "Doxycycline",
+		"Oral non-steroidal anti-inflammatory drugs (NSAIDs) including COX-2 inhibitors", "Diacerein (not available in NZ)",
+		"Duloxetine (not available in NZ)", "Strontium ranelate"
+	),
+	"Psychological interventions" = list(
+		"Cognitive behavioural therapy"
+	),
+	"Other physical therapies" = list(
+		"Manual therapy - massage", "Manual therapy - mobilisation and manipulation"
+	),
+	"Self-management and education interventions" = list(
+		"Self-management & education programs", "Heat therapy", "Cold therapy"
+	),
+	"Surgical interventions" = list(
+		"Arthroscopic cartilage repair", "Arthroscopic lavage and debridement", "Arthroscopic meniscectomy", 
+		"Total knee replacement"
+	),
+	"Weight management" = list(
+		"Weight management"
+	)
 )
 interventionTypes <- apply(sapply(interventionList, function(l) interventionNames %in% l), 1, function(x) names(x)[x])
 
@@ -92,18 +107,38 @@ interventionTypes <- apply(sapply(interventionList, function(l) interventionName
 # 																		function(type) interventionNames[interventionTypes==type]),
 # 														 unique(interventionTypes))
 
-evidenceTables <- list(
-	Overall = list(RACGP = create_evidence_table(clean_RACGP, c("Rec", "Qua", "Eff", "Dur", "Rse", "Rmi", "Cos", "Acc"))),
-	Early = list(RACGP = create_evidence_table(clean_RACGP, c("Rec1", "Qua1", "Eff", "Dur", "Rse", "Rmi", "Cos", "Acc"))),
-	Mid = list(RACGP = create_evidence_table(clean_RACGP, c("Rec2", "Qua2", "Eff", "Dur", "Rse", "Rmi", "Cos", "Acc"))),
-	Late = list(RACGP = create_evidence_table(clean_RACGP, c("Rec3", "Qua3", "Eff", "Dur", "Rse", "Rmi", "Cos", "Acc")))
+evidenceTables <- transpose(
+	map(
+		list(RACGP = clean_RACGP),
+		function(evidence) map(
+			list(
+				Overall = map_dfc(transpose(evidence), ~do.call(pmax, .)),
+				Early = evidence$EAR,
+				Mid = evidence$MID,
+				Late = evidence$ADV
+			),
+			create_evidence_table
+		)
+	)
 )
 
-evidenceTablesDetails <- list(
-	Overall = list(RACGP = create_evidence_details_table(clean_RACGP)),
-	Early = list(RACGP = create_evidence_details_table(clean_RACGP)),
-	Mid = list(RACGP = create_evidence_details_table(clean_RACGP)),
-	Late = list(RACGP = create_evidence_details_table(clean_RACGP))
+# evidenceTables <- list(
+# 	Overall = list(RACGP = create_evidence_table(clean_RACGP, c("Rec", "Qua", "Eff", "Dur", "Rse", "Rmi", "Cos", "Acc"))),
+# 	Early = list(RACGP = create_evidence_table(clean_RACGP, c("Rec1", "Qua1", "Eff", "Dur", "Rse", "Rmi", "Cos", "Acc"))),
+# 	Mid = list(RACGP = create_evidence_table(clean_RACGP, c("Rec2", "Qua2", "Eff", "Dur", "Rse", "Rmi", "Cos", "Acc"))),
+# 	Late = list(RACGP = create_evidence_table(clean_RACGP, c("Rec3", "Qua3", "Eff", "Dur", "Rse", "Rmi", "Cos", "Acc")))
+# )
+
+evidenceTablesDetails <- transpose(
+	map(
+		list(RACGP = details),
+		function(evidence) list(
+			Overall = create_evidence_details_table(evidence),
+			Early = create_evidence_details_table(evidence),
+			Mid = create_evidence_details_table(evidence),
+			Late = create_evidence_details_table(evidence)
+		)
+	)
 )
 
 evidenceTablesDetails_tibble <- evidenceTablesDetails %>% 
@@ -120,48 +155,46 @@ evidenceTables_tibble <- evidenceTables %>%
 		Intervention = factor(Intervention, levels = interventionNames),
 		Name = recode(
 			Intervention,
-			"self-management education programs" = "Self-management and education",
-			"ALL LAND-BASED EXERCISE (all land based, muscle-strengthening, walking, Tai Chi)" = "Land-based exercise (all)",
-			"Knee exercise: MUSCLE STRENGTHENING ONLY for quadriceps strengthening" = "Quadriceps strengthening",
-			"Knee exercise: MUSCLE STRENGTHENING ONLY for lower limb strengthening" = "Lower limb strengthening",
-			"Knee exercise: Walking only" = "Walking",
-			"Knee exercise: Stationary cycling only" = "Stationary cycling",
-			"Knee exercise: Tai Chi only" = "Tai chi",
-			"Knee exercise: Yoga only" = "Yoga",
-			"Knee exercise: Land-based exercise (stationary cycling, hatha yoga)" = "Stationary cycling, hatha yoga",
-			"Aquatic exercise/ hydrotherapy" = "Aquatic exercise",
-			"Manual therapy (massage)" = "Massage",
-			"Manual therapy (mobilisation and manipulation)" = "Knee mobilisation and manipulation",
-			"Knee braces (varus unloading/re-alignment braces)" = "Knee braces (varus)",
-			"Knee braces (valgus unloading/re-alignment braces)" = "Knee braces (valgus)",
-			"Knee braces (re-aligning patellofemoral braces)" = "Knee braces (patellofemoral)",
-			"Shoe orthotics (shock absorbing insoles or arch supports)" = "Shock absorbing insoles",
-			"Shoe orthotics (lateral wedge insoles for medial tibiofemoral knee OA)" = "Lateral wedge insoles",
-			"Shoe orthotics (medial wedged insoles for lateral tibiofemoral OA and valgus deformity)" = "Medial wedged insoles",
-			"Footwear (unloading shoes)" = "Unloading shoes",
-			"Footwear (minimalist footwear)" = "Minimalist footwear",
-			"Footwear (rocker soled shoes)" = "Rocker soled shoes",
-			"Taping (patellar taping)" = "Patellar taping",
-			"Taping (kinesio taping)" = "Kinesio taping",
-			"Pulsed electromagnetic/ shortwave therapy" = "Pulsed electromagnetic/shortwave therapy",
-			"Other electrotherapy (laser)"= "Laser electrotherapy",
-			"Other electrotherapy (shockwave)" = "Shockwave electrotherapy",
-			"Other electrotherapy (interferential)" = "Interferential electrotherapy",
-			"Acupuncture (traditional with manual stimulation)" = "Traditional acupuncture",
-			"Acupuncture (electroacupuncture)" = "Electroacupuncture",
-			"Acupuncture (laser)" = "Laser acupuncture",
+			"Self-management & education programs" = "Self-management and education",
+			"Exercise - all land-based, muscle-strengthening, walking, Tai Chi" = "Land-based exercise (all)",
+			"Exercise - muscle strengthening only for quadriceps strengthening" = "Quadriceps strengthening",
+			"Exercise - muscle strengthening only for lower limb strengthening" = "Lower limb strengthening",
+			"Exercise - walking only" = "Walking",
+			"Exercise - stationary cycling only" = "Stationary cycling",
+			"Exercise - Tai Chi only" = "Tai chi",
+			"Exercise - yoga only" = "Yoga",
+			"Exercise - stationary cycling & hatha yoga" = "Stationary cycling, hatha yoga",
+			"Aquatic exercise/hydrotherapy" = "Aquatic exercise",
+			"Manual therapy - massage" = "Massage",
+			"Manual therapy - mobilisation and manipulation" = "Knee mobilisation and manipulation",
+			"Knee braces - varus unloading/re-alignment braces" = "Knee braces (varus)",
+			"Knee braces - valgus unloading/re-alignment braces" = "Knee braces (valgus)",
+			"Knee braces - re-aligning patellofemoral braces" = "Knee braces (patellofemoral)",
+			"Shoe orthotics - shock absorbing insoles or arch supports" = "Shock absorbing insoles",
+			"Shoe orthotics - lateral wedge insoles for medial tibiofemoral knee OA" = "Lateral wedge insoles",
+			"Shoe orthotics - medial wedged insoles for lateral tibiofemoral OA and valgus deformity" = 
+				"Medial wedged insoles",
+			"Footwear - unloading shoes" = "Unloading shoes",
+			"Footwear - minimalist footwear" = "Minimalist footwear",
+			"Footwear - rocker soled shoes" = "Rocker soled shoes",
+			"Taping - patellar" = "Patellar taping",
+			"Taping - kinesio" = "Kinesio taping",
+			"Other electrotherapy - laser"= "Laser electrotherapy",
+			"Other electrotherapy - shockwave" = "Shockwave electrotherapy",
+			"Other electrotherapy - interferential" = "Interferential electrotherapy",
+			"Acupuncture - traditional with manual stimulation" = "Traditional acupuncture",
+			"Acupuncture - electroacupuncture" = "Electroacupuncture",
+			"Acupuncture - laser" = "Laser acupuncture",
 			"Oral non-steroidal anti-inflammatory drugs (NSAIDs) including COX-2 inhibitors" = 
 				"Oral NSAIDs (including COX-2 inhibitors)",
-			"Transdermal opioids - buprenorphine" = "Buprenorphine (transdermal)",
-			"Transdermal opioids - Fentanyl" = "Fentanyl (transdermal)",
 			"Glucosamine and chondroitin in compound form" = "Glucosamine and chondroitin"
 		),
 		`Recommendation` = factor(`Recommendation`, labels = attributeNames[["Recommendation"]]),
-		`Quality of Evidence` = factor(`Quality of Evidence`, labels = attributeNames[["Quality of Evidence"]]),
+		`Quality of Evidence` = factor(`Quality of the evidence`, labels = attributeNames[["Quality of Evidence"]]),
 		`Effectiveness` = factor(`Effectiveness`, labels = attributeNames[["Effectiveness"]]),
-		`Duration of Effect` = factor(`Duration of Effect`, labels = attributeNames[["Duration of Effect"]]),
-		`Risk of Serious Harm` = factor(`Risk of Serious Harm`, labels = attributeNames[["Risk of Serious Harm"]]),
-		`Risk of Mild/Moderate Harm` = factor(`Risk of Mild/Moderate Harm`, 
+		`Duration of Effect` = factor(`Duration`, labels = attributeNames[["Duration of Effect"]]),
+		`Risk of Serious Harm` = factor(`Risk of serious harm`, labels = attributeNames[["Risk of Serious Harm"]]),
+		`Risk of Mild/Moderate Harm` = factor(`Risk of mild to moderate side-effects`, 
 																					labels = attributeNames[["Risk of Mild/Moderate Harm"]]),
 		`Cost` = factor(`Cost`, labels = attributeNames[["Cost"]]),
 		`Accessibility` = factor(`Accessibility`, labels = attributeNames[["Accessibility"]])

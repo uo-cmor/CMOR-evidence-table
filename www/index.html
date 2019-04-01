@@ -545,15 +545,9 @@
 				                  <a data-toggle="modal" data-target="#helpDiseaseStage" href="#"><i class="fa fa-info-circle"></i></a>
 				                  <div id="diseaseStage" class="form-group shiny-input-radiogroup shiny-input-container clearfix">
 				                    <div class="shiny-options-group">
-				                      <div class="radio first">
+				                      <div class="radio first" >
 				                        <label>
-				                          <input type="radio" name="diseaseStage" value="Overall" checked="checked"/>
-				                          <span>Overall</span>
-				                        </label>
-				                      </div> <!--.radio-->
-				                      <div class="radio" >
-				                        <label>
-				                          <input type="radio" name="diseaseStage" value="Early"/>
+				                          <input type="radio" name="diseaseStage" value="Early" checked="checked"/>
 				                          <span>Early</span>
 				                        </label>
 				                      </div> <!--.radio-->
@@ -567,6 +561,12 @@
 				                        <label>
 				                          <input type="radio" name="diseaseStage" value="Late"/>
 				                          <span>Late</span>
+				                        </label>
+				                      </div> <!--.radio-->
+				                      <div class="radio">
+				                        <label>
+				                          <input type="radio" name="diseaseStage" value="Overall"/>
+				                          <span>Overall</span>
 				                        </label>
 				                      </div> <!--.radio-->
 				                    </div> <!--.shiny-options-group-->
@@ -1174,8 +1174,8 @@
             <p>Some interventions are considered more appropriate or have higher quality evidence at different stages of the disease course. In this study, we considered the appropriateness of each intervention for early/mild, mid/moderate, and late/severe osteoarthritis, corresponding approximately to their recommendation as first-line (core long-term management), second-line (optional adjunctive management), or third-line (surgical management for end-stage osteoarthritis) treatment options.</p><br>
             <strong><em>Options:</em></strong>
             <ul>
-              <li><strong>Overall: </strong>the evidence table is based on the overall recommendation and data from the Clinical Practice Guidelines</li>
               <li><strong>Early/Mid/Late: </strong>the recommendation attribute is adjusted based on whether interventions were considered as core, optional adjunctive, or end-stage surgical management treatment options</li>
+              <li><strong>Overall: </strong>the evidence table is based on considering each intervention at their 'most recommended' timing</li>
             </ul>
             <p>Further details of the adjustments for timing of interventions will be provided in upcoming publications.</p>
           </div>
@@ -1324,9 +1324,13 @@
             <h4 class="modal-title">Duration – how long the treatment effect lasts</h4>
           </div>
           <div class="modal-body">
-            <p>The length of time the benefits of the treatment last - e.g. the beneficial effects of surgery, if
-      				appropriate, may last for 10-15 years after initial healing has occurred, with little ongoing care until
-      				10-15 years have elapsed. In contrast, drug therapy may require frequent dosing every 4 hours to maintain its effect on pain.</p><br>
+            <p>
+            	The length of time the benefits of the treatment have been shown to last - e.g. the beneficial effects of
+              surgery, if appropriate, may last for 10-15 years after initial healing has occurred, with little ongoing 
+              care until 10-15 years have elapsed. In contrast, many drug therapies have only been shown to be effective
+              for several months from initiation of treatment.
+            </p>
+            <br>
             <strong><em>Levels (best to worst):</em></strong>
             <ul>
               <li><strong>Long: </strong>the effects of the treatment are experienced for longer than one year</li>
