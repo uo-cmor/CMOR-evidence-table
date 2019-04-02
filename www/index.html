@@ -1122,11 +1122,14 @@
           <div class="modal-body">
             <p>
             	In this application, interventions for the clinical management of knee osteoarthritis are characterised according to eight attributes: recommendation (appropriateness for the stage of the disease), quality of evidence, cost, duration of effect, accessibility, risk of mild/moderate harm, risk of serious harm, and effectiveness. Each attribute describes between 3 and 5 levels of performance, in increasing order of desirability (for the details of the levels described by each attribute, click the help icon <a><i class="fa fa-info-circle"></i></a> next to the attribute heading in the Preference Weights panel).
+            </p>
+            <p>
+            	There are several options available to choose how the attribute weights and intervention scores are calculated and presented, which can be set using the drop-down menus above the plot.
             </p><br>
             <h4><strong><em>Options:</em></strong></h4>
             <a><strong><em>Intervention performance <span class="fas fa-cog"></span>:</em></strong></a>
             <p>
-            	The performance scoring for each intervention can differ at different stages of the disease course (for example, total joint replacement has little evidence and is generally not recommended/appropriate for early-stage disease, but is strongly recommended for patients with severe late-stage disease); to incorporate this in the ranking model, evidence tables can be constructed for early, mid, or late-stage disease using the 'Timing of interventions' option.
+            	The performance scoring for each intervention can differ at different stages of the disease course (for example, total joint replacement has little evidence and is generally not recommended/appropriate for early-stage disease, but is strongly recommended for patients with severe late-stage disease); to incorporate this in the ranking model, evidence tables can be constructed for early, mid, or late-stage disease using the 'Timing of interventions' option. The 'Overall' option presents the optimal performance for each intervention, i.e. when they are provided at the stage at which they are most recommended.
             </p>
             <p>
             	In future iterations of the evidence table, we will also incorporate the option to select different sources of evidence to inform the table and resulting preference scores. (At this stage, only the Royal Australian College of General Practitioners' <em>Guideline for the management of knee and hip osteoarthritis, 2nd edition</em> is available.)
@@ -1153,7 +1156,7 @@
             	The evidence table reports the performance of each selected intervention on the eight attributes, according to the specified evidence source and timing of interventions, and the resulting aggregate preference score using the specified preference weights. Interventions are (by default) ranked by total preference score. The table can be sorted by intervention name, attribute, or preference score by clicking on the column headers, and searched for specific interventions or attribute levels using the search box.
             </p>
             <p hidden>
-            	Further details of the study, including recruitment of key stakeholders, theoretical basis for the preference-elicitation study, and construction of the evidence tables, can be found <a>here</a>.
+            	Further details of the study, including recruitment of key stakeholders, theoretical basis for the preference-elicitation study, and construction of the evidence tables, can be found in our publications <a>here</a>.
             </p>
           </div>
           <div class="modal-footer">
@@ -1501,7 +1504,50 @@
             <h4 class="modal-title">How it works</h4>
           </div>
           <div class="modal-body">
-            
+            <p>
+            	In this application, we report on the cost-effectiveness of several recommended osteoarthritis treatment options. For comparison, the stakeholder preference values for each intervention (as described in the accompanying 'Stakeholder Preferences' app) are also presented, and you can derive an overall ranking for each intervention by choosing the weight to place on each of these outcomes.
+            </p>
+            <p>
+            	There are several options available to choose how the cost-effectiveness and preference results are calculated and presented, which can be set using the drop-down menus above the plot.
+            </p><br>
+            <h4><strong><em>Options:</em></strong></h4>
+            <a><strong><em>Intervention performance and outcome measures <span class="fas fa-cog"></span>:</em></strong></a>
+            <p>
+            	Comparing different interventions requires a consistent method for assessing the different health outcomes resulting from treatment. The outcome measure used to value each intervention can be chosen using the 'HRQoL measure' option.
+            </p>
+            <p>
+            	The cost-effectiveness of an intervention also depends on how much we, as a society, are willing to pay for better health outcomes. The 'Willingness-to-pay' option allows you to set this value to the levels of one, two, or three time GDP per capita (generally considered policy-relevant willingness-to-pay levels in health economic evaluation).
+            </p>
+            <p>
+            	In future iterations of the evidence table, we will also incorporate the option to select different sources of evidence to inform the table and resulting preference scores. (At this stage, only the Royal Australian College of General Practitioners' <em>Guideline for the management of knee and hip osteoarthritis, 2nd edition</em> is available.)
+            </p>
+            <a><strong><em>Filter <span class="fas fa-filter"></span>: </em></strong></a>
+            <p>
+            	The interventions to be compared in the cost-effectiveness analysis can be selected via the Filter drop-down menu.
+            </p>
+            <a><strong><em>Preference Weights <span class="fas fa-balance-scale"></span>:</em></strong></a>
+            <p>
+            	The stakeholder preference score for each intervention is calculated by summing up their total "preference weights", or values associated with the performance of the intervention on each of the attributes, using weights calculated from the derived preferences of key stakeholders in our study. These can be changed if desired, using the sliders/numeric inputs in the Preference Weights panel, to investigate the resulting effects on the intervetion ranking.
+            </p>
+            <p>
+            	Note that these changes affect only the 'Preference Score' column (and the 'Weighted Score' column, if the weighting is changed to incorporate this outcome) in the table, not the cost-effectiveness results.
+            </p><br>
+            <h4><strong><em>Outputs:</em></strong></h4>
+            <p>
+            	The cost-effectiveness results are shown in a cost-effectiveness plot, with the incremental per-capita population QALYs (quality-adjusted life years; a measure of the lifetime health gains attributable to the intervention) on the horizontal axis, and incremental per-capita lifetime healthcare costs on the vertical axis. 
+            </p>
+            <p>
+            	Points to the right (larger health gains) and bottom (lower net costs) represent more cost-effective treatments. Specifically, points below and to the right of the diagonal lines represent cost-effective treatments at the one, two, and three times GDP per capita willingness-to-pay levels. The selected willingness-to-pay threshold is highlighted in red.
+            </p>
+            <p>
+            	The table reports the incremental net benefit (QALY gains, valued at the given willingness-to-pay level, minus incremental costs) as well as the stakeholder preference score for comparison. These two scores can be combined into an overall intervention score/ranking, as shown in the final column of the table. The size of the plot labels is based on these scores - larger labels correspond to more highly ranked interventions.
+            </p>
+            <p>
+            	By default, the score is based only on the cost-effectiveness results; the weight assigned to each outcome can be adjusted using the slider above the table, and the ranking and weighted score will update accordingly.
+            </p>
+            <p hidden>
+            	Further details of the study, including the simulation model used in the cost-effectiveness analysis, the derivation of input data, and the construction of stakeholder preference values, can be found in our publications <a>here</a>.
+            </p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Got it!</button>
