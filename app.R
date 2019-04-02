@@ -297,7 +297,8 @@ server <- function(input, output, session) {
 																			"Cognitive behavioural therapy" = "CBT",
 																			"Assistive walking device" = "Walking cane",
 																			"Oral NSAIDs (including COX-2 inhibitors)" = "Oral NSAIDs",
-																			"Corticosteroid injection" = "Corticosteroids"),
+																			"Corticosteroid injection" = "Corticosteroids",
+																			"Duloxetine (not available in NZ)" = "Duloxetine"),
 								"Preference Score (0-100)" = format(`Preference Score.sort`, digits = 0, nsmall = 1),
 								"Incremental Net Benefit (NZD per capita)" = format(inb, digits = 0, nsmall = 0, scientific = FALSE),
 								"Weighted Score (0-100)" = format(weighted_score, digits = 0, nsmall = 0))
@@ -317,9 +318,10 @@ server <- function(input, output, session) {
 											"Assistive walking device" = "Walking cane",
 											"Oral NSAIDs (including COX-2 inhibitors)" = "Oral NSAIDs",
 											# "Topical NSAIDs" = "Topical\nNSAIDs",
-											"Corticosteroid injection" = "Corticosteroids"),
-				cost = case_when(Intervention == "Manual therapy (massage)" & "Heat therapy" %in% ceTable()$Intervention ~ 2700,
-												 Intervention == "Manual therapy (massage)" ~ 1900,
+											"Corticosteroid injection" = "Corticosteroids",
+											"Duloxetine (not available in NZ)" = "Duloxetine"),
+				cost = case_when(Intervention == "Manual therapy - massage" & "Heat therapy" %in% ceTable()$Intervention ~ 2700,
+												 Intervention == "Manual therapy - massage" ~ 1900,
 												 Intervention == "Heat therapy" ~ 3200, TRUE ~ cost),
 				qalys = case_when(Intervention == "Heat therapy" & input$hrqol == "sf6d" ~ 0.018, TRUE ~ qalys)
 		  )

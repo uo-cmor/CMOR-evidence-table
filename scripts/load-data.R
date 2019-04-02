@@ -10,13 +10,13 @@ raw_MID <- read_xlsx("data/raw/MID.xlsx")
 raw_ADV <- read_xlsx("data/raw/ADV.xlsx")
 details <- read_xlsx("data/raw/details.xlsx")
 
-clean_intervention_names <- function(raw_names) {
-	str_remove_all(raw_names, 
-								 paste0("( . knee( ((\\(same as hip\\))|(and/or hip \\(same for both\\))|(\\(not available in NZ\\))))*)|",
-								 			 "( \\(same ((as)|(for)) hip\\))|",
-								 			 "( . same for knee and hip.*)|( . same for hip and knee)|",
-								 			 "(\\. Should be considered as an investigational medication only)"))
-}
+# clean_intervention_names <- function(raw_names) {
+# 	str_remove_all(raw_names, 
+# 								 paste0("( . knee( ((\\(same as hip\\))|(and/or hip \\(same for both\\))|(\\(not available in NZ\\))))*)|",
+# 								 			 "( \\(same ((as)|(for)) hip\\))|",
+# 								 			 "( . same for knee and hip.*)|( . same for hip and knee)|",
+# 								 			 "(\\. Should be considered as an investigational medication only)"))
+# }
 
 clean_intervention_names <- function(raw_names) {
 	str_replace_all(raw_names, c("/\\h" = "/", "braces varus" = "braces - varus"))
