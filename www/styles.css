@@ -444,7 +444,7 @@ ellipse {
 #arrow-score {
   background: url(arrow-curved.svg) no-repeat;
   top: 42px;
-  left: 79%;
+  left: 82%;
   -webkit-transform: scale(-0.35,0.35) rotate(23deg);
   -ms-transform: scale(-0.35,0.35) rotate(23deg);
   -moz-transform: scale(-0.35,0.35) rotate(23deg);
@@ -485,7 +485,7 @@ ellipse {
   left: 76%;
 }
 /*-------- Media Queries -------------*/
-@media screen and (max-width: 1340px) {
+@media screen and (max-width: 1640px) {
 	#text-score {right: 1%;}
 }
 @media screen and (max-width: 1300px) {
