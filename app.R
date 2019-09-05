@@ -328,11 +328,11 @@ server <- function(input, output, session) {
 		
 		ggplot(plotdata, aes(qalys, cost, colour = colour)) +
 			geom_point(aes(shape = shape), size = 6) +
-			geom_label(aes(label = name, size = weighted_score), hjust = "inward", vjust = "inward", lineheight = 0.9, fill = NA, label.size = 0) +
+			geom_label(aes(label = name, size = rank(weighted_score)), hjust = "inward", vjust = "inward", lineheight = 0.9, fill = NA, label.size = 0) +
 			scale_x_continuous("Lifetime incremental QALYs (per-capita)", breaks = scales::pretty_breaks()) +
 			scale_y_continuous("Lifetime incremental costs (per-capita, 2013 NZD)", breaks = scales::pretty_breaks()) +
 			scale_shape_identity() + scale_colour_identity() +
-			scale_size_continuous(range = c(8, 16), trans = scales::exp_trans(1.03), guide = FALSE) +
+			scale_size_continuous(range = c(8, 16), guide = FALSE) +
 			geom_hline(yintercept = 0, size = 1, colour = "grey50") +
 			geom_vline(xintercept = 0, size = 1, colour = "grey50") +
 			geom_abline(slope = 52373, size = 2, alpha = 0.1, colour = "#377eb8") +
