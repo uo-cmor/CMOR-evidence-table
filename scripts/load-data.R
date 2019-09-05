@@ -70,7 +70,7 @@ clean_RACGP <- map(list(EAR = raw_EAR, MID = raw_MID, ADV = raw_ADV), extract_in
 
 clean_weights <- raw_weights %>%
 	gather("level", "weight", 2:6, na.rm = TRUE) %>%
-	transmute(attribute = str_replace_all(X__1, c("Risk of mild to moderate side-effects" = "Risk of Mild/Moderate Harm",
+	transmute(attribute = str_replace_all(...1, c("Risk of mild to moderate side-effects" = "Risk of Mild/Moderate Harm",
 																								"Risk of serious harm" = "Risk of Serious Harm",
 																								"Duration" = "Duration of Effect",
 																								"Quality of the evidence" = "Quality of Evidence")),
