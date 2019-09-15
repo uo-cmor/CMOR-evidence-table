@@ -1,24 +1,33 @@
-# Load libraries
+##################
+# Load libraries #
+##################
 library(shiny)
 library(DT)
 library(plyr)
 library(tidyverse)
 library(abind)
 
-# Load data (evidence tables)
+###############################
+# Load data (evidence tables) #
+###############################
 load("data/evidenceTables.Rdata")
 
-
-# Source scripts
+##################
+# Source scripts #
+##################
 source("scripts/plot-utils.R")
 summarise_attributes <- function(level, source) {
 	if (length(unique(level)) == 1) return(level[[1]])
 	paste(source, level, sep = ": ", collapse = "\n")
 }
 
-# Define server logic
+#######################
+# Define server logic #
+#######################
 server <- function(input, output, session) {
-	# Reactive expressions (based on input values)
+	################################################
+	# Reactive expressions (based on input values) #
+	################################################
 	selected <- reactive({
 		if (isTruthy(input$interventions)) {
 			rownames(evidenceTables[[input$diseaseStage]][[1]]) %in% input$interventions
@@ -218,7 +227,9 @@ server <- function(input, output, session) {
 						 weighted_score = pref_score * (100 - input$ce_wgt) + inb_score * input$ce_wgt)
 	})
 	
-	# Output values (based on reactive expressions)
+	#################################################
+	# Output values (based on reactive expressions) #
+	#################################################
 	output$showplot <- reactive({ any(selected()) })
 	outputOptions(output, "showplot", suspendWhenHidden = FALSE)
 	
@@ -346,7 +357,9 @@ server <- function(input, output, session) {
 						plot.background = element_rect(fill = "#fdfaf1", linetype = 0))
 	}, height = 500)
 	
-	# Update input widgets
+	########################
+	# Update input widgets #
+	########################
 	observe({
 		input$resetWeights
 		
@@ -463,6 +476,7 @@ server <- function(input, output, session) {
 	})
 }
 
-
-# Run app
+###########
+# Run app #
+###########
 shinyApp(ui = htmlTemplate("www/index.html"), server = server)
