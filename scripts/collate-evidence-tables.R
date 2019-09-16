@@ -253,23 +253,29 @@ cePlotTable <- tibble(
 		"Glucosamine and chondroitin in compound form" = "Glucosamine and chondroitin",
 		"Assistive walking device - cane" = "Assistive walking device"
 	),
-	hjust = recode(Name,
-								 "Cognitive behavioural therapy" = 1.2, "Aquatic exercise" = 0.2, "Massage" = 0.8, 
-								 "Assistive walking device" = 1.05, "Oral NSAIDs (including COX-2 inhibitors)" = 0,
-								 "Topical NSAIDs" = 1.1, "Duloxetine (not available in NZ)" = 0.45, "Corticosteroid injection" = 0.78,
-								 .default = 0),
-	vjust = recode(Name,
-								 "Cognitive behavioural therapy" = -0.5, "Aquatic exercise" = -0.5, "Massage" = -1.5,
-								 "Assistive walking device" = 0.55, "Oral NSAIDs (including COX-2 inhibitors)" = -0.5,
-								 "Topical NSAIDs" = 1.1, "Duloxetine (not available in NZ)" = -0.6, "Corticosteroid injection" = -0.4,
-								 .default = 0),
-	shape = if_else(Name %in% c("Massage", "Heat therapy"), "triangle", "diamond"),
-	colour = recode(Name,
-									"Cognitive behavioural therapy" = "#a6761d", "Aquatic exercise" = "#e7298a", "Massage" = "#666666",
-									"Heat therapy\n(incremental cost = $45 600)" = "#666666", "Assistive walking device" = "#1b9e77", 
-									"Oral NSAIDs (including COX-2 inhibitors)" = "#7570b3", "Topical NSAIDs" = "#d95f02",
-									"Duloxetine (not available in NZ)" = "#66a61e", "Corticosteroid injection" = "#e6ab02",
-									.default = "#000000")
+	hjust = recode(
+		Name,
+		"Cognitive behavioural therapy" = 0, "Aquatic exercise" = 1, "Massage" = 0.5, "Assistive walking device" = 1,
+		"Oral NSAIDs (including COX-2 inhibitors)" = 0, "Topical NSAIDs" = 1, "Duloxetine (not available in NZ)" = 0,
+		"Corticosteroid injection" = 1, "Heat therapy" = 0,
+		.default = 0
+	),
+	vjust = recode(
+		Name,
+		"Cognitive behavioural therapy" = 1, "Aquatic exercise" = 0, "Massage" = 1, 
+		"Assistive walking device" = 0, "Oral NSAIDs (including COX-2 inhibitors)" = 0, "Topical NSAIDs" = 1, 
+		"Duloxetine (not available in NZ)" = -0.1, "Corticosteroid injection" = 0, "Heat therapy" = 1,
+		.default = 0
+	),
+	shape = if_else(Name %in% c("Massage"), "triangle", "diamond"),
+	colour = recode(
+		Name,
+		"Cognitive behavioural therapy" = "#a6761d", "Aquatic exercise" = "#e7298a", "Massage" = "#666666", 
+		"Heat therapy" = "#e41a1c", "Assistive walking device" = "#1b9e77", 
+		"Oral NSAIDs (including COX-2 inhibitors)" = "#7570b3", "Topical NSAIDs" = "#d95f02", 
+		"Duloxetine (not available in NZ)" = "#66a61e", "Corticosteroid injection" = "#e6ab02",
+		.default = "#000000"
+	)
 )
 
 save(interventionNames, interventionTypes, interventionList, evidenceTables_tibble,

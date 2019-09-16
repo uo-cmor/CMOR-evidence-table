@@ -323,27 +323,23 @@ server <- function(input, output, session) {
 			mutate(
 				name = recode(Name,
 											"Cognitive behavioural therapy" = "CBT",
-											# "Aquatic exercise" = "Aquatic\nexercise",
-											Massage = "Massage\n(incremental cost = $4 100)",
-											"Heat therapy" = "Heat therapy\n(incremental cost = $45 600)",
+											"Aquatic exercise" = "Aquatic\nexercise",
+											Massage = "Massage\n(incremental cost = $3 800)",
 											"Assistive walking device" = "Walking cane",
 											"Oral NSAIDs (including COX-2 inhibitors)" = "Oral NSAIDs",
-											# "Topical NSAIDs" = "Topical\nNSAIDs",
+											"Topical NSAIDs" = "Topical\nNSAIDs",
 											"Corticosteroid injection" = "Corticosteroids",
 											"Duloxetine (not available in NZ)" = "Duloxetine"),
-				cost = case_when(Intervention == "Manual therapy - massage" & "Heat therapy" %in% ceTable()$Intervention ~ 2700,
-												 Intervention == "Manual therapy - massage" ~ 1900,
-												 Intervention == "Heat therapy" ~ 3200, TRUE ~ cost),
-				qalys = case_when(Intervention == "Heat therapy" & input$hrqol == "sf6d" ~ 0.018, TRUE ~ qalys)
+				cost = case_when(Intervention == "Manual therapy - massage" ~ 1400, TRUE ~ cost)
 		  )
 		
 		ggplot(plotdata, aes(qalys, cost, colour = colour)) +
 			geom_point(aes(shape = shape), size = 6) +
-			geom_label(aes(label = name, size = rank(weighted_score)), hjust = "inward", vjust = "inward", lineheight = 0.9, fill = NA, label.size = 0) +
+			geom_label(aes(label = name, size = rank(weighted_score), hjust = hjust, vjust = vjust), lineheight = 0.9, fill = NA, label.size = 0) +
 			scale_x_continuous("Lifetime incremental QALYs (per-capita)", breaks = scales::pretty_breaks()) +
 			scale_y_continuous("Lifetime incremental costs (per-capita, 2013 NZD)", breaks = scales::pretty_breaks()) +
 			scale_shape_identity() + scale_colour_identity() +
-			scale_size_continuous(range = c(8, 16), guide = FALSE) +
+			scale_size_continuous(range = c(5, 16), trans = scales::exp_trans(), guide = FALSE) +
 			geom_hline(yintercept = 0, size = 1, colour = "grey50") +
 			geom_vline(xintercept = 0, size = 1, colour = "grey50") +
 			geom_abline(slope = 52373, size = 2, alpha = 0.1, colour = "#377eb8") +
