@@ -324,7 +324,7 @@ server <- function(input, output, session) {
 				name = recode(Name,
 											"Cognitive behavioural therapy" = "CBT",
 											"Aquatic exercise" = "Aquatic\nexercise",
-											Massage = "Massage\n(incremental cost = $3 800)",
+											Massage = "Massage\n(incremental cost = $4 300)",
 											"Assistive walking device" = "Walking cane",
 											"Oral NSAIDs (including COX-2 inhibitors)" = "Oral NSAIDs",
 											"Topical NSAIDs" = "Topical\nNSAIDs",
