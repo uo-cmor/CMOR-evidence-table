@@ -1,0 +1,167 @@
+---
+title: "CMOR Evidence Table"
+format:
+  html:
+    page-layout: full
+echo: false
+---
+
+## Observable JS
+
+This Quarto document is made interactive using Observable JS. Interactive documents allow readers to modify parameters and see the results immediately. Learn more about OJS interactive documents at <https://quarto.org/docs/interactive/ojs/>.
+
+## CMOR Evidence Table
+
+```{r}
+suppressPackageStartupMessages(library(tidyverse))
+
+load("data/evidenceTables.Rdata")
+
+attrs <- names(attributeNames)
+
+evidence <- evidenceTables_tibble %>% 
+	ungroup() %>% 
+	mutate(across(all_of(attrs), as.integer)) %>% 
+	rename_with(\(x) paste0(x, ".level"), all_of(attrs)) %>% 
+	pivot_longer(starts_with(attrs), names_to = c("attribute", ".value"), names_sep = "\\.") %>% 
+	mutate(
+		attribute = case_match(attribute, .default = attribute,
+													 "Quality of the evidence" ~ "Quality of Evidence",
+													 "Duration" ~ "Duration of Effect",
+													 "Risk of mild to moderate side-effects" ~ "Risk of Mild/Moderate Harm",
+													 "Risk of serious harm" ~ "Risk of Serious Harm"),
+		level_weight = map2_dbl(
+			attribute, level,
+			\(attr, lev) attributeLevels[[as.integer(factor(attr, attrs))]][[lev]]
+		),
+		category = factor(
+			str_remove(Intervention.detail, "Category: "),
+			c("Self-management and education interventions", "Psychological interventions",
+				"Exercise interventions", "Other physical therapies", "Weight management",
+				"Mechanical aids and devices", "Electrotherapies",
+				"Pharmacological interventions (over the counter)",
+				"Pharmacological interventions (prescription medication only)", "Injectable agents",
+				"Alternative medicines", "Surgical interventions")
+		)
+	)
+
+ojs_define(evidence = evidence,
+					 original_weights = attributeWeights)
+```
+
+```{ojs}
+//| panel: input
+
+viewof stage = Inputs.radio(
+  ["Overall", "Early", "Mid", "Late"],
+  {value: "Overall",
+   label: "Stage:"}
+)
+
+viewof maxrows = Inputs.select(
+  [5, 10, 25, 50, 100],
+  {value: 25, label: "Show top"}
+)
+
+viewof categories = Inputs.checkbox(
+	["Self-management and education interventions", "Psychological interventions",
+	 "Exercise interventions", "Other physical therapies", "Weight management",
+	 "Mechanical aids and devices", "Electrotherapies",
+	 "Pharmacological interventions (over the counter)",
+	 "Pharmacological interventions (prescription medication only)", "Injectable agents",
+	 "Alternative medicines", "Surgical interventions"],
+	 {value: ["Self-management and education interventions", "Psychological interventions",
+					  "Exercise interventions", "Other physical therapies", "Weight management",
+					  "Mechanical aids and devices", "Electrotherapies",
+					  "Pharmacological interventions (over the counter)",
+					  "Pharmacological interventions (prescription medication only)", "Injectable agents",
+					  "Alternative medicines", "Surgical interventions"],
+		label: 'Interventions:'}
+)
+
+viewof weight_rec = Inputs.range([0, 100], {step: 0.1, label: 'Recommendation', value: 19, format: d => d.toFixed(1)})
+viewof weight_qua = Inputs.range([0, 100], {step: 0.1, label: 'Quality of Evidence', value: 17.6, format: d => d.toFixed(1)})
+viewof weight_eff = Inputs.range([0, 100], {step: 0.1, label: 'Effectiveness', value: 15, format: d => d.toFixed(1)})
+viewof weight_dur = Inputs.range([0, 100], {step: 0.1, label: 'Duration of Effect', value: 13.2, format: d => d.toFixed(1)})
+viewof weight_ser = Inputs.range([0, 100], {step: 0.1, label: 'Risk of Serious Harm', value: 12.8, format: d => d.toFixed(1)})
+viewof weight_mil = Inputs.range([0, 100], {step: 0.1, label: 'Risk of Mild/Moderate Harm', value: 9.4, format: d => d.toFixed(1)})
+viewof weight_cos = Inputs.range([0, 100], {step: 0.1, label: 'Cost', value: 6.6, format: d => d.toFixed(1)})
+viewof weight_acc = Inputs.range([0, 100], {step: 0.1, label: 'Accessibility', value: 6.3, format: d => d.toFixed(1)})
+
+function set(input, value) {
+  input.value = value;
+  input.dispatchEvent(new Event("input", {bubbles: true}));
+}
+
+Inputs.button([
+  ["Normalise to 100", () => {
+		const sum_weights = (viewof weight_rec.value + viewof weight_qua.value + viewof weight_eff.value + viewof weight_dur.value + viewof weight_ser.value + viewof weight_mil.value + viewof weight_cos.value + viewof weight_acc.value)
+		set(viewof weight_rec, viewof weight_rec.value / sum_weights * 100)
+		set(viewof weight_qua, viewof weight_qua.value / sum_weights * 100)
+		set(viewof weight_eff, viewof weight_eff.value / sum_weights * 100)
+		set(viewof weight_dur, viewof weight_dur.value / sum_weights * 100)
+		set(viewof weight_ser, viewof weight_ser.value / sum_weights * 100)
+		set(viewof weight_mil, viewof weight_mil.value / sum_weights * 100)
+		set(viewof weight_cos, viewof weight_cos.value / sum_weights * 100)
+		set(viewof weight_acc, viewof weight_acc.value / sum_weights * 100)
+  }],
+	["Reset", () => {
+		set(viewof weight_rec, original_weights[0])
+		set(viewof weight_qua, original_weights[1])
+		set(viewof weight_eff, original_weights[2])
+		set(viewof weight_dur, original_weights[3])
+		set(viewof weight_ser, original_weights[4])
+		set(viewof weight_mil, original_weights[5])
+		set(viewof weight_cos, original_weights[6])
+		set(viewof weight_acc, original_weights[7])
+  }]
+])
+```
+
+```{ojs}
+//| panel: fill
+import {aq, op} from '@uwdata/arquero'
+attribute_weights = aq.table({
+  attribute: ["Recommendation", "Quality of Evidence", "Effectiveness", "Duration of Effect",
+              "Risk of Serious Harm", "Risk of Mild/Moderate Harm", "Cost", "Accessibility"],
+  attribute_weight: [weight_rec, weight_qua, weight_eff, weight_dur,
+                     weight_ser, weight_mil, weight_cos, weight_acc]
+})
+sumWeights = attribute_weights.rollup({weight: op.sum('attribute_weight')}).array('weight')
+data = aq.from(transpose(evidence))
+  .filter(aq.escape(d => stage == d.timing))
+  .filter(aq.escape(d => categories.includes(d.category)))
+  .join_left(attribute_weights, 'attribute')
+  .derive({weight: aq.escape(d => d.attribute_weight * d.level_weight / sumWeights * 100)})
+  .groupby('Name')
+  .derive({score: op.sum('weight')})
+  .ungroup()
+  .orderby(aq.desc('score'), 'Name')
+  .derive({rn: op.row_number()})
+  .filter(aq.escape(d => d.rn <= maxrows * 8))
+
+labels = aq.from(data)
+  .groupby('Name')
+  .rollup({score: op.sum('weight')})
+
+evidenceTablePlot = Plot.plot({
+  color: {
+    type: "categorical",
+    domain: ["Recommendation", "Quality of Evidence", "Effectiveness", "Duration of Effect", "Risk of Serious Harm", "Risk of Mild/Moderate Harm", "Cost", "Accessibility"],
+    scheme: "Accent",
+    legend: true
+  },
+  x: {domain: [0, 100]},
+  marginLeft: 250,
+  width: `${width}`,
+  marks: [
+    Plot.barX(data,
+      Plot.stackX({order: ["Recommendation", "Quality of Evidence", "Effectiveness", "Duration of Effect",
+                           "Risk of Serious Harm", "Risk of Mild/Moderate Harm", "Cost", "Accessibility"]},
+                  {x: "weight", y: "Name", z: "attribute", fill: "attribute",
+                   sort: {y: "x", reverse: true}, fillopacity: 0.3, tip: "y"})
+    ),
+    Plot.textX(labels, {x: (d) => (d.score + 2), y: "Name", text: (d) => (d.score).toFixed(1)})
+  ]
+})
+```

@@ -2,6 +2,15 @@ library(tidyverse)
 
 load("data/data.Rdata")
 
+evidence <- bind_rows(clean_RACGP, .id = "stage") %>% 
+	pivot_longer(-(1:2), names_to = "attribute", values_to = "level") %>% 
+	mutate(attribute = case_match(attribute, .default = attribute,
+																"Quality of the evidence" ~ "Quality of Evidence",
+																"Duration" ~ "Duration of Effect",
+																"Risk of mild to moderate side-effects" ~ "Risk of Mild/Moderate Harm",
+																"Risk of serious harm" ~ "Risk of Serious Harm")) %>% 
+	left_join(clean_weights, by = c("attribute", "level"))
+
 create_evidence_table <- function(df) {
 	out <- as.matrix(df %>% select(-Intervention))
 	dimnames(out) <- list(Intervention = df$Intervention,
@@ -37,9 +46,9 @@ attributeNames <- list(
 	Cost = c("High", "Medium", "Low"),
 	Accessibility = c("Inaccessible", "Neither accessible or inaccessible", "Accessible")
 )
-attributeLevels <- plyr::llply(names(attributeNames), function(x) (clean_weights %>% filter(attribute==x))$weight)
-attributeWeights <- setNames(plyr::laply(attributeLevels, max), names(attributeNames))
-attributeLevels <- plyr::llply(attributeLevels, function(x) x / max(x))
+attributeLevels <- map(names(attributeNames), \(x) (clean_weights %>% filter(attribute==x))$weight)
+attributeWeights <- setNames(map_dbl(attributeLevels, max), names(attributeNames))
+attributeLevels <- map(attributeLevels, \(x) x / max(x))
 
 interventionNames <- clean_RACGP[[1]]$Intervention
 interventionList <- list(

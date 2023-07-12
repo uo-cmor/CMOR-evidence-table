@@ -2,8 +2,8 @@
 # Load libraries #
 ##################
 library(shiny)
-library(DT)
-library(plyr)
+library(DT, mask.ok = c("dataTableOutput", "renderDataTable"))
+#library(plyr, exclude = "compact")
 library(tidyverse)
 library(abind)
 
