@@ -6,13 +6,21 @@ format:
 echo: false
 ---
 
-## Observable JS
+## What matters to you when choosing treatments for knee osteoarthritis?
 
-This Quarto document is made interactive using Observable JS. Interactive documents allow readers to modify parameters and see the results immediately. Learn more about OJS interactive documents at <https://quarto.org/docs/interactive/ojs/>.
+::: {layout-ncol=2}
+There are many treatment options available for the management of knee osteoarthritis.\
+\
+Some of them are highly effective, reducing pain and improving joint function and overall quality of life; others have limited or unclear effect on pain or disability. Some are widely available, easily accessible, and affordable for all people with osteoarthritis; others are expensive or involve long travel or waiting times to receive treatment. Some are very safe, with few or no side-effects and little risk of harm; others may have potentially severe complications.\
+\
+Understanding how osteoarthritis healthcare consumers, providers, policy makers, and other stakeholders trade off between these different attributes of treatments is crucial to ensure good value, effective, accessible, acceptable, and equitable care can be made available to all people with osteoarthritis.
 
-## CMOR Evidence Table
+This application presents the results of a study designed to elicit from key stakeholders the attributes of treatment considered important in choosing or recommending treatment for osteoarthritis, and their preference weights for these attributes (i.e. the relative importance of each attribute); to describe the performance of osteoarthritis treatments against the attributes, informed by high-quality clinical practice guidelines and systematic reviews of peer-reviewed research; and to prioritise interventions by assessing their performance relative to stakeholder or individual preferences.\
+\
+In this interactive application you can filter the interventions to be included in the analysis, alter the preference weights used to evaluate trade-offs between attributes, or select evidence specific to early-, mid-, or late-stage disease using the drop-down options menus, and switch between viewing the preference ranking plot and the underlying evidence table.
+:::
 
-```{r}
+```{r load-data}
 suppressPackageStartupMessages(library(tidyverse))
 
 load("data/evidenceTables.Rdata")
@@ -49,44 +57,349 @@ ojs_define(evidence = evidence,
 					 original_weights = attributeWeights)
 ```
 
+```{ojs functions}
+import { input } from "@jashkenas/inputs"
+function radio(config = {}) {
+  let {
+    value: formValue,
+    title,
+    description,
+    submit,
+    options,
+    disabled
+  } = Array.isArray(config) ? { options: config } : config;
+  options = options.map(o =>
+    typeof o === "string" ? { value: o, label: o } : o
+  );
+  const form = input({
+    type: "radio",
+    title,
+    description,
+    submit,
+    getValue: input => {
+      if (input.checked) return input.value;
+      const checked = Array.prototype.find.call(input, radio => radio.checked);
+      return checked ? checked.value : undefined;
+    },
+    form: html`
+      <form>
+        ${options.map(({ value, label }, i) => {
+          const input = html`<input type=radio name=input ${
+            value === formValue ? "checked" : ""
+          } style="vertical-align: top; ${
+            i === 0 ? `margin-left: 1px;` : ``
+          }" />`;
+          input.setAttribute("value", value);
+          if (disabled) input.setAttribute("value", disabled);
+          const tag = html`
+          <label style="display: inline-block; margin: 5px 10px 3px 0; font-size: 0.85em;">
+           ${input}
+           ${label}
+          </label><br>`;
+          return tag;
+        })}
+      </form>
+    `
+  });
+  form.output.remove();
+  return form;
+}
+
+function select(config = {}) {
+  let {
+    value: formValue,
+    title,
+    description,
+    disabled,
+    submit,
+    multiple,
+    size,
+    options
+  } = Array.isArray(config) ? { options: config } : config;
+  options = options.map(o =>
+    typeof o === "object" ? o : { value: o, label: o }
+  );
+  const form = input({
+    type: "select",
+    title,
+    description,
+    submit,
+    attributes: { disabled },
+    getValue: input => {
+      const selected = Array.prototype.filter
+        .call(input.options, i => i.selected)
+        .map(i => i.value);
+      return multiple ? selected : selected[0];
+    },
+    form: html`
+      <form>
+        <select name="input" ${
+          multiple ? `multiple size="${size || options.length}"` : ""
+        }>
+          ${options.map(({ value, label,disabled }) =>
+            Object.assign(html`<option>`, {
+              value,
+              selected: Array.isArray(formValue)
+                ? formValue.includes(value)
+                : formValue === value,
+              disabled : disabled ? disabled : false,
+              textContent: label
+            })
+          )}
+        </select>
+      </form>
+    `
+  });
+  form.output.remove();
+  return form;
+}
+
+function checkbox(config = {}) {
+  let {
+    value: formValue,
+    title,
+    description,
+    submit,
+    disabled,
+    options
+  } = Array.isArray(config) ? { options: config } : config;
+  options = options.map(o =>
+    typeof o === "string" ? { value: o, label: o } : o
+  );
+  const form = input({
+    type: "checkbox",
+    title,
+    description,
+    submit,
+    getValue: input => {
+      if (input.length)
+        return Array.prototype.filter
+          .call(input, i => i.checked)
+          .map(i => i.value);
+      return input.checked ? input.value : false;
+    },
+    form: html`
+      <form>
+        ${options.map(({ value, label }, i) => {
+          const input = html`<input type=checkbox name=input ${
+            (formValue || []).indexOf(value) > -1 ? "checked" : ""
+          } style="vertical-align: top; ${
+            i === 0 ? `margin-left: 1px;` : ``
+          }" />`;
+          input.setAttribute("value", value);
+          if (disabled) input.setAttribute("disabled", disabled);
+          const tag = html`<label style="display: inline-block; margin: 5px 10px 3px 0; font-size: 0.85em;">
+           ${input}
+           ${label}
+          </label><br>`;
+          return tag;
+        })}
+      </form>
+    `
+  });
+  form.output.remove();
+  return form;
+}
+
+function slider(config = {}) {
+  let {
+    min = 0,
+    max = 1,
+    value = (max + min) / 2,
+    step = "any",
+    precision = 2,
+    title,
+    description,
+    disabled,
+    getValue,
+    format,
+    display,
+    submit
+  } = typeof config === "number" ? { value: config } : config;
+  precision = Math.pow(10, precision);
+  if (!getValue)
+    getValue = input => Math.round(input.valueAsNumber * precision) / precision;
+  return input({
+    type: "range",
+    title,
+    description,
+    submit,
+    format,
+    display,
+    attributes: { min, max, step, disabled, value },
+    getValue
+  });
+}
+
+function number(config = {}) {
+  const {
+    value,
+    title,
+    description,
+    disabled,
+    placeholder,
+    submit,
+    step = "any",
+    min,
+    max
+  } =
+    typeof config === "number" || typeof config === "string"
+      ? { value: +config }
+      : config;
+  const form = input({
+    type: "number",
+    title,
+    description,
+    submit,
+    attributes: {
+      value,
+      placeholder,
+      step,
+      min,
+      max,
+      autocomplete: "off",
+      disabled
+    },
+    getValue: input => input.valueAsNumber
+  });
+  form.output.remove();
+  form.input.style.width = "auto";
+  form.input.style.fontSize = "1em";
+  return form;
+}
+
+```
+
+::: {.column-screen-inset .panel-input}
+:::: {.columns}
+::::: {.column width="30%"}
 ```{ojs}
-//| panel: input
+viewof maxrows = {
+  const element = html`<form>
+	  Show top <select name="maxrows" id="maxrows">
+	    <option value=5>5</option> 
+	    <option value=10>10</option> 
+	    <option value=25 selected>25</option> 
+	    <option value=50>50</option> 
+	    <option value=100>100</option> 
+	  </select> rows
+  </form>`;
+  element.value = element.elements[0].value;
+  element.elements[0].addEventListener("change", () => {
+    element.value = element.elements[0].value;
+    element.dispatchEvent(new Event("input", {bubbles: true}));
+  });
+  return element;
+}
+```
+:::::
 
-viewof stage = Inputs.radio(
-  ["Overall", "Early", "Mid", "Late"],
-  {value: "Overall",
-   label: "Stage:"}
-)
+::::: {.column width="10%"}
+```{ojs}
+viewof stage = {
+  const element = html`<form>
+    <label><strong>Timing of<br>interventions:</strong></label><br>
+    <input type="radio" name="stage" value="Overall" checked>Overall<br>
+    <input type="radio" name="stage" value="Early">Early<br>
+    <input type="radio" name="stage" value="Mid">Mid<br>
+    <input type="radio" name="stage" value="Late">Late<br>
+  </form>`
+  for (let i = 0; i < element.length; i++) {
+    if (element.elements[i].checked) element.value = element.elements[i].value
+	  element.elements[i].addEventListener("click", () => {
+	    element.value = element.elements[i].value;
+	    element.dispatchEvent(new Event("input", {bubbles: true}));
+	  });
+  }
+  return element
+}
+```
+:::::
 
-viewof maxrows = Inputs.select(
-  [5, 10, 25, 50, 100],
-  {value: 25, label: "Show top"}
-)
+::::: {.column width="30%"}
+```{ojs}
+viewof categories = {
+  const element = html`<form>
+    <label><strong>Interventions:</strong></label><br>
+    <button name="allInterventions" type="button">(select all)</button>
+    <button name="noInterventions" type="button">(select none)</button><br>
+    <label><input type="checkbox" name="categories" value="Self-management and education interventions" checked> Self-management and education interventions</label><br>
+    <label><input type="checkbox" name="categories" value="Psychological interventions" checked> Psychological interventions</label><br>
+    <label><input type="checkbox" name="categories" value="Exercise interventions" checked> Exercise interventions</label><br>
+    <label><input type="checkbox" name="categories" value="Other physical therapies" checked> Other physical therapies</label><br>
+    <label><input type="checkbox" name="categories" value="Weight management" checked> Weight management</label><br>
+    <label><input type="checkbox" name="categories" value="Mechanical aids and devices" checked> Mechanical aids and devices</label><br>
+    <label><input type="checkbox" name="categories" value="Electrotherapies" checked> Electrotherapies</label><br>
+    <label><input type="checkbox" name="categories" value="Pharmacological interventions (over the counter)" checked> Pharmacological interventions (over the counter)</label><br>
+    <label><input type="checkbox" name="categories" value="Pharmacological interventions (prescription medication only)" checked> Pharmacological interventions (prescription medication only)</label><br>
+    <label><input type="checkbox" name="categories" value="Injectable agents" checked> Injectable agents</label><br>
+    <label><input type="checkbox" name="categories" value="Alternative medicines" checked> Alternative medicines</label><br>
+    <label><input type="checkbox" name="categories" value="Surgical interventions" checked> Surgical interventions</label><br>
+  </form>`
+  element.value = [];
+  element.elements.namedItem("allInterventions").addEventListener("click", () => {
+    element.value = []
+    for (let j = 2; j < element.length; j++) {
+      element.elements[j].checked = true
+      element.value.push(element.elements[j].value)
+    }
+    element.dispatchEvent(new Event("input", {bubbles: true}));
+  });
+  element.elements.namedItem("noInterventions").addEventListener("click", () => {
+    element.value = []
+    for (let j = 2; j < element.length; j++) {
+      element.elements[j].checked = false
+    }
+    element.dispatchEvent(new Event("input", {bubbles: true}));
+  });
+  for (let i = 2; i < element.length; i++) {
+    if (element.elements[i].checked) element.value.push(element.elements[i].value)
+	  element.elements[i].addEventListener("change", () => {
+	    if (element.elements[i].checked) element.value.push(element.elements[i].value)
+	    else {
+	      element.value = []
+	      for (let j = 2; j < element.length; j++) {
+	        if (element.elements[j].checked) element.value.push(element.elements[j].value)
+        }
+	    };
+	    element.dispatchEvent(new Event("input", {bubbles: true}));
+	  });
+  }
+  return element
+}
+```
+:::::
 
-viewof categories = Inputs.checkbox(
-	["Self-management and education interventions", "Psychological interventions",
-	 "Exercise interventions", "Other physical therapies", "Weight management",
-	 "Mechanical aids and devices", "Electrotherapies",
-	 "Pharmacological interventions (over the counter)",
-	 "Pharmacological interventions (prescription medication only)", "Injectable agents",
-	 "Alternative medicines", "Surgical interventions"],
-	 {value: ["Self-management and education interventions", "Psychological interventions",
-					  "Exercise interventions", "Other physical therapies", "Weight management",
-					  "Mechanical aids and devices", "Electrotherapies",
-					  "Pharmacological interventions (over the counter)",
-					  "Pharmacological interventions (prescription medication only)", "Injectable agents",
-					  "Alternative medicines", "Surgical interventions"],
-		label: 'Interventions:'}
-)
-
-viewof weight_rec = Inputs.range([0, 100], {step: 0.1, label: 'Recommendation', value: 19, format: d => d.toFixed(1)})
-viewof weight_qua = Inputs.range([0, 100], {step: 0.1, label: 'Quality of Evidence', value: 17.6, format: d => d.toFixed(1)})
-viewof weight_eff = Inputs.range([0, 100], {step: 0.1, label: 'Effectiveness', value: 15, format: d => d.toFixed(1)})
-viewof weight_dur = Inputs.range([0, 100], {step: 0.1, label: 'Duration of Effect', value: 13.2, format: d => d.toFixed(1)})
-viewof weight_ser = Inputs.range([0, 100], {step: 0.1, label: 'Risk of Serious Harm', value: 12.8, format: d => d.toFixed(1)})
-viewof weight_mil = Inputs.range([0, 100], {step: 0.1, label: 'Risk of Mild/Moderate Harm', value: 9.4, format: d => d.toFixed(1)})
-viewof weight_cos = Inputs.range([0, 100], {step: 0.1, label: 'Cost', value: 6.6, format: d => d.toFixed(1)})
-viewof weight_acc = Inputs.range([0, 100], {step: 0.1, label: 'Accessibility', value: 6.3, format: d => d.toFixed(1)})
+::::: {.column width="30%"}
+```{ojs}
+viewof weights = {
+  const element = html`<form>
+    <label><strong>Attribute weights:</strong></label><br>
+    <label>Recommendation <input type="number" name="weight_rec" value=19> <input type="range" name="weight_rec"></label>
+    <label>Quality of Evidence <input type="number" name="weight_qua" value=17.6> <input type="range" name="weight_qua"></label>
+    <label>Effectiveness <input type="number" name="weight_eff" value=15> <input type="range" name="weight_eff"></label>
+    <label>Duration of Effect <input type="number" name="weight_dur" value=13.2> <input type="range" name="weight_dur"></label>
+    <label>Risk of Serious Harm <input type="number" name="weight_ser" value=12.8> <input type="range" name="weight_ser"></label>
+    <label>Risk of Mild/Moderate Harm <input type="number" name="weight_mil" value=9.4> <input type="range" name="weight_mil"></label>
+    <label>Cost <input type="number" name="weight_cos" value=6.6> <input type="range" name="weight_cos"></label>
+    <label>Accessibility <input type="number" name="weight_acc" value=6.3> <input type="range" name="weight_acc"></label>
+  </form>`
+  element.value = [element.elements[0].value,
+                   element.elements[2].value,
+                   element.elements[4].value,
+                   element.elements[6].value,
+                   element.elements[8].value,
+                   element.elements[10].value,
+                   element.elements[12].value,
+                   element.elements[14].value]
+  for (let i = 0; i < element.length; i=i+2) {
+    element.elements[i].addEventListener("change", () => {
+      element.value[i/2] = element.elements[i].value
+	    element.dispatchEvent(new Event("input", {bubbles: true}));
+    })
+  }
+  return element
+}
 
 function set(input, value) {
   input.value = value;
@@ -95,37 +408,42 @@ function set(input, value) {
 
 Inputs.button([
   ["Normalise to 100", () => {
-		const sum_weights = (viewof weight_rec.value + viewof weight_qua.value + viewof weight_eff.value + viewof weight_dur.value + viewof weight_ser.value + viewof weight_mil.value + viewof weight_cos.value + viewof weight_acc.value)
-		set(viewof weight_rec, viewof weight_rec.value / sum_weights * 100)
-		set(viewof weight_qua, viewof weight_qua.value / sum_weights * 100)
-		set(viewof weight_eff, viewof weight_eff.value / sum_weights * 100)
-		set(viewof weight_dur, viewof weight_dur.value / sum_weights * 100)
-		set(viewof weight_ser, viewof weight_ser.value / sum_weights * 100)
-		set(viewof weight_mil, viewof weight_mil.value / sum_weights * 100)
-		set(viewof weight_cos, viewof weight_cos.value / sum_weights * 100)
-		set(viewof weight_acc, viewof weight_acc.value / sum_weights * 100)
+		const sum_weights = 0
+		for (let i = 0; i < 8; ++i) sum_weights += viewof weights.value[i]
+		viewof weights.value[0] /= (sum_weights / 100)
+		viewof weights.value[1] /= (sum_weights / 100)
+		viewof weights.value[2] /= (sum_weights / 100)
+		viewof weights.value[3] /= (sum_weights / 100)
+		viewof weights.value[4] /= (sum_weights / 100)
+		viewof weights.value[5] /= (sum_weights / 100)
+		viewof weights.value[6] /= (sum_weights / 100)
+		viewof weights.value[7] /= (sum_weights / 100)
+		viewof weights.dispatchEvent(new Event("input", {bubbles: true}))
   }],
 	["Reset", () => {
-		set(viewof weight_rec, original_weights[0])
-		set(viewof weight_qua, original_weights[1])
-		set(viewof weight_eff, original_weights[2])
-		set(viewof weight_dur, original_weights[3])
-		set(viewof weight_ser, original_weights[4])
-		set(viewof weight_mil, original_weights[5])
-		set(viewof weight_cos, original_weights[6])
-		set(viewof weight_acc, original_weights[7])
+		viewof weights.value[0] = original_weights[0]
+		viewof weights.value[1] = original_weights[1]
+		viewof weights.value[2] = original_weights[2]
+		viewof weights.value[3] = original_weights[3]
+		viewof weights.value[4] = original_weights[4]
+		viewof weights.value[5] = original_weights[5]
+		viewof weights.value[6] = original_weights[6]
+		viewof weights.value[7] = original_weights[7]
+		viewof weights.dispatchEvent(new Event("input", {bubbles: true}))
   }]
 ])
 ```
+:::::
+::::
+:::
 
+::: {.column-screen-inset}
 ```{ojs}
-//| panel: fill
 import {aq, op} from '@uwdata/arquero'
 attribute_weights = aq.table({
   attribute: ["Recommendation", "Quality of Evidence", "Effectiveness", "Duration of Effect",
               "Risk of Serious Harm", "Risk of Mild/Moderate Harm", "Cost", "Accessibility"],
-  attribute_weight: [weight_rec, weight_qua, weight_eff, weight_dur,
-                     weight_ser, weight_mil, weight_cos, weight_acc]
+  attribute_weight: weights
 })
 sumWeights = attribute_weights.rollup({weight: op.sum('attribute_weight')}).array('weight')
 data = aq.from(transpose(evidence))
@@ -165,3 +483,4 @@ evidenceTablePlot = Plot.plot({
   ]
 })
 ```
+:::
