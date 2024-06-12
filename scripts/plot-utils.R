@@ -1,7 +1,6 @@
-`%OR%` <- shiny:::`%OR%`
-asNumber <- shiny:::asNumber
 scaleCoords <- shiny:::scaleCoords
 panelMatch <- shiny:::panelMatch
+asNumber <- shiny:::asNumber
 
 nearBars <- function (df, coordinfo, xvar = NULL, yvar = NULL, panelvar1 = NULL, 
 					panelvar2 = NULL, threshold = 0, maxpoints = NULL, addDist = FALSE, 
@@ -18,10 +17,10 @@ nearBars <- function (df, coordinfo, xvar = NULL, yvar = NULL, panelvar1 = NULL,
 	if (is.null(coordinfo$x)) {
 		stop("nearBars requires a click/hover/double-click object with x and y values.")
 	}
-	xvar <- xvar %OR% coordinfo$mapping$x
-	yvar <- yvar %OR% coordinfo$mapping$y
-	panelvar1 <- panelvar1 %OR% coordinfo$mapping$panelvar1
-	panelvar2 <- panelvar2 %OR% coordinfo$mapping$panelvar2
+	xvar <- xvar %||% coordinfo$mapping$x
+	yvar <- yvar %||% coordinfo$mapping$y
+	panelvar1 <- panelvar1 %||% coordinfo$mapping$panelvar1
+	panelvar2 <- panelvar2 %||% coordinfo$mapping$panelvar2
 	if (is.null(xvar)) 
 		stop("nearBars: not able to automatically infer `xvar` from coordinfo")
 	if (is.null(yvar)) 

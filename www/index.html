@@ -5,7 +5,7 @@
 
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <script type="application/shiny-singletons"></script>
-  <script type="application/html-dependencies">json2[2014.02.04];jquery[1.12.4];shiny[1.1.0];font-awesome[4.7.0];selectize[0.11.2];ionrangeslider[2.1.6];strftime[0.9.2];htmlwidgets[1.2];datatables-css[0.0.0];datatables-binding[0.4];crosstalk[1.0.0];bootstrap[3.3.7]</script>
+  <script type="application/html-dependencies">json2[2014.02.04];jquery[1.12.4];shiny[1.1.0];font-awesome[4.7.0];selectize[0.11.2];ionrangeslider[2.3.1];strftime[0.9.2];htmlwidgets[1.2];datatables-css[0.0.0];datatables-binding[0.4];crosstalk[1.0.0];bootstrap[3.3.7]</script>
 	<script src="shared/json2-min.js"></script>
 	<script src="shared/jquery.min.js"></script>
 	<link href="shared/shiny.css" rel="stylesheet" />
@@ -16,9 +16,9 @@
 	<script src="shared/selectize/js/es5-shim.min.js"></script>
 	<![endif]-->
 	<script src="shared/selectize/js/selectize.min.js"></script>
-	<link href="shared/ionrangeslider/css/ion.rangeSlider.css" rel="stylesheet" />
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css" rel="stylesheet" />
 	<link href="shared/ionrangeslider/css/ion.rangeSlider.skinShiny.css" rel="stylesheet" />
-	<script src="shared/ionrangeslider/js/ion.rangeSlider.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
 	<script src="shared/strftime/strftime-min.js"></script>
 	<script src="htmlwidgets.js"></script>
 	<link href="datatables-crosstalk.css" rel="stylesheet" />
@@ -152,7 +152,7 @@
 				            <a id="btn-weights" class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
 				            	<span class="fas fa-balance-scale"></span> <span class="fas fa-angle-down"></span>
 				            </a>
-				            <div class="dropdown-menu pull-right row" id="weights">
+				            <div class="dropdown-menu pull-right row" id="weights" style="min-width: 400px;">
 				              <form>
 				                <div class="row">
 				                  <div class="col-xs-6">
@@ -328,7 +328,7 @@
 				          <!-- Interventions section -->
 				          <div class="dropdown">
 				            <a id="btn-interventions" class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"><span class="fas fa-filter"></span> <span class="fas fa-angle-down"></span></a>
-				            <div class="dropdown-menu pull-right row" id="interventions">
+				            <div class="dropdown-menu pull-right row" id="interventions" style="min-width: 300px;">
 				              <form>
 				                <div class="col-xs-12">
 				                  <strong>Interventions:</strong>
@@ -539,7 +539,7 @@
 				          <!-- Options section -->
 				          <div class="dropdown">
 				            <a id="btn-options" class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"><span class="fas fa-cog"></span> <span class="fas fa-angle-down"></span></a>
-				            <div class="dropdown-menu pull-right row" id="options">
+				            <div class="dropdown-menu pull-right row" id="options" style="min-width: 350px;">
 				              <form>
 				                <div class="col-xs-6">
 				                  <strong>Timing of Interventions:</strong>
@@ -672,7 +672,7 @@
 				            <a id="btn-weights" class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
 				            	<span class="fas fa-balance-scale"></span> <span class="fas fa-angle-down"></span>
 				            </a>
-				            <div class="dropdown-menu pull-right row" id="weights-ce">
+				            <div class="dropdown-menu pull-right row" id="weights-ce" style="min-width: 400px;">
 				              <form>
 				                <div class="row">
 				                  <div class="col-xs-6">
@@ -850,7 +850,7 @@
 				            <a id="btn-interventions-ce" class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
 				            	<span class="fas fa-filter"></span> <span class="fas fa-angle-down"></span>
 				            </a>
-				            <div class="dropdown-menu pull-right row" id="interventions-ce">
+				            <div class="dropdown-menu pull-right row" id="interventions-ce" style="min-width: 330px;">
 				              <form>
 				                <div class="col-xs-12">
 				                  <strong>Interventions:</strong>
@@ -927,7 +927,7 @@
 				            <a id="btn-options-ce" class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
 				            	<span class="fas fa-cog"></span> <span class="fas fa-angle-down"></span>
 				            </a>
-				            <div class="dropdown-menu pull-right row" id="options-ce">
+				            <div class="dropdown-menu pull-right row" id="options-ce" style="min-width: 350px;">
 				              <form>
 				                <div class="col-xs-6">
 				                  <strong>HRQoL measure:</strong>

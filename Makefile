@@ -11,7 +11,7 @@ clean:
 .PHONY: all clean
 
 # Clean & collate data for analysis
-data/clean.Rdata: load-data.R $(RAW_DATA); Rscript $<
+data/data.Rdata: load-data.R $(RAW_DATA); Rscript $<
 
 # Construct evidence tables and other required inputs for shiny app
-data/evidenceTables.Rdata: collate-evidence-tables.R clean.Rdata; Rscript $<
+data/evidenceTables.Rdata: collate-evidence-tables.R data.Rdata; Rscript $<

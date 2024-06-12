@@ -3,7 +3,6 @@
 ##################
 library(shiny)
 library(DT)
-library(plyr)
 library(tidyverse)
 library(abind)
 
@@ -125,7 +124,11 @@ server <- function(input, output, session) {
 		
 		preferenceScores %>%
 			select("Intervention", "Name", "rank", names(preferenceWeights), "PreferenceScores") %>%
-			gather("attribute", "value", -c(Intervention, Name, rank, PreferenceScores), factor_key = TRUE)
+			pivot_longer(
+				c(Recommendation, `Quality of Evidence`, Effectiveness, `Duration of Effect`,
+					`Risk of Serious Harm`, `Risk of Mild/Moderate Harm`, Cost, Accessibility),
+				names_to = "attribute"
+			)
 	})
 
 	printTable <- reactive({
@@ -263,7 +266,7 @@ server <- function(input, output, session) {
 
 		ggplot(plotdata, aes(Name, value)) + 
 			geom_col(aes(fill = attribute), colour = NA, width = 0.7) + 
-			geom_text(aes(y = PreferenceScores, label = format(PreferenceScores, digits = 0, nsmall = 1)),
+			geom_text(aes(y = PreferenceScores, label = format(PreferenceScores, digits = 1, nsmall = 1)),
 								data = partial(filter, ... = , attribute == "Recommendation"),
 								size = 5, hjust = -0.3) +
 			geom_col(aes(group = attribute), fill = NA, width = 0.7, size = 1, colour = "black",
@@ -310,9 +313,9 @@ server <- function(input, output, session) {
 																			"Oral NSAIDs (including COX-2 inhibitors)" = "Oral NSAIDs",
 																			"Corticosteroid injection" = "Corticosteroids",
 																			"Duloxetine (not available in NZ)" = "Duloxetine"),
-								"Preference Score (0-100)" = format(`Preference Score.sort`, digits = 0, nsmall = 1),
-								"Incremental Net Benefit (NZD per capita)" = format(inb, digits = 0, nsmall = 0, scientific = FALSE),
-								"Weighted Score (0-100)" = format(weighted_score, digits = 0, nsmall = 0))
+								"Preference Score (0-100)" = format(`Preference Score.sort`, digits = 1, nsmall = 1),
+								"Incremental Net Benefit (NZD per capita)" = format(inb, digits = 1, nsmall = 0, scientific = FALSE),
+								"Weighted Score (0-100)" = format(weighted_score, digits = 1, nsmall = 0))
 	},
 	striped = TRUE, hover = TRUE, bordered = TRUE, align = "llccc")
 	
