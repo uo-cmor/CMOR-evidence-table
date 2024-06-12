@@ -2,14 +2,14 @@ name: Docker Image CI
 
 on:
   push:
-	branches: [ "shinyproxy" ]
+    branches: [ "shinyproxy" ]
   pull_request:
-	branches: [ "shinyproxy" ]
+    branches: [ "shinyproxy" ]
 
 jobs:
   build:
-	runs-on: ubuntu-latest
-	steps:
-	- uses: actions/checkout@v4
-	- name: Build the Docker image
-	  run: docker build . --file Dockerfile --tag cmor-evidence-table:$(date +%s)
+    runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v4
+        - name: Build the Docker image
+          run: docker build . --file Dockerfile --tag cmor-evidence-table:$(date +%s)
