@@ -269,7 +269,7 @@ server <- function(input, output, session) {
 			geom_text(aes(y = PreferenceScores, label = format(PreferenceScores, digits = 1, nsmall = 1)),
 								data = partial(filter, ... = , attribute == "Recommendation"),
 								size = 5, hjust = -0.3) +
-			geom_col(aes(group = attribute), fill = NA, width = 0.7, size = 1, colour = "black",
+			geom_col(aes(group = attribute), fill = NA, width = 0.7, linewidth = 1, colour = "black",
 							 data = filter(plotdata, Name %in% labdata$name), show.legend = FALSE) +
 			geom_label(aes(x, y, label = label), data = labdata, show.legend = FALSE,
 								 hjust = "inward", vjust = "inward") +
@@ -338,22 +338,22 @@ server <- function(input, output, session) {
 		
 		ggplot(plotdata, aes(qalys, cost, colour = colour)) +
 			geom_point(aes(shape = shape), size = 6) +
-			geom_label(aes(label = name, size = rank(weighted_score), hjust = hjust, vjust = vjust), lineheight = 0.9, fill = NA, label.size = 0) +
+			geom_label(aes(label = name, size = rank(weighted_score), hjust = hjust, vjust = vjust), lineheight = 0.9, fill = NA, linewidth = 0) +
 			scale_x_continuous("Lifetime incremental QALYs (per-capita)", breaks = scales::pretty_breaks()) +
 			scale_y_continuous("Lifetime incremental costs (per-capita, 2013 NZD)", breaks = scales::pretty_breaks()) +
 			scale_shape_identity() + scale_colour_identity() +
-			scale_size_continuous(range = c(5, 16), trans = scales::exp_trans(), guide = FALSE) +
-			geom_hline(yintercept = 0, size = 1, colour = "grey50") +
-			geom_vline(xintercept = 0, size = 1, colour = "grey50") +
-			geom_abline(slope = 52373, size = 2, alpha = 0.1, colour = "#377eb8") +
-			geom_abline(slope = 52373 * 2, size = 2, alpha = 0.1, colour = "#377eb8") +
-			geom_abline(slope = 52373 * 3, size = 2, alpha = 0.1, colour = "#377eb8") +
-			geom_abline(slope = input$wtp, size = 2, alpha = 0.2, colour = "red") +
+			scale_size_continuous(range = c(5, 16), trans = scales::exp_trans(), guide = "none") +
+			geom_hline(yintercept = 0, linewidth = 1, colour = "grey50") +
+			geom_vline(xintercept = 0, linewidth = 1, colour = "grey50") +
+			geom_abline(slope = 52373, linewidth = 2, alpha = 0.1, colour = "#377eb8") +
+			geom_abline(slope = 52373 * 2, linewidth = 2, alpha = 0.1, colour = "#377eb8") +
+			geom_abline(slope = 52373 * 3, linewidth = 2, alpha = 0.1, colour = "#377eb8") +
+			geom_abline(slope = input$wtp, linewidth = 2, alpha = 0.2, colour = "red") +
 			theme_minimal(base_size = 20) +
 			theme(text = element_text(colour = "grey50"),
 						axis.text = element_text(colour = "grey50"),
 						plot.margin = margin(0, 10, 0, 0, "pt"),
-						plot.background = element_rect(fill = "#fdfaf1", linetype = 0))
+						plot.background = element_rect(color = "#fdfaf1", fill = "#fdfaf1"))
 	}, height = 500)
 	
 	########################

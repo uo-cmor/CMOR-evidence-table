@@ -1,62 +1,128 @@
 default:
-  image: docker:26
+  image: docker:28
 
 services:
-  - docker:26-dind
+  - docker:28-dind
 
 before_script:
-  - docker info
-  - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+  - export DATE=$(date +%Y.%m.%d)
+  - export PATCH=$(git rev-list --count HEAD)
+  - export BUILD_VERSION="${DATE}.${PATCH}"
 
 stages:
   - build
-  - push
+  - test
+  - scan
 
 variables:
+  #SECURE_LOG_LEVEL: 'debug'
+  GIT_SUBMODULE_STRATEGY: recursive
+  #DOCKER_TLS_CERTDIR: "/certs"
   DOCKER_TLS_CERTDIR: ""
-
+## DOCKER_HOST is automatically set by the docker image to tcp://docker:2375
+#  DOCKER_DRIVER: overlay2 
+#  DOCKER_TLS_CERTDIR: ""
+  #AUTO_DEVOPS_BUILD_IMAGE_EXTRA_ARGS: '--build-arg foo=bar'
 
 Build:
   stage: build
+  #except:
+    ## exclude temp branches created by renovate bot
+    #- /^renovate.*/
   script:
+    #- docker info
+    - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+    # fetches the latest image (not failing if image is not found)
     - docker pull $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG:latest || true
+    # builds the project, passing proxy variables, using OCI labels
+    # notice the cache-from, which is going to use the image we just pulled locally
+    # the built image is tagged locally with calver versioning (YY.MM.DD.patch), and then pushed to 
+    # the GitLab registry
     - >
       docker build
       --pull
       --cache-from $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG:latest
       --label "org.opencontainers.image.title=$CI_PROJECT_TITLE"
-      --label "org.opencontainers.image.url=$CI_PROJECT_URL"
+      --label "org.opencontainers.image.url=$calver versioning (YY.MM.DD.patch)"
       --label "org.opencontainers.image.created=$CI_JOB_STARTED_AT"
-      --label "org.opencontainers.image.revision=$CI_COMMIT_SHA"
+      --label "org.opencontainers.image.revision=$BUILD_VERSION"
       --label "org.opencontainers.image.version=$CI_COMMIT_REF_NAME"
-      --tag $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG:$CI_COMMIT_SHA
+      --tag $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG:$BUILD_VERSION
       .
-    - docker push $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG:$CI_COMMIT_SHA
-
-Push latest:
-  variables:
-    GIT_STRATEGY: none
-  stage: push
-  #only:
-    # Only "master" should be tagged "latest"
-    #- master
-  script:
-    - docker pull $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG:$CI_COMMIT_SHA
-    # tag it "latest"
-    - docker tag $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG:latest
-    # push it
+    - docker push $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG:$BUILD_VERSION
+    - docker tag $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG:$BUILD_VERSION $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG:latest
     - docker push $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG:latest
 
-# Docker tag any Git tag
-# GitLab will start a new pipeline everytime a Git tag is created
-Push tag:
+Test:
+  stage: test
+  dependencies:
+    - Build
   variables:
-    GIT_STRATEGY: none
-  stage: push
-  only:
-    # run on tags only
-    - tags
+    ALIAS: shiny
+    PORT: 3838
+  services:
+    - name: ${CI_REGISTRY_IMAGE}/${CI_COMMIT_REF_SLUG}@sha256:${CI_COMMIT_SHA}
+      alias: $ALIAS
+  before_script:
+    - apk add --no-cache curl
   script:
-    - docker pull $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG:$CI_COMMIT_SHA
-    - docker tag $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG:$CI_COMMIT_REF_NAME
-    - docker push $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG:$CI_COMMIT_REF_NAME
+    - sleep 15
+    - curl --noproxy '*' http://$ALIAS:$PORT
+    - curl --noproxy '*' --fail http://$ALIAS:$PORT
+
+container_scanning:
+  stage: scan
+  image:
+    name: docker.io/aquasec/trivy@sha256:85e87be1a96459c38a4eea47dc64eb2d342bb14cd4b4cef96adcf6ff03378b7c
+    # Note that entrypoint needs to be unset for the script section to work
+    entrypoint: [""]
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    # No need to clone the repo, we exclusively work on artifacts. See
+    # https://docs.gitlab.com/ee/ci/runners/configure_runners.html#git-strategy
+    GIT_STRATEGY: none
+    #GIT_STRATEGY: fetch   # as we're getting git head count to construct our BUILD_VERSION
+    TRIVY_USERNAME: "$CI_REGISTRY_USER"
+    TRIVY_PASSWORD: "$CI_REGISTRY_PASSWORD"
+    TRIVY_AUTH_URL: "$CI_REGISTRY"
+    TRIVY_NO_PROGRESS: "true"
+    TRIVY_CACHE_DIR: ".trivycache/"
+    TRIVY_SEVERITY: HIGH,CRITICAL
+    #TRIVY_EXIT_CODE=1 ##Fail the pipeline if vulnerabilities are found.
+    #FULL_IMAGE_NAME: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG:$BUILD_VERSION
+    #FULL_IMAGE_NAME: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG:latest
+    #FULL_IMAGE_NAME: ${CI_REGISTRY_IMAGE}/${CI_COMMIT_REF_SLUG}@sha256:${CI_COMMIT_SHA}
+  script:
+    - trivy --version
+    # update vulnerabilities db
+    - time trivy image --download-db-only
+    # Builds report and puts it in the default workdir $CI_PROJECT_DIR, so `artifacts:` can take it from there
+    - time trivy image --exit-code 0 --format template --template "@/contrib/gitlab.tpl"
+      --skip-files /usr/local/lib/R/site-library/gargle/extdata/fake_service_account.json
+      --skip-files /usr/local/lib/R/site-library/openssl/doc/keys.html
+      --skip-files '/opt/shiny/app/*.csv'
+      --output "$CI_PROJECT_DIR/gl-container-scanning-report.json" 
+      "${CI_REGISTRY_IMAGE}/${CI_COMMIT_REF_SLUG}:latest"
+    # Prints full report
+    - time trivy image --exit-code 0 
+      --skip-files /usr/local/lib/R/site-library/gargle/extdata/fake_service_account.json
+      --skip-files /usr/local/lib/R/site-library/openssl/doc/keys.html
+      --skip-files '/opt/shiny/app/*.csv'
+      "${CI_REGISTRY_IMAGE}/${CI_COMMIT_REF_SLUG}:latest"
+    # Fail on critical vulnerabilities
+    - time trivy image --exit-code 1 --severity CRITICAL 
+      --skip-files /usr/local/lib/R/site-library/gargle/extdata/fake_service_account.json
+      --skip-files /usr/local/lib/R/site-library/openssl/doc/keys.html
+      --skip-files '/opt/shiny/app/*.csv'
+      "${CI_REGISTRY_IMAGE}/${CI_COMMIT_REF_SLUG}:latest"
+  #allow_failure: true
+  cache:
+    paths:
+      - .trivycache/
+  # Enables https://docs.gitlab.com/ee/user/application_security/container_scanning/ (Container Scanning report is available on GitLab EE Ultimate or GitLab.com Gold)
+  artifacts:
+    when:                          always
+    reports:
+      container_scanning:          gl-container-scanning-report.json
+  #tags:
+    #- docker-runner
